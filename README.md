@@ -2,8 +2,7 @@
 
 This is Testpress API resource built with [slate](https://github.com/tripit/slate/). 
 
-Getting Started with Slate
-------------------------------
+## Getting Started 
 
 ### Prerequisites
 
@@ -22,8 +21,7 @@ You're going to need:
 
 You can now see the docs at <http://localhost:4567>. Whoa! That was fast!
 
-Contributors
---------------------
+## Contributors
 
 Slate was built by [Robert Lord](https://lord.io) while at [TripIt](http://tripit.com).
 
@@ -35,8 +33,7 @@ Thanks to the following people who have submitted major pull requests:
 
 Also, thanks to [Sauce Labs](http://saucelabs.com) for helping sponsor the project.
 
-Special Thanks
---------------------
+## Special Thanks
 - [Middleman](https://github.com/middleman/middleman)
 - [jquery.tocify.js](https://github.com/gfranko/jquery.tocify.js)
 - [middleman-syntax](https://github.com/middleman/middleman-syntax)
