@@ -1248,3 +1248,243 @@ Parameter | Description
 --------- | -----------
 id | The unique id of the attempt to retrieve
 
+## Get attempt questions
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/attempts/122046/questions/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/attempts/122046/questions/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/attempts/122046/questions/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 100,
+  "next": "http://demo.testpress.in/api/v2.1/attempts/122046/questions/?page=2",
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "id": 12705318,
+      "url": "http://demo.testpress.in/api/v2.1/attempts/122046/questions/12705318/",
+      "question": {
+        "question_html": "<p>Which of the following is/are the principal feature (s) of the Government of India Act, 1919? <br>\n1. Introduction of dyarchy in the executive government of the provinces<br>\n2. Introduction of separate communal electorates for Muslims<br>\n3. Devolution of legislative authority by the centre to the provinces</p><p>Select the correct answer using the codes given below:</p><p><img src=\"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/ebd87eb5c09b445d879610586fca072e.png\"></p>",
+        "direction": null,
+        "answers": [
+          {
+            "text_html": "<p>1 only</p>",
+            "id": 129
+          },
+          {
+            "text_html": "<p>2 and 3 only</p>",
+            "id": 130
+          },
+          {
+            "text_html": "<p>1 and 3 only</p>",
+            "id": 131
+          },
+          {
+            "text_html": "<p>1, 2 and 3</p>",
+            "id": 132
+          }
+        ],
+        "essay_topics": [],
+        "subject": "khecha subject",
+        "type": "C"
+      },
+      "duration": null,
+      "selected_answers": [],
+      "essay_text": null,
+      "essay_topic": null,
+      "review": null
+    },
+    {
+      "id": 12705296,
+      "url": "http://demo.testpress.in/api/v2.1/attempts/122046/questions/12705296/",
+      "question": {
+        "question_html": "<p>With reference to National Rural Health Mission, which of the following are the jobs of ASHA, a trained community health worker?</p>\n<p>1.Accompanying women to the health facility for antenatal care checkup</p>\n<p>2.Using pregnancy test kits for early detection of pregnancy </p>\n<p>3.Providing information on nutrition and immunization</p>\n<p>4.Conducting the delivery of baby</p>\n<p>Select the correct answer using the codes given below:</p>",
+        "direction": null,
+        "answers": [
+          {
+            "text_html": "<p>1, 2 and 3 Only</p>",
+            "id": 413
+          },
+          {
+            "text_html": "<p>2 and 4 Only</p>",
+            "id": 414
+          },
+          {
+            "text_html": "<p>1 and 3 Only</p>",
+            "id": 415
+          },
+          {
+            "text_html": "<p>1, 2, 3 and 4</p>",
+            "id": 416
+          }
+        ],
+        "essay_topics": [],
+        "subject": "Sin Questions",
+        "type": "R"
+      },
+      "duration": null,
+      "selected_answers": [],
+      "essay_text": null,
+      "essay_topic": null,
+      "review": null
+    }
+  ]
+}
+
+```
+
+This endpoint returns all questions for an attempt.
+
+<aside class="danger">This will fail if the attempt is in <code>Completed</code> state.</aside>
+
+### HTTP Request
+
+`PUT /api/v2.1/attempts/<id>/questions/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+id | The unique id of the attempt to retrieve
+
+## Modify attempt questions
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/attempts/122046/questions/12705318/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Put.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["content-type"] = 'application/json'
+request["cache-control"] = 'no-cache'
+request.body = "{\n\"selected_answers\": [129, 130],\n\"review\": true\n}"
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/attempts/122046/questions/12705318/"
+
+payload = "{\n\"selected_answers\": [129, 130],\n\"review\": true\n}"
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'content-type': "application/json",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("PUT", url, data=payload, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request PUT \
+  --url http://demo.testpress.in/api/v2.1/attempts/122046/questions/12705318/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache' \
+  --header 'content-type: application/json' \
+  --data '{\n"selected_answers": [129, 130],\n"review": true\n}'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 12705318,
+  "url": "http://demo.testpress.in/api/v2.1/attempts/122046/questions/12705318/",
+  "question": {
+    "question_html": "<p>Which of the following is/are the principal feature (s) of the Government of India Act, 1919? <br>\n1. Introduction of dyarchy in the executive government of the provinces<br>\n2. Introduction of separate communal electorates for Muslims<br>\n3. Devolution of legislative authority by the centre to the provinces</p><p>Select the correct answer using the codes given below:</p><p><img src=\"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/ebd87eb5c09b445d879610586fca072e.png\"></p>",
+    "direction": null,
+    "answers": [
+      {
+        "text_html": "<p>1 only</p>",
+        "id": 129
+      },
+      {
+        "text_html": "<p>2 and 3 only</p>",
+        "id": 130
+      },
+      {
+        "text_html": "<p>1 and 3 only</p>",
+        "id": 131
+      },
+      {
+        "text_html": "<p>1, 2 and 3</p>",
+        "id": 132
+      }
+    ],
+    "essay_topics": [],
+    "subject": "khecha subject",
+    "type": "C"
+  },
+  "duration": "20 days, 3:58:48.044696",
+  "selected_answers": [
+    129,
+    130
+  ],
+  "essay_text": null,
+  "essay_topic": null,
+  "review": true
+}
+
+```
+
+This endpoint will update a question with the <code>selected_answers</code> and <code>review</code>.
+
+<aside class="danger">This will fail if the attempt is in <code>Completed</code> state.</aside>
+
+### HTTP Request
+
+`PUT /api/v2.1/attempts/<id>/questions/<question_id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+id | The unique id of the attempt
+question_id | The unique id of the attempt question
+
