@@ -69,10 +69,11 @@ print(response.text)
 
 ```shell
 # With shell, you can just pass the user credentials to get the auth token
-curl -X POST -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{
-    "username": "testpress",
-    "password": "demo"
-}' 'https://demo.testpress.in/api/v2.1/auth-token/'
+curl --request POST \
+  --url https://demo.testpress.in/api/v2.1/auth-token/ \
+  --header 'cache-control: no-cache' \
+  --header 'content-type: application/json' \
+  --data '{\n    "username": "admin",\n    "password": "demo"\n}'
 ```
 
 > Make sure to replace `testpress` and `demo` with your credentials.
@@ -140,7 +141,10 @@ print(response.text)
 ```
 
 ```shell
-curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw" -H "Cache-Control: no-cache" 'http://demo.testpress.in/api/v2.1/exams/'
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/exams/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXNlcl9pZCI6MTAsImVtYWlsIjoiYmhhcmF0aEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NDc4Mjk5Nzl9.a_LVMuVyMcNQ7Qlu3w7icUYAQa9Mv2jhYikih4r-Wn8' \
+  --header 'cache-control: no-cache'
 ```
 
 > The above command returns JSON structured like this:
@@ -249,8 +253,7 @@ url = "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-tem
 
 headers = {
     'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
-    'cache-control': "no-cache",
-    'postman-token': "56c3dd46-4ff2-c2dc-f886-a32f3c91d933"
+    'cache-control': "no-cache"
     }
 
 response = requests.request("GET", url, headers=headers)
@@ -259,7 +262,10 @@ print(response.text)
 ```
 
 ```shell
-curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw" -H "Cache-Control: no-cache" 'http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/'
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
 ```
 
 > The above command returns JSON structured like this:
@@ -428,7 +434,10 @@ print(response.text)
 ```
 
 ```shell
-curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw" -H "Cache-Control: no-cache" 'http://demo.testpress.in/api/v2.1/exams/available/'
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/exams/available/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
 ```
 
 > The above command returns JSON structured like this:
@@ -545,7 +554,10 @@ print(response.text)
 ```
 
 ```shell
-curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw" -H "Cache-Control: no-cache" 'http://demo.testpress.in/api/v2.1/exams/upcoming/'
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/exams/upcoming/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
 ```
 
 > The above command returns JSON structured like this:
@@ -661,7 +673,10 @@ print(response.text)
 ```
 
 ```shell
-curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw" -H "Cache-Control: no-cache" 'http://demo.testpress.in/api/v2.1/exams/history/'
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/exams/history/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
 ```
 
 > The above command returns JSON structured like this:
@@ -742,3 +757,173 @@ Parameter | Type | Description
 --------- | ------- | -----------
 course | string | Filters by course name. Ex: IBPS
 q | string | Filters by exam title. Useful to search by exam title.
+
+# Attempts
+
+Attempts API gives you access to read all the attempts which can be accessed by the authenticated user.
+
+## Get All Attempts
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/attempts/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/attempts/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache",
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/attempts/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "url": "http://demo.testpress.in/api/v2.1/attempts/125894/",
+      "id": 125894,
+      "exam": {
+        "url": "http://demo.testpress.in/api/v2.1/exams/forum-ias-rbi-demo/",
+        "id": 3720,
+        "title": "FORUM IAS RBI DEMO",
+        "description": "",
+        "course": "TNPSC",
+        "start_date": "2015-11-07T12:37:11+05:30",
+        "end_date": "2015-11-15T12:37:11+05:30",
+        "duration": "3:00:00",
+        "number_of_questions": 200,
+        "negative_marks": "0.00",
+        "mark_per_question": "1.00",
+        "template_type": 2,
+        "allow_retake": true,
+        "max_retakes": null,
+        "enable_ranks": false,
+        "rank_publishing_date": null,
+        "allow_pdf": false,
+        "created": "2015-11-07T07:07:41.597Z",
+        "slug": "forum-ias-rbi-demo",
+        "variable_mark_per_question": false,
+        "show_answers": true
+      },
+      "user": "testpress",
+      "date": "2015-11-07T07:12:49.873Z",
+      "total_questions": 200,
+      "score": "0.00",
+      "review_url": "http://demo.testpress.in/api/v2.1/attempts/125894/review/",
+      "questions_url": "http://demo.testpress.in/api/v2.1/attempts/125894/questions/",
+      "percentile": 0,
+      "correct_count": 0,
+      "incorrect_count": 0,
+      "last_started_time": "2015-11-07T08:02:46.845Z",
+      "remaining_time": "2:10:03",
+      "time_taken": "0:49:57",
+      "state": "Running",
+      "rank": "NA",
+      "max_rank": 0,
+      "percentage": "0",
+      "unanswered_count": 0,
+      "commented_questions_count": 0,
+      "comments_count": 0,
+      "allow_retake": true,
+      "remaining_attempts": null,
+      "total_bonus": 0
+    },
+    {
+      "url": "http://demo.testpress.in/api/v2.1/attempts/125872/",
+      "id": 125872,
+      "exam": {
+        "url": "http://demo.testpress.in/api/v2.1/exams/aiims-exam/",
+        "id": 3625,
+        "title": "AIIMS Exam",
+        "description": "",
+        "course": "TNPSC",
+        "start_date": "2015-10-20T18:12:26+05:30",
+        "end_date": null,
+        "duration": "3:12:27",
+        "number_of_questions": 200,
+        "negative_marks": "0.00",
+        "mark_per_question": "1.00",
+        "template_type": 3,
+        "allow_retake": true,
+        "max_retakes": null,
+        "enable_ranks": true,
+        "rank_publishing_date": "2015-10-20T12:42:44Z",
+        "allow_pdf": false,
+        "created": "2015-10-20T12:43:01.684Z",
+        "slug": "aiims-exam",
+        "variable_mark_per_question": false,
+        "show_answers": true
+      },
+      "user": "testpress",
+      "date": "2015-11-07T06:17:42.313Z",
+      "total_questions": 200,
+      "score": "0.00",
+      "review_url": "http://demo.testpress.in/api/v2.1/attempts/125872/review/",
+      "questions_url": "http://demo.testpress.in/api/v2.1/attempts/125872/questions/",
+      "percentile": 60,
+      "correct_count": 0,
+      "incorrect_count": 0,
+      "last_started_time": "2015-11-07T06:17:42.375Z",
+      "remaining_time": "3:12:26",
+      "time_taken": "0:00:01",
+      "state": "Completed",
+      "rank": 4,
+      "max_rank": 5,
+      "percentage": "0",
+      "unanswered_count": 200,
+      "commented_questions_count": 0,
+      "comments_count": 0,
+      "allow_retake": true,
+      "remaining_attempts": null,
+      "total_bonus": 0
+    }
+  ]
+}
+
+```
+
+This endpoint retrieves all attempts for the authenticated user.
+
+### HTTP Request
+
+`GET /api/v2.1/attempts/`
+
+### Query Parameters
+
+Parameter | Type | Description
+--------- | ------- | -----------
+course | string | Filters by course name. Ex: IBPS
+q | string | Filters by exam title. Useful to search by exam title.
+
