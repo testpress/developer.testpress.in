@@ -104,6 +104,8 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 
 # Exams
 
+Exams API gives you access to read all the exams which can be accessed by the authenticated user.
+
 ## Get All Exams
 
 ```ruby
@@ -219,6 +221,7 @@ Parameter | Type | Description
 --------- | ------- | -----------
 course | string | Filters by course name. Ex: IBPS
 state | string | Indicates state of the exams to return. Can be one of: available, upcoming, history
+q | string | Filters by exam title. Useful to search by exam title.
 
 ## Get a single exam
 
@@ -391,3 +394,351 @@ Parameter | Description
 --------- | -----------
 slug | The unique slug of the exam to retrieve
 
+## Get Available Exams
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/exams/available/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/exams/available/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache",
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw" -H "Cache-Control: no-cache" 'http://demo.testpress.in/api/v2.1/exams/available/'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/",
+      "id": 2394,
+      "title": "Aptitude Analytical Maths (NBE Template)",
+      "description": "",
+      "course": "Uncategorized",
+      "start_date": "2013-08-02T17:25:22+05:30",
+      "end_date": "2019-08-01T17:25:22+05:30",
+      "duration": "0:30:30",
+      "number_of_questions": 20,
+      "negative_marks": "0.00",
+      "mark_per_question": "1.00",
+      "template_type": 4,
+      "allow_retake": true,
+      "max_retakes": null,
+      "enable_ranks": false,
+      "rank_publishing_date": null,
+      "attempts_url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/attempts/",
+      "allow_pdf": true,
+      "created": "2015-04-09T00:00:00Z",
+      "slug": "aptitude-analytical-maths-nbe-template-15",
+      "variable_mark_per_question": false,
+      "show_answers": true,
+      "comments_count": 0
+    },
+    {
+      "url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/",
+      "id": 2395,
+      "title": "Aptitude Analytical Maths (NBE Template)",
+      "description": "",
+      "course": "Uncategorized",
+      "start_date": "2013-08-02T17:25:22+05:30",
+      "end_date": "2019-08-01T17:25:22+05:30",
+      "duration": "0:30:30",
+      "number_of_questions": 20,
+      "negative_marks": "0.00",
+      "mark_per_question": "1.00",
+      "template_type": 4,
+      "allow_retake": true,
+      "max_retakes": null,
+      "enable_ranks": false,
+      "rank_publishing_date": null,
+      "attempts_url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/attempts/",
+      "allow_pdf": true,
+      "created": "2015-04-09T00:00:00Z",
+      "slug": "aptitude-analytical-maths-nbe-template-16",
+      "variable_mark_per_question": false,
+      "show_answers": true,
+      "comments_count": 0
+    }
+  ]
+}
+
+```
+
+This endpoint retrieves all available and unattempted exams for the authenticated user. This is same as getting all exams with <code>state</code> query parameter as <code>available</code>.
+
+
+### HTTP Request
+
+`GET /api/v2.1/exams/available/`
+
+### Query Parameters
+
+Parameter | Type | Description
+--------- | ------- | -----------
+course | string | Filters by course name. Ex: IBPS
+q | string | Filters by exam title. Useful to search by exam title.
+
+## Get Upcoming Exams
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/exams/upcoming/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/exams/upcoming/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache",
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw" -H "Cache-Control: no-cache" 'http://demo.testpress.in/api/v2.1/exams/upcoming/'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/",
+      "id": 2394,
+      "title": "Aptitude Analytical Maths (NBE Template)",
+      "description": "",
+      "course": "Uncategorized",
+      "start_date": "2013-08-02T17:25:22+05:30",
+      "end_date": "2019-08-01T17:25:22+05:30",
+      "duration": "0:30:30",
+      "number_of_questions": 20,
+      "negative_marks": "0.00",
+      "mark_per_question": "1.00",
+      "template_type": 4,
+      "allow_retake": true,
+      "max_retakes": null,
+      "enable_ranks": false,
+      "rank_publishing_date": null,
+      "attempts_url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/attempts/",
+      "allow_pdf": true,
+      "created": "2015-04-09T00:00:00Z",
+      "slug": "aptitude-analytical-maths-nbe-template-15",
+      "variable_mark_per_question": false,
+      "show_answers": true,
+      "comments_count": 0
+    },
+    {
+      "url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/",
+      "id": 2395,
+      "title": "Aptitude Analytical Maths (NBE Template)",
+      "description": "",
+      "course": "Uncategorized",
+      "start_date": "2013-08-02T17:25:22+05:30",
+      "end_date": "2019-08-01T17:25:22+05:30",
+      "duration": "0:30:30",
+      "number_of_questions": 20,
+      "negative_marks": "0.00",
+      "mark_per_question": "1.00",
+      "template_type": 4,
+      "allow_retake": true,
+      "max_retakes": null,
+      "enable_ranks": false,
+      "rank_publishing_date": null,
+      "attempts_url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/attempts/",
+      "allow_pdf": true,
+      "created": "2015-04-09T00:00:00Z",
+      "slug": "aptitude-analytical-maths-nbe-template-16",
+      "variable_mark_per_question": false,
+      "show_answers": true,
+      "comments_count": 0
+    }
+  ]
+}
+
+```
+
+This endpoint retrieves all upcoming exams for the authenticated user. This is same as getting all exams with <code>state</code> query parameter as <code>upcoming</code>.
+
+### HTTP Request
+
+`GET /api/v2.1/exams/upcoming/`
+
+### Query Parameters
+
+Parameter | Type | Description
+--------- | ------- | -----------
+course | string | Filters by course name. Ex: IBPS
+q | string | Filters by exam title. Useful to search by exam title.
+
+## Get History Exams
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/exams/history/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/exams/history/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache",
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw" -H "Cache-Control: no-cache" 'http://demo.testpress.in/api/v2.1/exams/history/'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+
+
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/",
+      "id": 2394,
+      "title": "Aptitude Analytical Maths (NBE Template)",
+      "description": "",
+      "course": "Uncategorized",
+      "start_date": "2013-08-02T17:25:22+05:30",
+      "end_date": "2019-08-01T17:25:22+05:30",
+      "duration": "0:30:30",
+      "number_of_questions": 20,
+      "negative_marks": "0.00",
+      "mark_per_question": "1.00",
+      "template_type": 4,
+      "allow_retake": true,
+      "max_retakes": null,
+      "enable_ranks": false,
+      "rank_publishing_date": null,
+      "attempts_url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/attempts/",
+      "allow_pdf": true,
+      "created": "2015-04-09T00:00:00Z",
+      "slug": "aptitude-analytical-maths-nbe-template-15",
+      "variable_mark_per_question": false,
+      "show_answers": true,
+      "comments_count": 0
+    },
+    {
+      "url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/",
+      "id": 2395,
+      "title": "Aptitude Analytical Maths (NBE Template)",
+      "description": "",
+      "course": "Uncategorized",
+      "start_date": "2013-08-02T17:25:22+05:30",
+      "end_date": "2019-08-01T17:25:22+05:30",
+      "duration": "0:30:30",
+      "number_of_questions": 20,
+      "negative_marks": "0.00",
+      "mark_per_question": "1.00",
+      "template_type": 4,
+      "allow_retake": true,
+      "max_retakes": null,
+      "enable_ranks": false,
+      "rank_publishing_date": null,
+      "attempts_url": "http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/attempts/",
+      "allow_pdf": true,
+      "created": "2015-04-09T00:00:00Z",
+      "slug": "aptitude-analytical-maths-nbe-template-16",
+      "variable_mark_per_question": false,
+      "show_answers": true,
+      "comments_count": 0
+    }
+  ]
+}
+
+```
+
+This endpoint retrieves all history exams for the authenticated user. This is same as getting all exams with <code>state</code> query parameter as <code>history</code>.
+
+### HTTP Request
+
+`GET /api/v2.1/exams/history/`
+
+### Query Parameters
+
+Parameter | Type | Description
+--------- | ------- | -----------
+course | string | Filters by course name. Ex: IBPS
+q | string | Filters by exam title. Useful to search by exam title.
