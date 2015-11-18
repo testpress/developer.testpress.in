@@ -128,6 +128,8 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 
 <h1 id="exams">Exams</h1>
 
+<p>Exams API gives you access to read all the exams which can be accessed by the authenticated user.</p>
+
 <h2 id="get-all-exams">Get All Exams</h2>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
 <span class="nb">require</span> <span class="s1">'net/http'</span>
@@ -249,6 +251,11 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 <td>state</td>
 <td>string</td>
 <td>Indicates state of the exams to return. Can be one of: available, upcoming, history</td>
+</tr>
+<tr>
+<td>q</td>
+<td>string</td>
+<td>Filters by exam title. Useful to search by exam title.</td>
 </tr>
 </tbody></table>
 
@@ -421,6 +428,378 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 <tr>
 <td>slug</td>
 <td>The unique slug of the exam to retrieve</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-available-exams">Get Available Exams</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/available/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.1/exams/available/"</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl -X GET -H <span class="s2">"Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span> -H <span class="s2">"Cache-Control: no-cache"</span> <span class="s1">'http://demo.testpress.in/api/v2.1/exams/available/'</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"per_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2394</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aptitude Analytical Maths (NBE Template)"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"course"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Uncategorized"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-02T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-01T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:30:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"attempts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/attempts/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-09T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aptitude-analytical-maths-nbe-template-15"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2395</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aptitude Analytical Maths (NBE Template)"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"course"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Uncategorized"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-02T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-01T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:30:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"attempts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/attempts/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-09T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aptitude-analytical-maths-nbe-template-16"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+
+<p>This endpoint retrieves all available and unattempted exams for the authenticated user. This is same as getting all exams with <code>state</code> query parameter as <code>available</code>.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v2.1/exams/available/</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>course</td>
+<td>string</td>
+<td>Filters by course name. Ex: IBPS</td>
+</tr>
+<tr>
+<td>q</td>
+<td>string</td>
+<td>Filters by exam title. Useful to search by exam title.</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-upcoming-exams">Get Upcoming Exams</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/upcoming/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.1/exams/upcoming/"</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl -X GET -H <span class="s2">"Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span> -H <span class="s2">"Cache-Control: no-cache"</span> <span class="s1">'http://demo.testpress.in/api/v2.1/exams/upcoming/'</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"per_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2394</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aptitude Analytical Maths (NBE Template)"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"course"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Uncategorized"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-02T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-01T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:30:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"attempts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/attempts/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-09T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aptitude-analytical-maths-nbe-template-15"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2395</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aptitude Analytical Maths (NBE Template)"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"course"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Uncategorized"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-02T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-01T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:30:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"attempts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/attempts/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-09T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aptitude-analytical-maths-nbe-template-16"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+
+<p>This endpoint retrieves all upcoming exams for the authenticated user. This is same as getting all exams with <code>state</code> query parameter as <code>upcoming</code>.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v2.1/exams/upcoming/</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>course</td>
+<td>string</td>
+<td>Filters by course name. Ex: IBPS</td>
+</tr>
+<tr>
+<td>q</td>
+<td>string</td>
+<td>Filters by exam title. Useful to search by exam title.</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-history-exams">Get History Exams</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/history/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.1/exams/history/"</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl -X GET -H <span class="s2">"Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span> -H <span class="s2">"Cache-Control: no-cache"</span> <span class="s1">'http://demo.testpress.in/api/v2.1/exams/history/'</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"per_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2394</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aptitude Analytical Maths (NBE Template)"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"course"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Uncategorized"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-02T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-01T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:30:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"attempts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-15/attempts/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-09T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aptitude-analytical-maths-nbe-template-15"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2395</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aptitude Analytical Maths (NBE Template)"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"course"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Uncategorized"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-02T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-01T17:25:22+05:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:30:30"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"attempts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.1/exams/aptitude-analytical-maths-nbe-template-16/attempts/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-04-09T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aptitude-analytical-maths-nbe-template-16"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+
+<p>This endpoint retrieves all history exams for the authenticated user. This is same as getting all exams with <code>state</code> query parameter as <code>history</code>.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v2.1/exams/history/</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>course</td>
+<td>string</td>
+<td>Filters by course name. Ex: IBPS</td>
+</tr>
+<tr>
+<td>q</td>
+<td>string</td>
+<td>Filters by exam title. Useful to search by exam title.</td>
 </tr>
 </tbody></table>
 
