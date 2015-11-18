@@ -71,6 +71,7 @@ html, body {
   background-color: $nav-bg;
   font-size: 13px;
   font-weight: bold;
+  border-right: 1px solid #ccc;
 
   // language selector for mobile devices
   .lang-selector {
@@ -84,6 +85,9 @@ html, body {
   // This is the logo at the top of the ToC
   &>img {
     display: block;
+    width: 170px;
+    margin: 10px;
+    margin-left: 25px;
   }
 
   &>.search {
@@ -191,7 +195,7 @@ html, body {
     }
 
     // for embossed look:
-    @include embossed-bg;
+    //@include embossed-bg;
     &>li:last-child {
       box-shadow: none; // otherwise it'll overflow out of the subheader
     }
@@ -200,7 +204,7 @@ html, body {
   .toc-footer {
     padding: 1em 0;
     margin-top: 1em;
-    border-top: 1px dashed $nav-footer-border-color;
+    border-top: 1px solid $nav-footer-border-color;
 
     li,a {
       color: $nav-text;
@@ -340,9 +344,16 @@ html, body {
     padding: 0 $main-padding;
     box-sizing: border-box;
     display: block;
+    margin-left: 28px;
     @include text-shadow($main-embossed-text-shadow);
 
     @extend %left-col;
+  }
+
+  &>h1, &>h2, &>h3, &>h4, &>h5, &>h6 {
+    padding: 0;
+    margin-left: 3.7%;
+    margin-right: 54%;
   }
 
   &>ul, &>ol {
@@ -361,9 +372,6 @@ html, body {
     padding-bottom: 0.5em;
     border-bottom: 1px solid #ccc;
     margin-bottom: $h1-margin-bottom;
-    margin-top: 2em;
-    border-top: 1px solid #ddd;
-    background-image: linear-gradient(to bottom, #fff, #f9f9f9);
   }
 
   h1:first-child, div:first-child + h1 {
@@ -471,20 +479,32 @@ html, body {
   aside {
     padding-top: 1em;
     padding-bottom: 1em;
-    @include text-shadow(0 1px 0 lighten($aside-notice-bg, 15%));
+    @include text-shadow(0 1px 0 lighten($aside-info-bg, 15%));
     margin-top: 1.5em;
     margin-bottom: 1.5em;
-    background: $aside-notice-bg;
+    background: $aside-info-bg;
+    border-left: 4px solid $aside-info-border-color;
     line-height: 1.6;
+    margin-right: 54%;
+    margin-left: 3em;
+    padding: 15px;
 
     &.warning {
       background-color: $aside-warning-bg;
       @include text-shadow(0 1px 0 lighten($aside-warning-bg, 15%));
+      border-color: $aside-warning-border-color;
+    }
+
+    &.danger {
+      background-color: $aside-danger-bg;
+      @include text-shadow(0 1px 0 lighten($aside-danger-bg, 15%));
+      border-color: $aside-danger-border-color;
     }
 
     &.success {
       background-color: $aside-success-bg;
       @include text-shadow(0 1px 0 lighten($aside-success-bg, 15%));
+      border-color: $aside-success-border-color;
     }
   }
 
@@ -494,16 +514,24 @@ html, body {
     font-size: 14px;
   }
 
-  aside.notice:before {
+  aside.info:before {
     @extend %icon-info-sign;
+    color: $aside-info-border-color;
+  }
+
+  aside.danger:before {
+    @extend %icon-exclamation-sign;
+    color: $aside-danger-border-color;
   }
 
   aside.warning:before {
     @extend %icon-exclamation-sign;
+    color: $aside-warning-border-color;
   }
 
   aside.success:before {
     @extend %icon-ok-sign;
+    color: $aside-success-border-color;
   }
 
   .search-highlight {
