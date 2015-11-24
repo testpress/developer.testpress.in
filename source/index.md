@@ -103,6 +103,310 @@ The response will return an token which should be prefixed with <code>JWT</code>
 You must replace <code>auth-token-string</code> with the token you got from the response.
 </aside>
 
+# Users
+Users API gives you access to get basic information about other users present in the institute.
+
+<aside class="info">This endpoint protects the privacy of users. It is <strong>NOT</strong> possible to extract personal details of all the users from this endpoint. An admin however can extract the personal details using the Admin APIs.</aside>
+
+## Get current authenticated user
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/me/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/me/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/me/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.1/me/");
+var request = new RestRequest(Method.GET);
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw");
+IRestResponse response = client.Execute(request);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 17,
+  "batches": [
+    "EEE",
+    "ECE",
+    "Unique UPSC Batch",
+    "POZITIVE ONLINE TEST SERIES",
+    "OHC 2013",
+    "st std A",
+    "IBPS Morning Batch",
+    "UPSC Morning  Batch",
+    "NEET Morning Batch",
+    "IBPS Online Batch",
+    "UPSC Evening Batch"
+  ],
+  "url": "http://demo.testpress.in/api/v2.1/users/17/",
+  "username": "testpress",
+  "display_name": "Divya",
+  "first_name": "Divya",
+  "last_name": "",
+  "email": "testpress.in@gmail.com",
+  "photo": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/9b69ab73fc924813871b2ef1e2ef00fa.jpeg",
+  "large_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/493054067d1d4173a22d96b824d7f0c6.jpeg",
+  "medium_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/8d96dab06a82487ab3149b771fe5d479.jpeg",
+  "small_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/4023a394cd36472fa24db76e493192ce.jpeg",
+  "x_small_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/796fa9a9727a42e4a7faa015b0388af3.jpeg",
+  "mini_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/5f9215132af54acc8e72aed968582763.jpeg",
+  "birth_date": "1994-08-27",
+  "gender": "Female",
+  "address1": "Chennai",
+  "address2": "Chennai",
+  "city": "Chennai",
+  "zip": "600069",
+  "state": "Tamil Nadu",
+  "phone": "9043570576"
+}
+```
+This endpoint retrieves details of the authenticated user.
+
+### HTTP Request
+
+`GET /api/v2.1/me/`
+
+### Fields
+
+Name | Type | Description
+-----|------|-------------
+id   | int  | The user unique ID
+batches | array | List of batches to which this user belongs
+url  | string | URL to get details of the user
+username | string | Username of the user
+first_name | string | First name of the user
+last_name | string | Last name of the user
+display_name | string | Display name of the user (Concatenates first_name & last_name if available. Falls back to username)
+email | string | Email of the user
+photo | string | Original photo uploaded by the user
+large_image | string | Profile photo transformed to 256x256 px
+medium_image | string | Profile photo transformed to 128x128 px
+small_image | string | Profile photo transformed to 48x48 px
+x_small_image | string | Profile photo transformed to 32x32 px
+mini_image | string | Profile photo transformed to 24x24 px
+birth_date | datestring | Birth date as provided by the user
+gender | string | Gender as provided by the user. Can be "Male", "Female" or "Transgender"
+address1 | string | Address provided by the user
+address2 | string | Address provided by the user
+city | string | City provided by the user
+zip | string | Pincode provided by the user
+state | string | State provided by the user
+phone | string | Phone provided by the user
+
+## Get a single user
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/users/18/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/users/18/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/users/18/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.1/users/18/");
+var request = new RestRequest(Method.GET);
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw");
+IRestResponse response = client.Execute(request);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 18,
+  "url": "http://demo.testpress.in/api/v2.1/users/18/",
+  "username": "Vinoth",
+  "display_name": "Vinoth Kumar",
+  "first_name": "Vinoth",
+  "last_name": "Kumar",
+  "photo": "",
+  "large_image": "",
+  "medium_image": "",
+  "small_image": "",
+  "x_small_image": "",
+  "mini_image": ""
+}
+```
+
+This endpoint retrieves publicly available details of a single user.
+
+<aside class="info">This endpoint protects the privacy of users. If the requested user is same as authenticated user, then the response will be same as <code>/api/v2.1/me/</code>. Otherwise, personal contact details will not be available.</aside>
+
+### HTTP Request
+
+`GET /api/v2.1/users/<id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+id | The unique id of the user to retrieve
+
+## Update current user
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/users/17/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Put.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["content-type"] = 'application/json'
+request["cache-control"] = 'no-cache'
+request.body = "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Appleseed\"\n}"
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/users/17/"
+
+payload = "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Appleseed\"\n}"
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'content-type': "application/json",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("PUT", url, data=payload, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request PUT \
+  --url http://demo.testpress.in/api/v2.1/users/17/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache' \
+  --header 'content-type: application/json' \
+  --data '{\n    "first_name": "John",\n    "last_name": "Appleseed"\n}'
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.1/users/17/");
+var request = new RestRequest(Method.PUT);
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("content-type", "application/json");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw");
+request.AddParameter("application/json", "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Appleseed\"\n}", ParameterType.RequestBody);
+IRestResponse response = client.Execute(request);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "first_name": "John",
+  "last_name": "Appleseed",
+  "email": "testpress.in@gmail.com",
+  "photo": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/9b69ab73fc924813871b2ef1e2ef00fa.jpeg",
+  "large_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/493054067d1d4173a22d96b824d7f0c6.jpeg",
+  "medium_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/8d96dab06a82487ab3149b771fe5d479.jpeg",
+  "small_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/4023a394cd36472fa24db76e493192ce.jpeg",
+  "x_small_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/796fa9a9727a42e4a7faa015b0388af3.jpeg",
+  "mini_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/5f9215132af54acc8e72aed968582763.jpeg",
+  "x_offset": 37,
+  "y_offset": 0,
+  "crop_height": 540,
+  "crop_width": 539,
+  "birth_date": "1994-08-27",
+  "gender": 2,
+  "address1": "Chennai",
+  "address2": "Chennai",
+  "city": "Chennai",
+  "zip": "600069",
+  "state_choices": 31,
+  "phone": "9043570576"
+}
+```
+This endpoint will update a user profile details. The data to update should be posted in the request body in JSON format.
+
+<aside class="warning">An authenticated user can update only his profile.</aside>
+
+### HTTP Request
+
+`PUT /api/v2.1/users/<id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+id | The unique id of the user to retrieve
+
 # Exams
 
 Exams API gives you access to read all the exams which can be accessed by the authenticated user.
@@ -1487,4 +1791,614 @@ Parameter | Description
 --------- | -----------
 id | The unique id of the attempt
 question_id | The unique id of the attempt question
+
+## Review attempt questions
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/attempts/122046/review/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/attempts/122046/review/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/attempts/122046/review/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 100,
+  "next": "http://demo.testpress.in/api/v2.1/attempts/122046/questions/?page=2",
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "id": 12705318,
+      "url": "http://demo.testpress.in/api/v2.1/attempts/122046/questions/12705318/",
+      "question": {
+        "question_html": "<p>Which of the following is/are the principal feature (s) of the Government of India Act, 1919? <br>\n1. Introduction of dyarchy in the executive government of the provinces<br>\n2. Introduction of separate communal electorates for Muslims<br>\n3. Devolution of legislative authority by the centre to the provinces</p><p>Select the correct answer using the codes given below:</p><p><img src=\"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/ebd87eb5c09b445d879610586fca072e.png\"></p>",
+        "direction": null,
+        "answers": [
+          {
+            "text_html": "<p>1 only</p>",
+            "id": 129
+          },
+          {
+            "text_html": "<p>2 and 3 only</p>",
+            "id": 130
+          },
+          {
+            "text_html": "<p>1 and 3 only</p>",
+            "id": 131
+          },
+          {
+            "text_html": "<p>1, 2 and 3</p>",
+            "id": 132
+          }
+        ],
+        "essay_topics": [],
+        "subject": "khecha subject",
+        "type": "C"
+      },
+      "duration": null,
+      "selected_answers": [],
+      "essay_text": null,
+      "essay_topic": null,
+      "review": null
+    },
+    {
+      "id": 12705296,
+      "url": "http://demo.testpress.in/api/v2.1/attempts/122046/questions/12705296/",
+      "question": {
+        "question_html": "<p>With reference to National Rural Health Mission, which of the following are the jobs of ASHA, a trained community health worker?</p>\n<p>1.Accompanying women to the health facility for antenatal care checkup</p>\n<p>2.Using pregnancy test kits for early detection of pregnancy </p>\n<p>3.Providing information on nutrition and immunization</p>\n<p>4.Conducting the delivery of baby</p>\n<p>Select the correct answer using the codes given below:</p>",
+        "direction": null,
+        "answers": [
+          {
+            "text_html": "<p>1, 2 and 3 Only</p>",
+            "id": 413
+          },
+          {
+            "text_html": "<p>2 and 4 Only</p>",
+            "id": 414
+          },
+          {
+            "text_html": "<p>1 and 3 Only</p>",
+            "id": 415
+          },
+          {
+            "text_html": "<p>1, 2, 3 and 4</p>",
+            "id": 416
+          }
+        ],
+        "essay_topics": [],
+        "subject": "Sin Questions",
+        "type": "R"
+      },
+      "duration": null,
+      "selected_answers": [],
+      "essay_text": null,
+      "essay_topic": null,
+      "review": null
+    }
+  ]
+}
+
+```
+
+This endpoint returns all questions for an attempt.
+
+<aside class="danger">This will fail if the attempt is in <code>Completed</code> state.</aside>
+
+### HTTP Request
+
+`GET /api/v2.1/attempts/<id>/questions/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+id | The unique id of the attempt to retrieve
+
+# Products
+
+Products API gives you access to read all the products which are active and can be purchased.
+
+## Get All Products
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/products/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/products/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/products/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.1/products/");
+var request = new RestRequest(Method.GET);
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw");
+IRestResponse response = client.Execute(request);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "id": 243,
+      "url": "http://demo.testpress.in/api/v2.1/products/free-ias-prelims-power-pack/",
+      "title": "Free IAS Prelims Power Pack",
+      "slug": "free-ias-prelims-power-pack",
+      "image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/770056a05ab2433191eeeef8de75210f.png",
+      "images": [
+        {
+          "original": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/770056a05ab2433191eeeef8de75210f.png",
+          "medium": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/bfbfcf2f31f84c5aada30eba2ae6bd2e.png",
+          "small": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/63b181a83d8c4e198309cacb110bac35.png"
+        }
+      ],
+      "start_date": "2015-01-01T00:00:00+05:30",
+      "end_date": "2021-12-31T00:00:00+05:30",
+      "categories": [
+        "TNPSC"
+      ],
+      "types": [
+        "E-books",
+        "Exams"
+      ],
+      "exams_count": 1,
+      "notes_count": 0,
+      "price": "1.00"
+    }
+  ]
+}
+```
+
+This endpoint retrieves all products available for purchase in an institute.
+
+### HTTP Request
+
+`GET /api/v2.1/products/`
+
+### Query Parameters
+
+Parameter | Type | Description
+--------- | ------- | -----------
+category | string | Filters by category name. Ex: IBPS
+
+### Fields
+
+Name | Type | Description
+-----|------|-------------
+id   | int  | The product unique ID
+url  | string | URL to get details of the product
+title | string | Title of the product
+slug | string | Human readable keyword string of the product
+images | array | An array of image urls for the product <ul><li>original - User uploaded size</li><li>medium - 300x250px</li><li>small - 100x83px</li></ul>
+start_date | datestring | Start date of product
+end_date | datestring | End date of product
+categories | array | Categories to which this product belongs
+types | array | Type of goods included in this package. Can be E-books, Exams, Classroom Program, Books
+price | string | Price of the product in INR
+exams_count | int | Number of exams present in this product
+notes_count | int | Number of documents present in this product
+
+## Get a single product
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/products/free-ias-prelims-power-pack/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/products/free-ias-prelims-power-pack/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/products/free-ias-prelims-power-pack/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache'
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.1/products/free-ias-prelims-power-pack/");
+var request = new RestRequest(Method.GET);
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw");
+IRestResponse response = client.Execute(request);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "id": 243,
+      "url": "http://demo.testpress.in/api/v2.1/products/free-ias-prelims-power-pack/",
+      "title": "Free IAS Prelims Power Pack",
+      "slug": "free-ias-prelims-power-pack",
+      "image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/770056a05ab2433191eeeef8de75210f.png",
+      "images": [
+        {
+          "original": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/770056a05ab2433191eeeef8de75210f.png",
+          "medium": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/bfbfcf2f31f84c5aada30eba2ae6bd2e.png",
+          "small": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/63b181a83d8c4e198309cacb110bac35.png"
+        }
+      ],
+      "start_date": "2015-01-01T00:00:00+05:30",
+      "end_date": "2021-12-31T00:00:00+05:30",
+      "categories": [
+        "TNPSC"
+      ],
+      "types": [
+        "E-books",
+        "Exams"
+      ],
+      "exams_count": 1,
+      "notes_count": 0,
+      "price": "1.00"
+    }
+  ]
+}
+```
+
+This endpoint retrieves all products available for purchase in an institute.
+
+### HTTP Request
+
+`GET /api/v2.1/products/<slug>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+slug | The unique slug of the product to retrieve
+
+### Fields
+
+Name | Type | Description
+-----|------|-------------
+description | string | Brief description of the product
+exams | array | [Exams](#get-a-single-exam) present in this product
+notes | array | Documents present in this product
+requires_shipping | boolean | Whether the product has shippable goods
+
+# Posts
+
+Posts are broadcast data which the institutes want to share to their users. This endpoint can be used to retrieve the posts which are accessible to a particular user.
+
+## Get all posts
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/posts/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["content-type"] = 'application/json'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/posts/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'content-type': "application/json",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/posts/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache' \
+  --header 'content-type: application/json'
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.1/posts/");
+var request = new RestRequest(Method.GET);
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("content-type", "application/json");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw");
+IRestResponse response = client.Execute(request);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 2,
+  "next": "http://demo.testpress.in/api/v2.1/posts/?page=2",
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "url": "http://demo.testpress.in/api/v2.1/posts/post-title2/",
+      "created_by": {
+        "id": 10,
+        "url": "http://demo.testpress.in/api/v2.1/users/10/",
+        "username": "admin",
+        "display_name": "admin",
+        "first_name": "",
+        "last_name": "",
+        "photo": "",
+        "large_image": "",
+        "medium_image": "",
+        "small_image": "",
+        "x_small_image": "",
+        "mini_image": ""
+      },
+      "category": {
+        "id": 2,
+        "name": "Daliy News",
+        "color": "33CC33",
+        "slug": "daliy-news"
+      },
+      "created": "2015-10-15T15:24:34Z",
+      "modified": "2015-10-15T15:24:34Z",
+      "id": 33,
+      "active": true,
+      "title": "Post Title2",
+      "summary": "summary goes here",
+      "institute": 1
+    },
+    {
+      "url": "http://demo.testpress.in/api/v2.1/posts/working-great/",
+      "created_by": {
+        "id": 10,
+        "url": "http://demo.testpress.in/api/v2.1/users/10/",
+        "username": "admin",
+        "display_name": "admin",
+        "first_name": "",
+        "last_name": "",
+        "photo": "",
+        "large_image": "",
+        "medium_image": "",
+        "small_image": "",
+        "x_small_image": "",
+        "mini_image": ""
+      },
+      "category": {
+        "id": 2,
+        "name": "Daliy News",
+        "color": "33CC33",
+        "slug": "daliy-news"
+      },
+      "created": "2015-10-07T06:00:07Z",
+      "modified": "2015-10-07T06:00:07Z",
+      "id": 26,
+      "active": true,
+      "title": "Working Great",
+      "summary": "All is Well",
+      "institute": 1
+    }
+  ]
+}
+```
+
+This endpoint retrieves all posts for the authenticated user.
+
+### HTTP Request
+
+`GET /api/v2.1/posts/`
+
+### Query Parameters
+
+Parameter | Type | Description
+--------- | ------- | -----------
+gt | datestring | Filter posts created greater than the date
+lt | datestring | Filter posts created lesser than the date
+order | string | Order posts based on the field queried. For descending order, prefix with '-'
+category | string | Filter posts based on category
+
+## Get single post
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.1/posts/working-great/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'
+request["content-type"] = 'application/json'
+request["cache-control"] = 'no-cache'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.1/posts/working-great/"
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw",
+    'content-type': "application/json",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request GET \
+  --url http://demo.testpress.in/api/v2.1/posts/working-great/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw' \
+  --header 'cache-control: no-cache' \
+  --header 'content-type: application/json'
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.1/posts/working-great/");
+var request = new RestRequest(Method.GET);
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("content-type", "application/json");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw");
+IRestResponse response = client.Execute(request);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "url": "http://demo.testpress.in/api/v2.1/posts/working-great/",
+  "created_by": {
+    "id": 10,
+    "url": "http://demo.testpress.in/api/v2.1/users/10/",
+    "username": "admin",
+    "display_name": "admin",
+    "first_name": "",
+    "last_name": "",
+    "photo": "",
+    "large_image": "",
+    "medium_image": "",
+    "small_image": "",
+    "x_small_image": "",
+    "mini_image": ""
+  },
+  "category": {
+    "id": 2,
+    "name": "Daliy News",
+    "color": "33CC33",
+    "slug": "daliy-news"
+  },
+  "created": "2015-10-07T06:00:07Z",
+  "modified": "2015-10-07T06:00:07Z",
+  "id": 26,
+  "active": true,
+  "title": "Working Great",
+  "summary": "All is Well",
+  "content_html": "<p>Good Better Best</p>",
+  "institute": 1
+}
+```
+
+This endpoint retrieves a single post.
+
+<aside class="danger">Note that some posts will return 403 Forbidden if they are not available for the authenticated user.</aside>
+
+
+### HTTP Request
+
+`GET /api/v2.1/posts/<slug>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+slug | The unique slug of the post to retrieve
 
