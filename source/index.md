@@ -9,11 +9,13 @@ language_tabs:
 
 includes:
   - auth
+  - student_apis
   - users
   - exams
   - attempts
   - products
   - posts
+  - admin_apis
   - errors
 
 search: true

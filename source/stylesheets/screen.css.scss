@@ -159,6 +159,14 @@ html, body {
     text-overflow: ellipsis;
   }
 
+  // Section headers
+  .tocify-item[data-unique="student-apis"], .tocify-item[data-unique="admin-apis"] {
+    text-transform: uppercase;
+    margin-top: 1em;
+    font-weight: bold;
+    font-size: 12px;
+    color: #666;
+  }
   // The Table of Contents is composed of multiple nested
   // unordered lists.  These styles remove the default
   // styling of an unordered list because it is ugly.
@@ -180,7 +188,7 @@ html, body {
   .tocify-focus {
     box-shadow: 0px 1px 0px $nav-active-shadow;
     background-color: $nav-active-bg;
-    color: $nav-active-text;
+    color: $nav-active-text !important;
   }
 
   // Subheaders are the submenus that slide open
