@@ -23,12 +23,12 @@ under the License.
 
 // BACKGROUND COLORS
 ////////////////////
-$nav-bg: #ffffff;
+$nav-bg: #fafcfc;
 $examples-bg: #393939;
 $code-bg: #292929;
 $code-annotation-bg: #1c1c1c;
-$nav-subitem-bg: #fff;
-$nav-active-bg: #3598db;
+$nav-subitem-bg: #fafcfc;
+$nav-active-bg: #fafcfc;
 $lang-select-border: #000;
 $lang-select-bg: #222;
 $lang-select-active-bg: $examples-bg; // feel free to change this to blue or something
@@ -48,8 +48,8 @@ $search-notice-bg: #c97a7e;
 // TEXT COLORS
 ////////////////////
 $main-text: #333; // main content text color
-$nav-text: #3598db;
-$nav-active-text: #fff;
+$nav-text: #292e31;
+$nav-active-text: #3598db;
 $lang-select-text: #fff; // color of unselected language tab text
 $lang-select-active-text: #fff; // color of selected language tab text
 $lang-select-pressed-text: #fff; // color of language tab text when mouse is pressed
@@ -73,13 +73,13 @@ $phone-width: $tablet-width - $nav-width; // min width before reverting to mobil
 // FONTS
 ////////////////////
 %default-font {
-  font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
-  font-size: 13px;
+  font-family: 'Source Sans Pro', "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
+  font-size: 15px;
 }
 
 %header-font {
   @extend %default-font;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 %code-font {
@@ -96,7 +96,7 @@ $nav-footer-border-color: #ccc;
 $nav-embossed-border-top: #000;
 $nav-embossed-border-bottom: #939393;
 $main-embossed-text-shadow: 0px 1px 0px #fff;
-$search-box-border-color: #ccc;
+$search-box-border-color: #f0f4f7;
 
 
 ////////////////////////////////////////////////////////////////////////////////

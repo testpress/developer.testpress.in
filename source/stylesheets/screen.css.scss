@@ -4,6 +4,7 @@
 @import 'variables';
 @import 'syntax';
 @import 'icon-font';
+@import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro';
 
 /*
 Copyright 2008-2013 Concur Technologies, Inc.
@@ -69,9 +70,8 @@ html, body {
   bottom: 0;
   width: $nav-width;
   background-color: $nav-bg;
-  font-size: 13px;
-  font-weight: bold;
-  border-right: 1px solid #ccc;
+  font-size: 15px;
+  border-right: 1px solid #f0f4f7;
 
   // language selector for mobile devices
   .lang-selector {
@@ -164,8 +164,8 @@ html, body {
     text-transform: uppercase;
     margin-top: 1em;
     font-weight: bold;
-    font-size: 12px;
-    color: #666;
+    font-size: 13px;
+    color: #939da3;
   }
   // The Table of Contents is composed of multiple nested
   // unordered lists.  These styles remove the default
@@ -188,7 +188,7 @@ html, body {
   .tocify-focus {
     box-shadow: 0px 1px 0px $nav-active-shadow;
     background-color: $nav-active-bg;
-    color: $nav-active-text !important;
+    color: $nav-active-text;
   }
 
   // Subheaders are the submenus that slide open
@@ -199,7 +199,7 @@ html, body {
     font-weight: 500;
     .tocify-item>a {
       padding-left: $nav-padding + $nav-indent;
-      font-size: 12px;
+      font-size: 14px;
     }
 
     // for embossed look:
@@ -378,7 +378,7 @@ html, body {
     font-size: 30px;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #f0f4f7;
     margin-bottom: $h1-margin-bottom;
   }
 
@@ -409,6 +409,8 @@ html, body {
     font-size: 15px;
     margin-top: 2.5em;
     margin-bottom: 0.8em;
+    font-weight: bold;
+    color: #292e31;
   }
 
   h4, h5, h6 {
@@ -434,6 +436,7 @@ html, body {
       padding: 5px 10px;
       border-bottom: 1px solid #ccc;
       vertical-align: bottom;
+      font-weight: normal;
     }
 
     td {
@@ -493,7 +496,7 @@ html, body {
     border-left: 4px solid $aside-info-border-color;
     line-height: 1.6;
     margin-right: 54%;
-    margin-left: 3em;
+    margin-left: 2.6em;
     padding: 15px;
 
     &.warning {
