@@ -16,6 +16,8 @@ includes:
   - products
   - posts
   - admin_apis
+  - batches
+  - admin_posts
   - errors
 
 search: true
