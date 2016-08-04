@@ -19,8 +19,10 @@ includes:
   - attempts
   - products
   - posts
+  - batches
   - admin_apis
   - admin_users
+  - admin_posts
   - errors
 
 search: true
