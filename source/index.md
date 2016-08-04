@@ -2,10 +2,14 @@
 title: API Reference
 
 language_tabs:
-  - shell
-  - ruby
-  - python
-  - csharp
+  - shell: cURL
+  - ruby: Ruby
+  - python: Python
+  - csharp: C#
+  - php: PHP
+  - java: Java
+  - javascript: NodeJS
+  - go: Go
 
 includes:
   - auth
@@ -16,6 +20,7 @@ includes:
   - products
   - posts
   - admin_apis
+  - admin_users
   - errors
 
 search: true
