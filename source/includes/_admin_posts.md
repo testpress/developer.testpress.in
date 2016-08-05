@@ -273,4 +273,107 @@ Parameter | Description
 --------- | -----------
 slug | The unique slug of the post to retrieve
 
+##Create a post 
+```ruby
+re 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.2/admin/posts/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Post.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE'
+request["content-type"] = 'application/json'
+request["cache-control"] = 'no-cache'
+request["postman-token"] = '653bbc93-696f-e194-caa5-21b5e2a736b7'
+request.body = "{\n    \"title\": \"NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online\", \n    \"summary\": \"Test Summary\", \n    \"content_html\": \"<h2><strong>NCRA Recruitment</strong></h2> <p>National Centre for Radio Astrophysics, Pune has emitted an advertisement related to <strong>NCRA Recruitment</strong>. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.</p>\", \n    \"batches\": [\n        \"Online Test Batch\"\n    ], \n    \"products\": [\n        \"IAS Prelims Power Pack\"\n    ], \n    \"is_public\": false, \n    \"category\": \"Alerts\", \n    \"published_date\": \"2016-08-05T09:17:56.883Z\"\n}"
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.2/admin/posts/"
+
+payload = "{\n    \"title\": \"NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online\", \n    \"summary\": \"Test Summary\", \n    \"content_html\": \"<h2><strong>NCRA Recruitment</strong></h2> <p>National Centre for Radio Astrophysics, Pune has emitted an advertisement related to <strong>NCRA Recruitment</strong>. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.</p>\", \n    \"batches\": [\n        \"Online Test Batch\"\n    ], \n    \"products\": [\n        \"IAS Prelims Power Pack\"\n    ], \n    \"is_public\": false, \n    \"category\": \"Alerts\", \n    \"published_date\": \"2016-08-05T09:17:56.883Z\"\n}"
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE",
+    'content-type': "application/json",
+    'cache-control': "no-cache",
+    'postman-token': "8a880552-d0f7-f2f8-be8f-dab095c4f24c"
+    }
+
+response = requests.request("POST", url, data=payload, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE" -H "Content-Type: application/json" -H "Cache-Control: no-cache" -H "Postman-Token: ababd89e-d515-7bca-b2a5-2a99a5a15d6d" -d '{
+    "title": "NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online", 
+    "summary": "Test Summary", 
+    "content_html": "<h2><strong>NCRA Recruitment</strong></h2> <p>National Centre for Radio Astrophysics, Pune has emitted an advertisement related to <strong>NCRA Recruitment</strong>. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.</p>", 
+    "batches": [
+        "Online Test Batch"
+    ], 
+    "products": [
+        "IAS Prelims Power Pack"
+    ], 
+    "is_public": false, 
+    "category": "Alerts", 
+    "published_date": "2016-08-05T09:17:56.883Z"
+}' "http://demo.testpress.in/api/v2.2/admin/posts/"
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.2/admin/posts/");
+var request = new RestRequest(Method.POST);
+request.AddHeader("postman-token", "e837fb2b-c7c2-c3de-f9ba-d05fc084da77");
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("content-type", "application/json");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE");
+request.AddParameter("application/json", "{\n    \"title\": \"NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online\", \n    \"summary\": \"Test Summary\", \n    \"content_html\": \"<h2><strong>NCRA Recruitment</strong></h2> <p>National Centre for Radio Astrophysics, Pune has emitted an advertisement related to <strong>NCRA Recruitment</strong>. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.</p>\", \n    \"batches\": [\n        \"Online Test Batch\"\n    ], \n    \"products\": [\n        \"IAS Prelims Power Pack\"\n    ], \n    \"is_public\": false, \n    \"category\": \"Alerts\", \n    \"published_date\": \"2016-08-05T09:17:56.883Z\"\n}", ParameterType.RequestBody);
+IRestResponse response = client.Execute(request);
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "title": "NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online", 
+    "summary": "Test Summary", 
+    "content_html": "<h2><strong>NCRA Recruitment</strong></h2> <p>National Centre for Radio Astrophysics, Pune has emitted an advertisement related to <strong>NCRA Recruitment</strong>. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.</p>", 
+    "batches": [
+        "Online Test Batch"
+    ], 
+    "products": [
+        "IAS Prelims Power Pack"
+    ], 
+    "is_public": false, 
+    "category": "Alerts", 
+    "published_date": "2016-08-05T09:17:56.883Z"
+}
+
+```
+This endpoint creates a post for a batch / product in the given category
+
+### HTTP Request
+
+`POST /api/v2.2/admin/posts/`
+
+### Fields
+
+Name | Type | Description
+-----|------|-------------
+title | string | Post Title
+summary | string | Summary of post
+content_html | string | Content of the post
+batches | array of strings | Pass as array of batch name strings.
+products | array of strings | Pass as array of product name strings
+is_public | Boolean | Is this a public post. True or False
+category | string | Category of the post.
 
