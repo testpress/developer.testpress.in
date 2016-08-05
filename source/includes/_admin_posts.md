@@ -344,20 +344,72 @@ IRestResponse response = client.Execute(request);
 
 ```json
 {
-    "title": "NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online", 
-    "summary": "Test Summary", 
-    "content_html": "<h2><strong>NCRA Recruitment</strong></h2> <p>National Centre for Radio Astrophysics, Pune has emitted an advertisement related to <strong>NCRA Recruitment</strong>. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.</p>", 
-    "batches": [
-        "Online Test Batch"
-    ], 
-    "products": [
-        "IAS Prelims Power Pack"
-    ], 
-    "is_public": false, 
-    "category": "Alerts", 
-    "published_date": "2016-08-05T09:17:56.883Z"
+  "url": "http://demo.testpress.in/api/v2.2/admin/posts/ncra-recruitment-2015-wwwncratifrresin-jrf-vacancies-apply-online-14/",
+  "created_by": {
+    "id": 38,
+    "url": "http://demo.testpress.in/api/v2.2/users/38/",
+    "username": "admin",
+    "display_name": "admin",
+    "first_name": "",
+    "last_name": "",
+    "photo": "",
+    "large_image": "",
+    "medium_image": "",
+    "small_image": "",
+    "x_small_image": "",
+    "mini_image": ""
+  },
+  "category": {
+    "id": 1,
+    "name": "Alerts",
+    "color": "FF0000",
+    "slug": "alerts",
+    "is_starred": false
+  },
+  "created": "2016-08-05T11:56:55.902Z",
+  "modified": "2016-08-05T11:56:55.940Z",
+  "id": 116,
+  "is_active": true,
+  "title": "NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online",
+  "summary": "Test Summary",
+  "batches": [
+    {
+      "id": 34,
+      "name": "Online Test Batch",
+      "url": "http://demo.testpress.in/api/v2.2/admin/batches/34/"
+    }
+  ],
+  "products": [
+    {
+      "id": 5,
+      "url": "http://demo.testpress.in/api/v2.2/products/ias-prelims-power-pack/",
+      "title": "IAS Prelims Power Pack",
+      "slug": "ias-prelims-power-pack",
+      "image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/c098795970e64bbab0265e82c4a40f6a.png",
+      "images": [
+        {
+          "original": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/c098795970e64bbab0265e82c4a40f6a.png",
+          "medium": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/2c5648e2884e481aa4256554ad601d66.png",
+          "small": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/a36d18c340c84e8eaa24d17697b1cb88.png"
+        }
+      ],
+      "start_date": "2015-01-01T00:00:00+05:30",
+      "end_date": "2019-01-01T00:00:00+05:30",
+      "categories": [
+        "TNPSC"
+      ],
+      "types": [
+        "Exams",
+        "Books"
+      ],
+      "exams_count": 1,
+      "notes_count": 4,
+      "price": "1.00"
+    }
+  ],
+  "is_public": false,
+  "published_date": "2016-08-05T09:17:56.883Z"
 }
-
 ```
 This endpoint creates a post for a batch / product in the given category
 
