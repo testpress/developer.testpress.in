@@ -847,4 +847,239 @@ func main() {
 
 }
 ```
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 29,
+    "name": "Test Batch",
+    "url": "http://demo.testpress.in/api/v2.2/admin/batches/29/"
+  },
+  {
+    "id": 24,
+    "name": "NEET Morning Batch",
+    "url": "http://demo.testpress.in/api/v2.2/admin/batches/24/"
+  },
+  {
+    "id": 23,
+    "name": "UPSC Morning Batch",
+    "url": "http://demo.testpress.in/api/v2.2/admin/batches/23/"
+  },
+  {
+    "id": 22,
+    "name": "IBPS Morning Batch",
+    "url": "http://demo.testpress.in/api/v2.2/admin/batches/22/"
+  }
+]
+```
+
+This endpoint allows you to add users to batches
+
+### HTTP Request
+
+`POST /api/v2.2/admin/users/<id>/batches/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | ------- | -----------
+id | Unique Id of the user to retrieve
+
+### POST data
+
+Parameter | Description
+--------- | ------- | -----------
+batches | Array of string of batches names to add the user to 
+
+### Response Fields
+
+Name | Type | Description
+-----|------|-------------
+id | string | Id of the batch
+url | string | Unique endpoint of that batch
+name | string | Name of the batch
+
+## Remove batches
+
+```shell
+curl --request DELETE \
+  --url http://demo.testpress.in/api/v2.2/admin/users/1892/batches/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAyMjk2MDd9.ynLE30wWup2CXMqgpNjT4ZBAUAtttqebzat-stuVB84' \
+  --header 'cache-control: no-cache' \
+  --header 'content-type: application/json' \
+  --data '{"batches": ["NEET Morning Batch", "IBPS Morning Batch"]}'
+```
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.2/admin/users/1892/batches/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Delete.new(url)
+request["content-type"] = 'application/json'
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAyMjk2MDd9.ynLE30wWup2CXMqgpNjT4ZBAUAtttqebzat-stuVB84'
+request["cache-control"] = 'no-cache'
+request.body = "{\n    \"batches\": [\"NEET Morning Batch\", \"IBPS Morning Batch\"]\n}"
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.2/admin/users/1892/batches/"
+
+payload = "{\n    \"batches\": [\"NEET Morning Batch\", \"IBPS Morning Batch\"]\n}"
+headers = {
+    'content-type': "application/json",
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAyMjk2MDd9.ynLE30wWup2CXMqgpNjT4ZBAUAtttqebzat-stuVB84",
+    'cache-control': "no-cache"
+    }
+
+response = requests.request("DELETE", url, data=payload, headers=headers)
+
+print(response.text)
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.2/admin/users/1892/batches/");
+var request = new RestRequest(Method.DELETE);
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAyMjk2MDd9.ynLE30wWup2CXMqgpNjT4ZBAUAtttqebzat-stuVB84");
+request.AddHeader("content-type", "application/json");
+request.AddParameter("application/json", "{\n    \"batches\": [\"NEET Morning Batch\", \"IBPS Morning Batch\"]\n}", ParameterType.RequestBody);
+IRestResponse response = client.Execute(request);
+```
+
+```php
+<?php
+
+$request = new HttpRequest();
+$request->setUrl('http://demo.testpress.in/api/v2.2/admin/users/1892/batches/');
+$request->setMethod(HTTP_METH_DELETE);
+
+$request->setHeaders(array(
+  'cache-control' => 'no-cache',
+  'authorization' => 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAyMjk2MDd9.ynLE30wWup2CXMqgpNjT4ZBAUAtttqebzat-stuVB84',
+  'content-type' => 'application/json'
+));
+
+$request->setBody('{
+    "batches": ["NEET Morning Batch", "IBPS Morning Batch"]
+}');
+
+try {
+  $response = $request->send();
+
+  echo $response->getBody();
+} catch (HttpException $ex) {
+  echo $ex;
+}
+```
+
+```java
+OkHttpClient client = new OkHttpClient();
+
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "{\n    \"batches\": [\"NEET Morning Batch\", \"IBPS Morning Batch\"]\n}");
+Request request = new Request.Builder()
+  .url("http://demo.testpress.in/api/v2.2/admin/users/1892/batches/")
+  .delete(body)
+  .addHeader("content-type", "application/json")
+  .addHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAyMjk2MDd9.ynLE30wWup2CXMqgpNjT4ZBAUAtttqebzat-stuVB84")
+  .addHeader("cache-control", "no-cache")
+  .build();
+
+Response response = client.newCall(request).execute();
+```
+
+```javascript
+var http = require("http");
+
+var options = {
+  "method": "DELETE",
+  "hostname": "demo.testpress.in",
+  "port": null,
+  "path": "/api/v2.2/admin/users/1892/batches/",
+  "headers": {
+    "content-type": "application/json",
+    "authorization": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAyMjk2MDd9.ynLE30wWup2CXMqgpNjT4ZBAUAtttqebzat-stuVB84",
+    "cache-control": "no-cache"
+  }
+};
+
+var req = http.request(options, function (res) {
+  var chunks = [];
+
+  res.on("data", function (chunk) {
+    chunks.push(chunk);
+  });
+
+  res.on("end", function () {
+    var body = Buffer.concat(chunks);
+    console.log(body.toString());
+  });
+});
+
+req.write(JSON.stringify({ batches: [ 'NEET Morning Batch', 'IBPS Morning Batch' ] }));
+req.end();
+```
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+    "net/http"
+    "io/ioutil"
+)
+
+func main() {
+
+    url := "http://demo.testpress.in/api/v2.2/admin/users/1892/batches/"
+
+    payload := strings.NewReader("{\n    \"batches\": [\"NEET Morning Batch\", \"IBPS Morning Batch\"]\n}")
+
+    req, _ := http.NewRequest("DELETE", url, payload)
+
+    req.Header.Add("content-type", "application/json")
+    req.Header.Add("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAyMjk2MDd9.ynLE30wWup2CXMqgpNjT4ZBAUAtttqebzat-stuVB84")
+    req.Header.Add("cache-control", "no-cache")
+
+    res, _ := http.DefaultClient.Do(req)
+
+    defer res.Body.Close()
+    body, _ := ioutil.ReadAll(res.Body)
+
+    fmt.Println(res)
+    fmt.Println(string(body))
+
+}
+```
+
+> The above command on success will return 204 NO CONTENT
+
+This endpoint allows you to remove users from batches
+
+### HTTP Request
+
+`DELETE /api/v2.2/admin/users/<id>/batches/`
+
+### URL Parameters
+
+Parameter | Description
+--------- | ------- | -----------
+id | Unique Id of the user to retrieve
+
+### POST data
+
+Parameter | Description
+--------- | ------- | -----------
+batches | Array of string of batches names to add the user to 
 
