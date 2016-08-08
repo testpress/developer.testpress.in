@@ -494,6 +494,251 @@ zip | string | Pincode of user
 state_code | string | State of user in ISO 3166-2:IN format (https://en.wikipedia.org/wiki/ISO_3166-2:IN)
 phone | string | Phone of user
 
+## View User by email
+
+```go 
+package main
+
+import (
+    "fmt"
+    "net/http"
+    "io/ioutil"
+)
+
+func main() {
+
+    url := "http://demo.testpress.in//api/v2.2/admin/users/?email=bharathwaaj.s%40gmail.com"
+
+    req, _ := http.NewRequest("GET", url, nil)
+
+    req.Header.Add("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE")
+    req.Header.Add("cache-control", "no-cache")
+    req.Header.Add("postman-token", "80159c50-160a-991a-f513-a5fafa286a1b")
+
+    res, _ := http.DefaultClient.Do(req)
+
+    defer res.Body.Close()
+    body, _ := ioutil.ReadAll(res.Body)
+
+    fmt.Println(res)
+    fmt.Println(string(body))
+
+}
+
+```ruby
+
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in//api/v2.2/admin/users/?email=bharathwaaj.s%40gmail.com")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Get.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE'
+request["cache-control"] = 'no-cache'
+request["postman-token"] = 'b21426e3-c795-8d2f-eb0b-db5d81ac2ec0'
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in//api/v2.2/admin/users/"
+
+querystring = {"email":"bharathwaaj.s@gmail.com"}
+
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE",
+    'cache-control': "no-cache",
+    'postman-token': "d46170d5-b684-79ad-2ce8-b2c5d8cb5988"
+    }
+
+response = requests.request("GET", url, headers=headers, params=querystring)
+
+print(response.text)
+```
+
+```shell
+curl -X GET -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE" -H "Cache-Control: no-cache" -H "Postman-Token: c8cbe2a1-76d0-da3a-1bbb-38cd3f61f215" "http://demo.testpress.in//api/v2.2/admin/users/?email=bharathwaaj.s@gmail.com"
+```
+
+```php
+<?php
+
+$request = new HttpRequest();
+$request->setUrl('http://demo.testpress.in//api/v2.2/admin/users/');
+$request->setMethod(HTTP_METH_GET);
+
+$request->setQueryData(array(
+  'email' => 'bharathwaaj.s@gmail.com'
+));
+
+$request->setHeaders(array(
+  'postman-token' => 'f09b000b-ac7c-da00-2532-85010b519a60',
+  'cache-control' => 'no-cache',
+  'authorization' => 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE'
+));
+
+try {
+  $response = $request->send();
+
+  echo $response->getBody();
+} catch (HttpException $ex) {
+  echo $ex;
+}
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in//api/v2.2/admin/users/?email=bharathwaaj.s%40gmail.com");
+var request = new RestRequest(Method.GET);
+request.AddHeader("postman-token", "30c7ab26-66ed-0558-dd6f-8cc4b66d5644");
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE");
+IRestResponse response = client.Execute(request);
+```
+
+```java
+OkHttpClient client = new OkHttpClient();
+
+Request request = new Request.Builder()
+  .url("http://demo.testpress.in//api/v2.2/admin/users/?email=bharathwaaj.s%40gmail.com")
+  .get()
+  .addHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE")
+  .addHeader("cache-control", "no-cache")
+  .addHeader("postman-token", "05ef17ed-3a9c-3745-ee1b-10ae5963bbcc")
+  .build();
+
+Response response = client.newCall(request).execute();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "per_page": 20,
+  "results": [
+    {
+      "id": 36,
+      "url": "http://demo.testpress.in/api/v2.2/admin/users/36/",
+      "username": "bharath",
+      "first_name": "Bharath Kumar",
+      "last_name": "S",
+      "display_name": "Bharath Kumar S",
+      "email": "bharathwaaj.s@gmail.com",
+      "photo": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/cb88287098924bd6ae615ca4aa71eab5.png",
+      "large_image": "",
+      "medium_image": "",
+      "small_image": "",
+      "x_small_image": "",
+      "mini_image": "",
+      "birth_date": "17/08/1987",
+      "gender_code": "male",
+      "gender": "Male",
+      "address1": "257 A Timber Mill Road",
+      "address2": "4th Cross, New Thippasandra",
+      "city": "Bangalore",
+      "zip": "560075",
+      "state": "",
+      "state_code": "",
+      "phone": "9787231006",
+      "batches": [
+        {
+          "id": 26,
+          "name": "UPSC Evening Batch",
+          "url": "http://demo.testpress.in/api/v2.2/admin/batches/26/"
+        },
+        {
+          "id": 25,
+          "name": "IBPS Online Batch",
+          "url": "http://demo.testpress.in/api/v2.2/admin/batches/25/"
+        },
+        {
+          "id": 24,
+          "name": "NEET Morning Batch",
+          "url": "http://demo.testpress.in/api/v2.2/admin/batches/24/"
+        },
+        {
+          "id": 23,
+          "name": "UPSC Morning Batch",
+          "url": "http://demo.testpress.in/api/v2.2/admin/batches/23/"
+        },
+        {
+          "id": 22,
+          "name": "IBPS Morning Batch",
+          "url": "http://demo.testpress.in/api/v2.2/admin/batches/22/"
+        },
+        {
+          "id": 21,
+          "name": "st std A",
+          "url": "http://demo.testpress.in/api/v2.2/admin/batches/21/"
+        },
+        {
+          "id": 20,
+          "name": "OHC 2013",
+          "url": "http://demo.testpress.in/api/v2.2/admin/batches/20/"
+        },
+        {
+          "id": 19,
+          "name": "POZITIVE ONLINE TEST SERIES",
+          "url": "http://demo.testpress.in/api/v2.2/admin/batches/19/"
+        },
+        {
+          "id": 18,
+          "name": "Unique UPSC Batch",
+          "url": "http://demo.testpress.in/api/v2.2/admin/batches/18/"
+        }
+      ],
+      "batches_url": "http://demo.testpress.in/api/v2.2/admin/users/36/batches/"
+    }
+  ]
+}
+
+```
+This endpoint allows you to view details of a particular user by email address
+
+### HTTP Request
+
+`GET /api/v2.2/admin/users/?email=<:email_id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | ------- | -----------
+email | Email Address of the user
+
+### Fields
+
+Name | Type | Description
+-----|------|-------------
+username | string | Username of the user
+first_name | string | First name of the user
+last_name | string | Last name of the user
+display_name | string | Name of the user to be displayed
+email | string | Email of the user
+photo | string | Original image of the user as uploaded
+large_image | string | Profile image with size 256x256
+medium_image | string | Profile image with size 128x128
+small_image | string | Profile image with size 48x48
+xsmall_image | string | Profile image with size 32x32
+mini_image | string | Profile image with size 24x24
+birth_date | datestring | Birth date of user. Should be in DD/MM/YYYY format
+gender_code | string | Gender of user. Can be "male", "female" or "trans"
+gender | string | (Read only) Human readable gender of user. Can be "Male", "Female" or "Transgender"
+address1 | string | Address of user
+address2 | string | Address of user
+city | string | City of user
+zip | string | Pincode of user
+state_code | string | State of user in ISO 3166-2:IN format (https://en.wikipedia.org/wiki/ISO_3166-2:IN)
+phone | string | Phone of user
+batches| array | Batches to which user has access
+
+
 ## View batches
 
 ```shell
