@@ -58,6 +58,56 @@ curl --request POST \
 > Make sure to replace `testpress` and `demo` with your credentials.
 > The above command returns JSON structured like this:
 
+```php
+<?php
+
+$request = new HttpRequest();
+$request->setUrl('http://demo.testpress.in/api/v2.2/auth-token/');
+$request->setMethod(HTTP_METH_POST);
+
+$request->setHeaders(array(
+  'postman-token' => '6501b66f-d9ec-4a94-0a94-ef81a66a41f3',
+  'cache-control' => 'no-cache',
+  'authorization' => 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MTM5NTYsInVzZXJfaWQiOjEzOTU2LCJlbWFpbCI6ImRlcy5wcm8ubWFkaGFuQGhvdG1haWwuY29tIiwiZXhwIjoxNDY0MzQwMzg1fQ.TElNLpQE8KERVe7Q-vjNk9aU-9prOfzBb43srB9WmC0',
+  'content-type' => 'multipart/form-data; boundary=---011000010111000001101001'
+));
+
+$request->setBody('-----011000010111000001101001
+Content-Disposition: form-data; name="username"
+
+admin
+-----011000010111000001101001
+Content-Disposition: form-data; name="password"
+
+demo
+-----011000010111000001101001--');
+
+try {
+  $response = $request->send();
+
+  echo $response->getBody();
+} catch (HttpException $ex) {
+  echo $ex;
+}
+```
+```java
+OkHttpClient client = new OkHttpClient();
+
+MediaType mediaType = MediaType.parse("multipart/form-data; boundary=---011000010111000001101001");
+RequestBody body = RequestBody.create(mediaType, "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"username\"\r\n\r\nadmin\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"password\"\r\n\r\ndemo\r\n-----011000010111000001101001--");
+Request request = new Request.Builder()
+  .url("http://demo.testpress.in/api/v2.2/auth-token/")
+  .post(body)
+  .addHeader("content-type", "multipart/form-data; boundary=---011000010111000001101001")
+  .addHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MTM5NTYsInVzZXJfaWQiOjEzOTU2LCJlbWFpbCI6ImRlcy5wcm8ubWFkaGFuQGhvdG1haWwuY29tIiwiZXhwIjoxNDY0MzQwMzg1fQ.TElNLpQE8KERVe7Q-vjNk9aU-9prOfzBb43srB9WmC0")
+  .addHeader("cache-control", "no-cache")
+  .addHeader("postman-token", "987488b1-1b5f-dd8b-95fc-fea8d276b2ae")
+  .build();
+
+Response response = client.newCall(request).execute();
+
+```
+
 ```json
 {"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"}
 ```
@@ -67,6 +117,11 @@ This endpoint provides an authentication token to get access to private resource
 ### HTTP Request
 
 `POST http://demo.testpress.in/api/v2.2/auth-token/`
+
+Name | Type | Description
+-----|------|-------------
+username | string | Username of the user
+password | string | Password of the user
 
 <aside class="info">
 Replace <code>demo</code> with your institute subdomain hereafter everywhere.
