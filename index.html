@@ -4316,6 +4316,252 @@ puts response.read_body
 </tr>
 </tbody></table>
 
+          <h1 id="attempt">Attempt</h1>
+
+<p>Allows a user to take an exam. User would be redirected to testpress page where users can attempt an exam. Once user completes the exam, Testpress would invoke the surl given in Post Parameter</p>
+
+<h2 id="create-an-attempt-by-checksum">Create an attempt by checksum</h2>
+
+<p>Allows a user to take an exam. User would be redirected to testpress page where users can attempt an exam. Once user completes the exam, Testpress would invoke the surl given in Post Parameter</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST &lt;exam_url&gt;</code></p>
+
+<p>exam_url can be taken from Testpress dashboard. Once an exam is created, URL can be copied from Exam&rsquo;s List Page</p>
+
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>key</td>
+<td>string</td>
+<td>Public Institute key provided by Testpress to identify the Institute</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Email Address of the user</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>First name of the user</td>
+</tr>
+<tr>
+<td>institute_attempt_id</td>
+<td>string</td>
+<td>It is the reference number generated at your End (Institute&rsquo;s End). It is an identifier used to track a particular attempt. If an attempt using a particular attempt id has already successfully completed, the usage of same attempt Id would fail</td>
+</tr>
+<tr>
+<td>checksum</td>
+<td>string</td>
+<td>checksum generated using the below algorithm</td>
+</tr>
+<tr>
+<td>success_url</td>
+<td>url</td>
+<td>Url to be invoked by Testpress after successfull completion of the exam</td>
+</tr>
+<tr>
+<td>failure_url</td>
+<td>url</td>
+<td>Url to be invoked in case of any any errors</td>
+</tr>
+</tbody></table>
+
+<aside class="info">
+<strong> How to create Checksum </strong>
+<br>
+Hash is a crucial parameter &ndash; used specifically to avoid any tampering during the request
+
+<br>
+
+For hash calculation, you need to generate a string using certain parameters and apply the sha512 algorithm on this string. Please note that you have to use pipe (|) character in between these parameters as mentioned below. The parameter order is mentioned below:
+
+ sha512(key|email|firstname|exam_title|institute_attempt_id|SALT)
+ exam_title: Can be retrieved from Testpress dashboard
+
+</aside>
+
+<h2 id="response-parameters-for-attempt-creation">Response Parameters for Attempt Creation</h2>
+
+<p>Below are the response parameters posted by Testpress to Institute when an exam is completed / cancelled</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>key</td>
+<td>string</td>
+<td>Public Institute key provided by Testpress to identify the Institute</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Email Address of the user</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>First name of the user</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>completed / cancelled / pending</td>
+</tr>
+<tr>
+<td>attempt_id</td>
+<td>string</td>
+<td>Unique Testpress Id for the Attempt. This will be None if the user has cancelled the attempt and chose &ldquo;Take Later&rdquo;. This id will be used to review the attempt</td>
+</tr>
+<tr>
+<td>institute_attempt_id</td>
+<td>string</td>
+<td>It is the reference number generated at your End (Institute&rsquo;s End). It is an identifier used to track a particular attempt. If an attempt using a particular attempt id has already successfully completed, the usage of same attempt Id would fail</td>
+</tr>
+<tr>
+<td>checksum</td>
+<td>string</td>
+<td>checksum generated using the below algorithm</td>
+</tr>
+</tbody></table>
+
+<aside class="info">
+<strong> How checksum is created </strong>
+<br>
+This parameter is absolutely crucial and is similar to the hash parameter used in the attempt create request send by the Institute to Testpress. Testpress calculates the hash using a string of other parameters and returns to the Institute. Institute must verify the hash and then only mark a transaction as success/failure. This is to make sure that the transaction hasn&rsquo;t been tampered with. The calculation is as below:
+
+<br>
+
+ sha512(key|email|firstname|exam_title|institute_attempt_id|attempt_id|SALT)
+</aside>
+
+<p>Response also returns json data about the Attempt. Check the right side pane for json data structure</p>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/125894/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">125894</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"exam"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/exams/forum-ias-rbi-demo/"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3720</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORUM IAS RBI DEMO"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"course"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TNPSC"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-07T12:37:11+05:30"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-15T12:37:11+05:30"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-07T07:07:41.597Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"forum-ias-rbi-demo"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testpress"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-07T07:12:49.873Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"total_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"review_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/125894/review/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"questions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/125894/questions/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"percentile"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"correct_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"incorrect_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_started_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-07T08:02:46.845Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.20:03"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"time_taken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:49:57"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Running"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"rank"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NA"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"max_rank"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"percentage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"unanswered_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"commented_questions_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"total_bonus"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+
+<h2 id="review-exam-attempt-by-checksum">Review Exam attempt by checksum</h2>
+
+<p>Allows a user to review the exam he has attempted. User would be redirected to testpress page where users can review the exam. User can check the subject wise analytics / time analytics. User can check his correct and incorrect questions. User can post comment / doubts to questions. Also see the comments posted by peer students.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /attempts/&lt;id&gt;/</code></p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>key</td>
+<td>string</td>
+<td>Public Institute key provided by Testpress to identify the Institute</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Email Address of the user</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>First name of the user</td>
+</tr>
+<tr>
+<td>checksum</td>
+<td>string</td>
+<td>checksum generated using the below algorithm</td>
+</tr>
+<tr>
+<td>failure_url</td>
+<td>url</td>
+<td>Url to be invoked in case of any any errors</td>
+</tr>
+</tbody></table>
+
+<aside class="info">
+<strong> How checksum is created </strong>
+Please note that algorithm is used is different from the previously used algorithms. Please note the usage of time_counter
+<br>
+sha512(key|email|firstname|institute_attempt_id|attempt_id|time_counter|SALT)
+
+time_counter(Tc) = Tn / S ,
+
+Tn - Number of seconds since epooch.
+S - Time Step. Testpress use 3600s as Step time
+
+time_counter is used to restrict the access to the 30 mins time frame. 
+
+If SHA doesn&rsquo;t match, Testpress will check the time counter for Tc - 1 & Tc-2 to avoid any time errors. A link will be active for the maximum of 90 minutes.
+
+</aside>
+
           <h1 id="batches">Batches</h1>
 
 <p>Batches API lets you create and retrieve batches in your institute.</p>
@@ -5431,6 +5677,11 @@ puts response.read_body
 </tr>
 </thead><tbody>
 <tr>
+<td>url</td>
+<td>string</td>
+<td>Unique URL for the Post. This URL will be used to update / delete the post</td>
+</tr>
+<tr>
 <td>title</td>
 <td>string</td>
 <td>Post Title</td>
@@ -5466,6 +5717,251 @@ puts response.read_body
 <td>Category of the post.</td>
 </tr>
 </tbody></table>
+
+<h2 id="update-a-post">Update a post</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/posts/sbbj-recruitment/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+    <span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE'</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">"content-type"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">"postman-token"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'d7fcb574-2dc2-1d08-6dab-439e09db2028'</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">body</span> <span class="o">=</span> <span class="s2">"{</span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">title</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">summary</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Test Summary</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">content_html</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;h2&gt;&lt;strong&gt;NCRA Recruitment&lt;/strong&gt;&lt;/h2&gt; &lt;p&gt;National Centre for Radio Astrophysics, Pune has emitted an advertisement related to &lt;strong&gt;NCRA Recruitment&lt;/strong&gt;. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.&lt;/p&gt;</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">batches</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\n</span><span class="s2">        </span><span class="se">\"</span><span class="s2">Online Test Batch</span><span class="se">\"\n</span><span class="s2">    ], </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">products</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\n</span><span class="s2">        </span><span class="se">\"</span><span class="s2">IAS Prelims Power Pack</span><span class="se">\"\n</span><span class="s2">    ], </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">is_public</span><span class="se">\"</span><span class="s2">: false, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">category</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Alerts</span><span class="se">\"\n</span><span class="s2">}"</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/admin/posts/sbbj-recruitment/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">title</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">summary</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Test Summary</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">content_html</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">&lt;h2&gt;&lt;strong&gt;NCRA Recruitment&lt;/strong&gt;&lt;/h2&gt; &lt;p&gt;National Centre for Radio Astrophysics, Pune has emitted an advertisement related to &lt;strong&gt;NCRA Recruitment&lt;/strong&gt;. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.&lt;/p&gt;</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">batches</span><span class="se">\"</span><span class="s">: [</span><span class="se">\n</span><span class="s">        </span><span class="se">\"</span><span class="s">Online Test Batch</span><span class="se">\"\n</span><span class="s">    ], </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">products</span><span class="se">\"</span><span class="s">: [</span><span class="se">\n</span><span class="s">        </span><span class="se">\"</span><span class="s">IAS Prelims Power Pack</span><span class="se">\"\n</span><span class="s">    ], </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">is_public</span><span class="se">\"</span><span class="s">: false, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">category</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Alerts</span><span class="se">\"\n</span><span class="s">}"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE"</span><span class="p">,</span>
+    <span class="s">'content-type'</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="s">'postman-token'</span><span class="p">:</span> <span class="s">"6e281fee-24ba-df8a-190a-ee86fc01ea11"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl -X GET -H <span class="s2">"Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE"</span> -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Cache-Control: no-cache"</span> -H <span class="s2">"Postman-Token: 885de78c-74d5-77d3-4da7-751d4020d920"</span> <span class="s2">"http://demo.testpress.in/api/v2.2/admin/posts/sbbj-recruitment/"</span>
+</code></pre>
+<pre class="highlight csharp"><code><span class="n">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestClient</span><span class="p">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/posts/sbbj-recruitment/"</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestRequest</span><span class="p">(</span><span class="n">Method</span><span class="p">.</span><span class="n">GET</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span> <span class="s">"a94cd285-075e-1b51-eac6-7af44424bf1f"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span> <span class="s">"no-cache"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddParameter</span><span class="p">(</span><span class="s">"application/json"</span><span class="p">,</span> <span class="s">"{\n    \"title\": \"NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online\", \n    \"summary\": \"Test Summary\", \n    \"content_html\": \"&lt;h2&gt;&lt;strong&gt;NCRA Recruitment&lt;/strong&gt;&lt;/h2&gt; &lt;p&gt;National Centre for Radio Astrophysics, Pune has emitted an advertisement related to &lt;strong&gt;NCRA Recruitment&lt;/strong&gt;. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.&lt;/p&gt;\", \n    \"batches\": [\n        \"Online Test Batch\"\n    ], \n    \"products\": [\n        \"IAS Prelims Power Pack\"\n    ], \n    \"is_public\": false, \n    \"category\": \"Alerts\"\n}"</span><span class="p">,</span> <span class="n">ParameterType</span><span class="p">.</span><span class="n">RequestBody</span><span class="p">);</span>
+<span class="n">IRestResponse</span> <span class="n">response</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">Execute</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/posts/sbbj-recruitment/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_by"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/users/38/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"photo"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"large_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"medium_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"x_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mini_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Alerts"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FF0000"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alerts"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"is_starred"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-10-06T08:51:02.327Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"modified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-08-12T13:23:00.959Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"is_active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test Summary"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"content_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;h2&gt;&lt;strong&gt;NCRA Recruitment&lt;/strong&gt;&lt;/h2&gt; &lt;p&gt;National Centre for Radio Astrophysics, Pune has emitted an advertisement related to &lt;strong&gt;NCRA Recruitment&lt;/strong&gt;. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.&lt;/p&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"batches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Online Test Batch"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/34/"</span><span class="w">
+              </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"products"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/products/ias-prelims-power-pack/"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IAS Prelims Power Pack"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ias-prelims-power-pack"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/c098795970e64bbab0265e82c4a40f6a.png"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"images"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="p">{</span><span class="w">
+                                      </span><span class="nt">"original"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/c098795970e64bbab0265e82c4a40f6a.png"</span><span class="p">,</span><span class="w">
+                                      </span><span class="nt">"medium"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/2c5648e2884e481aa4256554ad601d66.png"</span><span class="p">,</span><span class="w">
+                                      </span><span class="nt">"small"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/a36d18c340c84e8eaa24d17697b1cb88.png"</span><span class="w">
+                                    </span><span class="p">}</span><span class="w">
+                      </span><span class="p">],</span><span class="w">
+                </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-01-01T00:00:00+05:30"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-01T00:00:00+05:30"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"categories"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"TNPSC"</span><span class="w">
+                                  </span><span class="p">],</span><span class="w">
+                </span><span class="nt">"types"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"Exams"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"Books"</span><span class="w">
+                                  </span><span class="p">],</span><span class="w">
+                </span><span class="nt">"exams_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"notes_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"price"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="w">
+              </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"is_public"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"published_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2015-10-06T08:51:02Z"</span><span class="w">
+</span><span class="p">}</span><span class="err">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint updates details of the post with the given URL. </p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">PUT /api/v2.2/admin/posts/sbbj-recruitment/</code></p>
+
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>Unique URL for the Post</td>
+</tr>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>Post Title</td>
+</tr>
+<tr>
+<td>summary</td>
+<td>string</td>
+<td>Summary of post</td>
+</tr>
+<tr>
+<td>content_html</td>
+<td>string</td>
+<td>Content of the post</td>
+</tr>
+<tr>
+<td>batches</td>
+<td>array of strings</td>
+<td>Pass as array of batch name strings.</td>
+</tr>
+<tr>
+<td>products</td>
+<td>array of strings</td>
+<td>Pass as array of product name strings</td>
+</tr>
+<tr>
+<td>is_public</td>
+<td>Boolean</td>
+<td>Is this a public post. True or False</td>
+</tr>
+<tr>
+<td>category</td>
+<td>string</td>
+<td>Category of the post.</td>
+</tr>
+</tbody></table>
+
+<h2 id="delete-a-post">Delete a post</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/posts/expected-questions-seating-arrangements/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+    <span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Delete</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE'</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">"content-type"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+    <span class="n">request</span><span class="p">[</span><span class="s2">"postman-token"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'ab37c7db-8ff8-38dc-569a-70b64f4a4924'</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">body</span> <span class="o">=</span> <span class="s2">"{</span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">title</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">summary</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Test Summary</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">content_html</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;h2&gt;&lt;strong&gt;NCRA Recruitment&lt;/strong&gt;&lt;/h2&gt; &lt;p&gt;National Centre for Radio Astrophysics, Pune has emitted an advertisement related to &lt;strong&gt;NCRA Recruitment&lt;/strong&gt;. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.&lt;/p&gt;</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">batches</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\n</span><span class="s2">        </span><span class="se">\"</span><span class="s2">Online Test Batch</span><span class="se">\"\n</span><span class="s2">    ], </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">products</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\n</span><span class="s2">        </span><span class="se">\"</span><span class="s2">IAS Prelims Power Pack</span><span class="se">\"\n</span><span class="s2">    ], </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">is_public</span><span class="se">\"</span><span class="s2">: false, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">category</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Alerts</span><span class="se">\"\n</span><span class="s2">}"</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/admin/posts/expected-questions-seating-arrangements/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">title</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">summary</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Test Summary</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">content_html</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">&lt;h2&gt;&lt;strong&gt;NCRA Recruitment&lt;/strong&gt;&lt;/h2&gt; &lt;p&gt;National Centre for Radio Astrophysics, Pune has emitted an advertisement related to &lt;strong&gt;NCRA Recruitment&lt;/strong&gt;. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.&lt;/p&gt;</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">batches</span><span class="se">\"</span><span class="s">: [</span><span class="se">\n</span><span class="s">        </span><span class="se">\"</span><span class="s">Online Test Batch</span><span class="se">\"\n</span><span class="s">    ], </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">products</span><span class="se">\"</span><span class="s">: [</span><span class="se">\n</span><span class="s">        </span><span class="se">\"</span><span class="s">IAS Prelims Power Pack</span><span class="se">\"\n</span><span class="s">    ], </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">is_public</span><span class="se">\"</span><span class="s">: false, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">category</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Alerts</span><span class="se">\"\n</span><span class="s">}"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE"</span><span class="p">,</span>
+    <span class="s">'content-type'</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="s">'postman-token'</span><span class="p">:</span> <span class="s">"3f7d048c-5c4b-3727-cce5-c592f2809dd2"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"DELETE"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl -X DELETE -H <span class="s2">"Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE"</span> -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Cache-Control: no-cache"</span> -H <span class="s2">"Postman-Token: 2cfea85b-fc7d-c378-8151-4a1731d1fd5e"</span> -d <span class="s1">'{
+    "title": "NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online", 
+    "summary": "Test Summary", 
+    "content_html": "&lt;h2&gt;&lt;strong&gt;NCRA Recruitment&lt;/strong&gt;&lt;/h2&gt; &lt;p&gt;National Centre for Radio Astrophysics, Pune has emitted an advertisement related to &lt;strong&gt;NCRA Recruitment&lt;/strong&gt;. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.&lt;/p&gt;", 
+    "batches": [
+                "Online Test Batch"
+                    ], 
+    "products": [
+                "IAS Prelims Power Pack"
+                    ], 
+    "is_public": false, 
+    "category": "Alerts"
+}'</span> <span class="s2">"http://demo.testpress.in/api/v2.2/admin/posts/expected-questions-seating-arrangements/"</span><span class="s1">''''</span>
+
+</code></pre>
+<pre class="highlight csharp"><code><span class="n">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestClient</span><span class="p">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/posts/expected-questions-seating-arrangements/"</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestRequest</span><span class="p">(</span><span class="n">Method</span><span class="p">.</span><span class="n">DELETE</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span> <span class="s">"6b21d4e8-efa5-7b5b-c798-662e39a3f13b"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span> <span class="s">"no-cache"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzODY4NTV9.5w4InsvTPtQGgj4L1myQGc1qxw7IvNEpa3BtVfQOtxE"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddParameter</span><span class="p">(</span><span class="s">"application/json"</span><span class="p">,</span> <span class="s">"{\n    \"title\": \"NCRA Recruitment 2015 www.ncra.tifr.res.in JRF Vacancies Apply Online\", \n    \"summary\": \"Test Summary\", \n    \"content_html\": \"&lt;h2&gt;&lt;strong&gt;NCRA Recruitment&lt;/strong&gt;&lt;/h2&gt; &lt;p&gt;National Centre for Radio Astrophysics, Pune has emitted an advertisement related to &lt;strong&gt;NCRA Recruitment&lt;/strong&gt;. The organization is willing to hire self-motivated and expert candidates against vacancies of Junior Research Fellow (JRF) Post. Job Seekers who fulfill the eligibility criteria can apply against NCRA Recruitment 2015 by following online process. Job seekers who are eagerly waiting for jobs in this organization may apply against these Openings as soon as possible. Aspirants need to submit application form in proper manner on or prior to end date that is represented below.&lt;/p&gt;\", \n    \"batches\": [\n        \"Online Test Batch\"\n    ], \n    \"products\": [\n        \"IAS Prelims Power Pack\"\n    ], \n    \"is_public\": false, \n    \"category\": \"Alerts\"\n}"</span><span class="p">,</span> <span class="n">ParameterType</span><span class="p">.</span><span class="n">RequestBody</span><span class="p">);</span>
+<span class="n">IRestResponse</span> <span class="n">response</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">Execute</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns with status 204</p>
+</blockquote>
+
+<p>This endpoint delete a post with the given URL. </p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">DELETE /api/v2.2/admin/posts/expected-questions-seating-arrangements/</code></p>
 
           <h1 id="errors">Errors</h1>
 
