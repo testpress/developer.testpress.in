@@ -4451,7 +4451,7 @@ This parameter is absolutely crucial and is similar to the hash parameter used i
 <p>Response also returns json data about the Attempt. Check the right side pane for json data structure</p>
 
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Response also returns json data about the Attempt</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/125894/"</span><span class="p">,</span><span class="w">
@@ -4545,22 +4545,25 @@ This parameter is absolutely crucial and is similar to the hash parameter used i
 </tr>
 </tbody></table>
 
-<aside class="info">
-<strong> How checksum is created </strong>
-Please note that algorithm is used is different from the previously used algorithms. Please note the usage of time_counter
+<p><strong> How checksum is created </strong>
+Please note the usage of time_counter in the algorithm 
 <br>
-sha512(key|email|firstname|institute_attempt_id|attempt_id|time_counter|SALT)
+sha512(key|email|firstname|institute_attempt_id|attempt_id|time_counter|SALT)</p>
 
+<aside class="info"> Formula to calculate time counter
+<br>
 time_counter(Tc) = Tn / S ,
-
+<br>
 Tn - Number of seconds since epooch.
+<br>
 S - Time Step. Testpress use 3600s as Step time
-
+<br>
+<br>
 time_counter is used to restrict the access to the 30 mins time frame. 
 
-If SHA doesn&rsquo;t match, Testpress will check the time counter for Tc - 1 & Tc-2 to avoid any time errors. A link will be active for the maximum of 90 minutes.
-
 </aside>
+
+<p>If SHA doesn&rsquo;t match, Testpress will check the time counter for Tc - 1 &amp; Tc-2 to avoid any time errors. A link will be active for the maximum of 90 minutes.</p>
 
           <h1 id="batches">Batches</h1>
 
