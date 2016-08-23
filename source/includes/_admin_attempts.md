@@ -64,7 +64,7 @@ This parameter is absolutely crucial and is similar to the hash parameter used i
 
 Response also returns json data about the Attempt. Check the right side pane for json data structure
 
-> The above command returns JSON structured like this:
+>Response also returns json data about the Attempt
 
 ```json
 {
@@ -134,21 +134,25 @@ first_name | string | First name of the user
 checksum | string | checksum generated using the below algorithm
 failure_url | url | Url to be invoked in case of any any errors
 
-<aside class="info">
 <strong> How checksum is created </strong>
-Please note that algorithm is used is different from the previously used algorithms. Please note the usage of time_counter
+Please note the usage of time_counter in the algorithm 
 <br>
 sha512(key|email|firstname|institute_attempt_id|attempt_id|time_counter|SALT)
 
+
+<aside class="info"> Formula to calculate time counter
+<br>
 time_counter(Tc) = Tn / S ,
-
+<br>
 Tn - Number of seconds since epooch.
+<br>
 S - Time Step. Testpress use 3600s as Step time
-
+<br>
+<br>
 time_counter is used to restrict the access to the 30 mins time frame. 
 
+</aside>
 If SHA doesn't match, Testpress will check the time counter for Tc - 1 & Tc-2 to avoid any time errors. A link will be active for the maximum of 90 minutes.
 
-</aside>
 
 
