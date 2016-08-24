@@ -1,7 +1,7 @@
 # Attempts
 All operations related to user attempt can be done using the following end points.
 
-## Create an attempt by checksum
+## Create an attempt by HMAC
 * Allows a user to take an exam in a seamless manner from your own website. 
 * The flow will be similar to that of making a purchase using a payment gateway. 
 * Users would be redirected to testpress page where users can attempt an exam. 
@@ -127,7 +127,7 @@ Response also returns json data about the Attempt. Check the right side pane for
 
 ```
 
-## Review Exam attempt by checksum
+## Review Exam attempt by HMAC
 
 * Allows a user to review the exam he has attempted. 
 * User would be redirected to testpress page where users can review the exam.
