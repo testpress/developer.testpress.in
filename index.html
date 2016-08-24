@@ -4316,19 +4316,24 @@ puts response.read_body
 </tr>
 </tbody></table>
 
-          <h1 id="attempt">Attempt</h1>
+          <h1 id="attempts">Attempts</h1>
 
-<p>Allows a user to take an exam. User would be redirected to testpress page where users can attempt an exam. Once user completes the exam, Testpress would invoke the surl given in Post Parameter</p>
+<p>All operations related to user attempt can be done using the following end points.</p>
 
 <h2 id="create-an-attempt-by-checksum">Create an attempt by checksum</h2>
 
-<p>Allows a user to take an exam. User would be redirected to testpress page where users can attempt an exam. Once user completes the exam, Testpress would invoke the surl given in Post Parameter</p>
+<ul>
+<li>Allows a user to take an exam in a seamless manner from your own website. </li>
+<li>The flow will be similar to that of making a purchase using a payment gateway. </li>
+<li>Users would be redirected to testpress page where users can attempt an exam. </li>
+<li>Once user completes the exam, Testpress would redirect to the success url (<code class="prettyprint">surl</code>) given in <code class="prettyprint">POST</code> Parameter</li>
+</ul>
 
 <h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">POST &lt;exam_url&gt;</code></p>
 
-<p>exam_url can be taken from Testpress dashboard. Once an exam is created, URL can be copied from Exam&rsquo;s List Page</p>
+<p><code class="prettyprint">exam_url</code> can be taken from Testpress Admin dashboard. Once an exam is created, URL can be copied from Exam&rsquo;s List Page</p>
 
 <h3 id="fields">Fields</h3>
 
@@ -4339,11 +4344,6 @@ puts response.read_body
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>key</td>
-<td>string</td>
-<td>Public Institute key provided by Testpress to identify the Institute</td>
-</tr>
 <tr>
 <td>email</td>
 <td>string</td>
@@ -4357,36 +4357,63 @@ puts response.read_body
 <tr>
 <td>institute_attempt_id</td>
 <td>string</td>
-<td>It is the reference number generated at your End (Institute&rsquo;s End). It is an identifier used to track a particular attempt. If an attempt using a particular attempt id has already successfully completed, the usage of same attempt Id would fail</td>
+<td>Unique reference string generated at your end (Institute&rsquo;s end). This can be used to track a particular attempt.</td>
 </tr>
 <tr>
-<td>checksum</td>
+<td>key</td>
 <td>string</td>
-<td>checksum generated using the below algorithm</td>
+<td>Public institute key provided by Testpress to identify the Institute</td>
 </tr>
 <tr>
-<td>success_url</td>
-<td>url</td>
-<td>Url to be invoked by Testpress after successfull completion of the exam</td>
+<td>time</td>
+<td>string</td>
+<td>Time since epoch used during the HMAC creation</td>
 </tr>
 <tr>
-<td>failure_url</td>
+<td>hmac</td>
+<td>string</td>
+<td>HMAC generated using the below algorithm</td>
+</tr>
+<tr>
+<td>surl</td>
 <td>url</td>
-<td>Url to be invoked in case of any any errors</td>
+<td>Url to be called by Testpress after successful completion of the exam</td>
+</tr>
+<tr>
+<td>furl</td>
+<td>url</td>
+<td>Url to be called in case of any any errors</td>
 </tr>
 </tbody></table>
 
+<h3 id="how-to-create-hmac">How to create HMAC</h3>
+
+<p>HMAC (Hash-based message authentication code) is used to avoid tampering during the request flow. We use a time based HMAC algorithm to limit the lifetime of the HMAC.</p>
+
+<p>The HMAC is calculated using the following algorithm:</p>
+
+<ul>
+<li>Get the values of &lsquo;email&rsquo;, &#39;first_name&rsquo;, &#39;institute_attempt_id&rsquo;, &#39;key&rsquo;, &#39;time&rsquo;</li>
+<li>Percentage encode the values</li>
+<li><code class="prettyprint">time</code> will be time since epoch in <em>seconds</em></li>
+<li>Create a string by appending the above percentage encoded values using <code class="prettyprint">|</code> pipe character. <em>Maintain the same order while appending (uses alphabetical order of the keys)</em></li>
+<li>Calculate the HMAC using HMAC-SHA256 with the secret</li>
+<li>Secret can be received from the admin dashboard</li>
+</ul>
+
+<p>message = email|first_name|institute_attempt_id|key|time
+hmac.new(secret, message, hashlib.sha256).hexdigest()</p>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">hmac</span><span class="o">,</span> <span class="nn">time</span>
+<span class="n">epoch_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<span class="n">message</span> <span class="o">=</span> <span class="s">'|'</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">email</span><span class="p">,</span> <span class="n">exam_title</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">institute_attempt_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">epoch_time</span> <span class="p">])</span>
+<span class="k">return</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</code></pre>
+
 <aside class="info">
-<strong> How to create Checksum </strong>
-<br>
-Hash is a crucial parameter &ndash; used specifically to avoid any tampering during the request
+<strong> Usage of time </strong><br>
 
-<br>
-
-For hash calculation, you need to generate a string using certain parameters and apply the sha512 algorithm on this string. Please note that you have to use pipe (|) character in between these parameters as mentioned below. The parameter order is mentioned below:
-
- sha512(key|email|firstname|exam_title|institute_attempt_id|SALT)
- exam_title: Can be retrieved from Testpress dashboard
+The epoch time limits the validity of the HMAC. We have a *30 minute* delta to ensure the validity of the HMAC. 
+For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the next 30 minutes and can be used to start an attempt only till 11.00 AM.
 
 </aside>
 
@@ -4424,29 +4451,19 @@ For hash calculation, you need to generate a string using certain parameters and
 <tr>
 <td>attempt_id</td>
 <td>string</td>
-<td>Unique Testpress Id for the Attempt. This will be None if the user has cancelled the attempt and chose &ldquo;Take Later&rdquo;. This id will be used to review the attempt</td>
+<td>Unique Testpress Id for the Attempt. This id will be used to review the attempt</td>
 </tr>
 <tr>
 <td>institute_attempt_id</td>
 <td>string</td>
-<td>It is the reference number generated at your End (Institute&rsquo;s End). It is an identifier used to track a particular attempt. If an attempt using a particular attempt id has already successfully completed, the usage of same attempt Id would fail</td>
+<td>Unique reference string generated and passed during attempt creation</td>
 </tr>
 <tr>
-<td>checksum</td>
+<td>hmac</td>
 <td>string</td>
-<td>checksum generated using the below algorithm</td>
+<td>HMAC generated using above algorithm</td>
 </tr>
 </tbody></table>
-
-<aside class="info">
-<strong> How checksum is created </strong>
-<br>
-This parameter is absolutely crucial and is similar to the hash parameter used in the attempt create request send by the Institute to Testpress. Testpress calculates the hash using a string of other parameters and returns to the Institute. Institute must verify the hash and then only mark a transaction as success/failure. This is to make sure that the transaction hasn&rsquo;t been tampered with. The calculation is as below:
-
-<br>
-
- sha512(key|email|firstname|exam_title|institute_attempt_id|attempt_id|SALT)
-</aside>
 
 <p>Response also returns json data about the Attempt. Check the right side pane for json data structure</p>
 
@@ -4505,11 +4522,16 @@ This parameter is absolutely crucial and is similar to the hash parameter used i
 
 <h2 id="review-exam-attempt-by-checksum">Review Exam attempt by checksum</h2>
 
-<p>Allows a user to review the exam he has attempted. User would be redirected to testpress page where users can review the exam. User can check the subject wise analytics / time analytics. User can check his correct and incorrect questions. User can post comment / doubts to questions. Also see the comments posted by peer students.</p>
+<ul>
+<li>Allows a user to review the exam he has attempted. </li>
+<li>User would be redirected to testpress page where users can review the exam.</li>
+<li>User can check the subject wise analytics / time analytics, correct and incorrect questions. </li>
+<li>Comments/doubts can be posted by user to questions and can also see comments posted by peer students.</li>
+</ul>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET /attempts/&lt;id&gt;/</code></p>
+<p><code class="prettyprint">GET /attempts/&lt;id&gt;/?hmac=&lt;hmac&gt;</code></p>
 
 <table><thead>
 <tr>
@@ -4519,51 +4541,21 @@ This parameter is absolutely crucial and is similar to the hash parameter used i
 </tr>
 </thead><tbody>
 <tr>
-<td>key</td>
+<td>id</td>
 <td>string</td>
-<td>Public Institute key provided by Testpress to identify the Institute</td>
+<td>Attempt ID provided by testpress</td>
 </tr>
 <tr>
-<td>email</td>
+<td>hmac</td>
 <td>string</td>
-<td>Email Address of the user</td>
+<td>HMAC generated using the above algorithm</td>
 </tr>
 <tr>
-<td>first_name</td>
-<td>string</td>
-<td>First name of the user</td>
-</tr>
-<tr>
-<td>checksum</td>
-<td>string</td>
-<td>checksum generated using the below algorithm</td>
-</tr>
-<tr>
-<td>failure_url</td>
+<td>furl</td>
 <td>url</td>
-<td>Url to be invoked in case of any any errors</td>
+<td>Url to be called in case of any any errors</td>
 </tr>
 </tbody></table>
-
-<p><strong> How checksum is created </strong>
-Please note the usage of time_counter in the algorithm 
-<br>
-sha512(key|email|firstname|institute_attempt_id|attempt_id|time_counter|SALT)</p>
-
-<aside class="info"> Formula to calculate time counter
-<br>
-time_counter(Tc) = Tn / S ,
-<br>
-Tn - Number of seconds since epooch.
-<br>
-S - Time Step. Testpress use 3600s as Step time
-<br>
-<br>
-time_counter is used to restrict the access to the 30 mins time frame. 
-
-</aside>
-
-<p>If SHA doesn&rsquo;t match, Testpress will check the time counter for Tc - 1 &amp; Tc-2 to avoid any time errors. A link will be active for the maximum of 90 minutes.</p>
 
           <h1 id="batches">Batches</h1>
 
