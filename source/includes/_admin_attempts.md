@@ -23,8 +23,8 @@ institute_attempt_id | string | Unique reference string generated at your end (I
 key | string | Public institute key provided by Testpress to identify the Institute
 time | string | Time since epoch used during the HMAC creation
 hmac | string | HMAC generated using the below algorithm
-surl | url | Url to be called by Testpress after successful completion of the exam
-furl | url | Url to be called in case of any any errors
+surl | url | Percentage encoded URL to be called by Testpress after successful completion of the exam
+furl | url | Percentage encoded URL to be called in case of any any errors
 
 ### How to create HMAC
 
@@ -136,11 +136,12 @@ Response also returns json data about the Attempt. Check the right side pane for
 
 ### HTTP Request
 
-`GET /attempts/<id>/?hmac=<hmac>`
+`GET /attempts/<id>/?hmac=<hmac>&time=<time>&furl=<furl>`
 
 
 Name | Type | Description
 -----|------|-------------
 id | string | Attempt ID provided by testpress
 hmac | string | HMAC generated using the above algorithm
-furl | url | Url to be called in case of any any errors
+furl | url | Percentage encoded URL to be called in case of any any errors (Optional)
+time | string | Time since epoch used during the HMAC creation
