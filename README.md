@@ -19,7 +19,17 @@ You're going to need:
  3. Install all dependencies: `bundle install`
  4. Start the test server: `bundle exec middleman server`
 
-You can now see the docs at <http://localhost:4567>. Whoa! That was fast!
+You can now see the docs at <http://localhost:4567>.
+
+### Publishing Your Docs to Github Pages
+
+ 1. Commit your changes to the markdown source: `git commit -a -m "Update index.md"`
+ 2. Push the *markdown source* changes to Github: `git push`
+ 3. Compile to HTML, and push the HTML to Github pages: `rake publish`
+
+### Publishing Your Docs to Your Own Server
+
+Instead of using `rake publish`, use `rake build`. Middleman will build your website to the build directory of your project, and you can copy those static HTML files to the server of your choice.
 
 ## Contributors
 
