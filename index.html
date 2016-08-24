@@ -4377,12 +4377,12 @@ puts response.read_body
 <tr>
 <td>surl</td>
 <td>url</td>
-<td>Url to be called by Testpress after successful completion of the exam</td>
+<td>Percentage encoded URL to be called by Testpress after successful completion of the exam</td>
 </tr>
 <tr>
 <td>furl</td>
 <td>url</td>
-<td>Url to be called in case of any any errors</td>
+<td>Percentage encoded URL to be called in case of any any errors</td>
 </tr>
 </tbody></table>
 
@@ -4531,7 +4531,7 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET /attempts/&lt;id&gt;/?hmac=&lt;hmac&gt;</code></p>
+<p><code class="prettyprint">GET /attempts/&lt;id&gt;/?hmac=&lt;hmac&gt;&amp;time=&lt;time&gt;&amp;furl=&lt;furl&gt;</code></p>
 
 <table><thead>
 <tr>
@@ -4553,7 +4553,12 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 <tr>
 <td>furl</td>
 <td>url</td>
-<td>Url to be called in case of any any errors</td>
+<td>Percentage encoded URL to be called in case of any any errors (Optional)</td>
+</tr>
+<tr>
+<td>time</td>
+<td>string</td>
+<td>Time since epoch used during the HMAC creation</td>
 </tr>
 </tbody></table>
 
