@@ -77,7 +77,7 @@ rank | string | Student's rank. Rank will be set only if the ranks are enabled f
 max_rank | string | Total number of students attemptted the exam
 percentage | string | Score percentage
 status | string | completed / cancelled / pending
-hmac | string | HMAC generated using above algorithm
+hmac | string | HMAC generated using above algorithm. Same algorithm as Attempt Creation
 
 
 ## Review Exam attempt by HMAC
@@ -89,11 +89,29 @@ hmac | string | HMAC generated using above algorithm
 
 ### HTTP Request
 
+### How to create HMAC
+
+HMAC (Hash-based message authentication code) is used to avoid tampering during the request flow. We use a time based HMAC algorithm to limit the lifetime of the HMAC.
+
+The HMAC is calculated using the following algorithm:
+
+* Get the values of 'email', 'first_name', 'institute_attempt_id', 'key', 'time'
+* Percentage encode the values
+* `time` will be time since epoch in *seconds*
+* Create a string by appending the above percentage encoded values using `|` pipe character. *Maintain the same order while appending (uses alphabetical order of the keys)*
+* Calculate the HMAC using HMAC-SHA256 with the secret
+* Secret can be received from the admin dashboard
+
+message = id|institute_attempt_id|key|time
+hmac.new(secret, message, hashlib.sha256).hexdigest()
+
 `GET /attempts/?id=<id>&hmac=<hmac>&time=<time>`
 
 
 Name | Type | Description
 -----|------|-------------
 id | string | Attempt ID provided by testpress
-hmac | string | HMAC generated using the above algorithm
+institute_attempt_id | string | Institute's attempy Id
+key | string | Public institute key provided by Testpress to identify the Institute
 time | string | Time since epoch used during the HMAC creation
+hmac | string | HMAC generated using the above algorithm
