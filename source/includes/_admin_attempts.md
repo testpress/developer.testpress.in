@@ -24,7 +24,6 @@ key | string | Public institute key provided by Testpress to identify the Instit
 time | string | Time since epoch used during the HMAC creation
 hmac | string | HMAC generated using the below algorithm
 surl | url | Percentage encoded URL to be called by Testpress after successful completion of the exam
-furl | url | Percentage encoded URL to be called in case of any any errors
 
 ### How to create HMAC
 
@@ -64,68 +63,22 @@ Below are the response parameters posted by Testpress to Institute when an exam 
 
 Name | Type | Description
 -----|------|-------------
-key | string | Public Institute key provided by Testpress to identify the Institute
 email | string | Email Address of the user
 first_name | string | First name of the user
-status | string | completed / cancelled / pending
 attempt_id | string | Unique Testpress Id for the Attempt. This id will be used to review the attempt
 institute_attempt_id | string | Unique reference string generated and passed during attempt creation
+total_count | string | Total number of questions in the Exam
+correct_count | string | Total number of correct attempts by the user
+incorrect_count | string | Total number of incorrect attempts
+unanswered_count | string | Total number of unattemptted questions
+score | string | Score gained by the student
+max_score | string | Maximum grade for the test
+rank | string | Student's rank. Rank will be set only if the ranks are enabled for the exam
+max_rank | string | Total number of students attemptted the exam
+percentage | string | Score percentage
+status | string | completed / cancelled / pending
 hmac | string | HMAC generated using above algorithm
 
-Response also returns json data about the Attempt. Check the right side pane for json data structure
-
->Response also returns json data about the Attempt
-
-```json
-{
-  "url": "http://demo.testpress.in/api/v2.2/attempts/125894/",
-  "id": 125894,
-  "exam": {
-    "url": "http://demo.testpress.in/api/v2.2/exams/forum-ias-rbi-demo/",
-    "id": 3720,
-    "title": "FORUM IAS RBI DEMO",
-    "description": "",
-    "course": "TNPSC",
-    "start_date": "2.25-11-07T12:37:11+05:30",
-    "end_date": "2.25-11-15T12:37:11+05:30",
-    "duration": "3:00:00",
-    "number_of_questions": 200,
-    "negative_marks": "0.00",
-    "mark_per_question": "1.00",
-    "template_type": 2,
-    "allow_retake": true,
-    "max_retakes": null,
-    "enable_ranks": false,
-    "rank_publishing_date": null,
-    "allow_pdf": false,
-    "created": "2.25-11-07T07:07:41.597Z",
-    "slug": "forum-ias-rbi-demo",
-    "variable_mark_per_question": false,
-    "show_answers": true
-  },
-  "user": "testpress",
-  "date": "2.25-11-07T07:12:49.873Z",
-  "total_questions": 200,
-  "score": "0.00",
-  "review_url": "http://demo.testpress.in/api/v2.2/attempts/125894/review/",
-  "questions_url": "http://demo.testpress.in/api/v2.2/attempts/125894/questions/",
-  "percentile": 0,
-  "correct_count": 0,
-  "incorrect_count": 0,
-  "last_started_time": "2.25-11-07T08:02:46.845Z",
-  "remaining_time": "2.20:03",
-  "time_taken": "0:49:57",
-  "state": "Running",
-  "rank": "NA",
-  "max_rank": 0,
-  "percentage": "0",
-  "unanswered_count": 0,
-  "commented_questions_count": 0,
-  "comments_count": 0,
-  "total_bonus": 0
-}
-
-```
 
 ## Review Exam attempt by HMAC
 
@@ -136,12 +89,11 @@ Response also returns json data about the Attempt. Check the right side pane for
 
 ### HTTP Request
 
-`GET /attempts/<id>/?hmac=<hmac>&time=<time>&furl=<furl>`
+`GET /attempts/?id=<id>&hmac=<hmac>&time=<time>`
 
 
 Name | Type | Description
 -----|------|-------------
 id | string | Attempt ID provided by testpress
 hmac | string | HMAC generated using the above algorithm
-furl | url | Percentage encoded URL to be called in case of any any errors (Optional)
 time | string | Time since epoch used during the HMAC creation
