@@ -4379,11 +4379,6 @@ puts response.read_body
 <td>url</td>
 <td>Percentage encoded URL to be called by Testpress after successful completion of the exam</td>
 </tr>
-<tr>
-<td>furl</td>
-<td>url</td>
-<td>Percentage encoded URL to be called in case of any any errors</td>
-</tr>
 </tbody></table>
 
 <h3 id="how-to-create-hmac">How to create HMAC</h3>
@@ -4429,11 +4424,6 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 </tr>
 </thead><tbody>
 <tr>
-<td>key</td>
-<td>string</td>
-<td>Public Institute key provided by Testpress to identify the Institute</td>
-</tr>
-<tr>
 <td>email</td>
 <td>string</td>
 <td>Email Address of the user</td>
@@ -4442,11 +4432,6 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 <td>first_name</td>
 <td>string</td>
 <td>First name of the user</td>
-</tr>
-<tr>
-<td>status</td>
-<td>string</td>
-<td>completed / cancelled / pending</td>
 </tr>
 <tr>
 <td>attempt_id</td>
@@ -4459,66 +4444,61 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 <td>Unique reference string generated and passed during attempt creation</td>
 </tr>
 <tr>
+<td>total_count</td>
+<td>string</td>
+<td>Total number of questions in the Exam</td>
+</tr>
+<tr>
+<td>correct_count</td>
+<td>string</td>
+<td>Total number of correct attempts by the user</td>
+</tr>
+<tr>
+<td>incorrect_count</td>
+<td>string</td>
+<td>Total number of incorrect attempts</td>
+</tr>
+<tr>
+<td>unanswered_count</td>
+<td>string</td>
+<td>Total number of unattemptted questions</td>
+</tr>
+<tr>
+<td>score</td>
+<td>string</td>
+<td>Score gained by the student</td>
+</tr>
+<tr>
+<td>max_score</td>
+<td>string</td>
+<td>Maximum grade for the test</td>
+</tr>
+<tr>
+<td>rank</td>
+<td>string</td>
+<td>Student&rsquo;s rank. Rank will be set only if the ranks are enabled for the exam</td>
+</tr>
+<tr>
+<td>max_rank</td>
+<td>string</td>
+<td>Total number of students attemptted the exam</td>
+</tr>
+<tr>
+<td>percentage</td>
+<td>string</td>
+<td>Score percentage</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>completed / cancelled / pending</td>
+</tr>
+<tr>
 <td>hmac</td>
 <td>string</td>
 <td>HMAC generated using above algorithm</td>
 </tr>
 </tbody></table>
-
-<p>Response also returns json data about the Attempt. Check the right side pane for json data structure</p>
-
-<blockquote>
-<p>Response also returns json data about the Attempt</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/125894/"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">125894</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"exam"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/exams/forum-ias-rbi-demo/"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3720</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FORUM IAS RBI DEMO"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"course"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TNPSC"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-07T12:37:11+05:30"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-15T12:37:11+05:30"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3:00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-07T07:07:41.597Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"forum-ias-rbi-demo"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testpress"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-07T07:12:49.873Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"total_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"review_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/125894/review/"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"questions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/125894/questions/"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"percentile"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"correct_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"incorrect_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"last_started_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.25-11-07T08:02:46.845Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.20:03"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"time_taken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:49:57"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Running"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"rank"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NA"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"max_rank"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"percentage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"unanswered_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"commented_questions_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"total_bonus"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span></code></pre>
 
 <h2 id="review-exam-attempt-by-hmac">Review Exam attempt by HMAC</h2>
 
@@ -4531,7 +4511,7 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET /attempts/&lt;id&gt;/?hmac=&lt;hmac&gt;&amp;time=&lt;time&gt;&amp;furl=&lt;furl&gt;</code></p>
+<p><code class="prettyprint">GET /attempts/?id=&lt;id&gt;&amp;hmac=&lt;hmac&gt;&amp;time=&lt;time&gt;</code></p>
 
 <table><thead>
 <tr>
@@ -4549,11 +4529,6 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 <td>hmac</td>
 <td>string</td>
 <td>HMAC generated using the above algorithm</td>
-</tr>
-<tr>
-<td>furl</td>
-<td>url</td>
-<td>Percentage encoded URL to be called in case of any any errors (Optional)</td>
 </tr>
 <tr>
 <td>time</td>
