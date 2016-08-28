@@ -4496,7 +4496,7 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 <tr>
 <td>hmac</td>
 <td>string</td>
-<td>HMAC generated using above algorithm</td>
+<td>HMAC generated using above algorithm. Same algorithm as Attempt Creation</td>
 </tr>
 </tbody></table>
 
@@ -4510,6 +4510,24 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 </ul>
 
 <h3 id="http-request">HTTP Request</h3>
+
+<h3 id="how-to-create-hmac">How to create HMAC</h3>
+
+<p>HMAC (Hash-based message authentication code) is used to avoid tampering during the request flow. We use a time based HMAC algorithm to limit the lifetime of the HMAC.</p>
+
+<p>The HMAC is calculated using the following algorithm:</p>
+
+<ul>
+<li>Get the values of &#39;email&rsquo;, &#39;first_name&rsquo;, &#39;institute_attempt_id&rsquo;, &#39;key&rsquo;, &#39;time&rsquo;</li>
+<li>Percentage encode the values</li>
+<li><code class="prettyprint">time</code> will be time since epoch in <em>seconds</em></li>
+<li>Create a string by appending the above percentage encoded values using <code class="prettyprint">|</code> pipe character. <em>Maintain the same order while appending (uses alphabetical order of the keys)</em></li>
+<li>Calculate the HMAC using HMAC-SHA256 with the secret</li>
+<li>Secret can be received from the admin dashboard</li>
+</ul>
+
+<p>message = id|institute_attempt_id|key|time
+hmac.new(secret, message, hashlib.sha256).hexdigest()</p>
 
 <p><code class="prettyprint">GET /attempts/?id=&lt;id&gt;&amp;hmac=&lt;hmac&gt;&amp;time=&lt;time&gt;</code></p>
 
@@ -4526,14 +4544,24 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 <td>Attempt ID provided by testpress</td>
 </tr>
 <tr>
-<td>hmac</td>
+<td>institute_attempt_id</td>
 <td>string</td>
-<td>HMAC generated using the above algorithm</td>
+<td>Institute&rsquo;s attempy Id</td>
+</tr>
+<tr>
+<td>key</td>
+<td>string</td>
+<td>Public institute key provided by Testpress to identify the Institute</td>
 </tr>
 <tr>
 <td>time</td>
 <td>string</td>
 <td>Time since epoch used during the HMAC creation</td>
+</tr>
+<tr>
+<td>hmac</td>
+<td>string</td>
+<td>HMAC generated using the above algorithm</td>
 </tr>
 </tbody></table>
 
