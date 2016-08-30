@@ -494,6 +494,20 @@ zip | string | Pincode of user
 state_code | string | State of user in ISO 3166-2:IN format (https://en.wikipedia.org/wiki/ISO_3166-2:IN)
 phone | string | Phone of user
 
+## Delete User 
+
+This endpoint allows you to delete particular user. Please be aware this will delete all the data related to the user. The operation is ir reversible
+
+### HTTP Request
+
+`DELETE /api/v2.2/admin/users/<:id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | ------- | -----------
+id | Unique Id of the user to retrieve
+
 ## View User by email
 
 ```go 
