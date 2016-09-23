@@ -3363,6 +3363,28 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 </tr>
 </tbody></table>
 
+<h2 id="delete-user">Delete User</h2>
+
+<p>This endpoint allows you to delete particular user. Please be aware this will delete all the data related to the user. The operation is ir reversible</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">DELETE /api/v2.2/admin/users/&lt;:id&gt;</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Unique Id of the user to retrieve</td>
+</tr>
+</tbody></table>
+
 <h2 id="view-user-by-email">View User by email</h2>
 <pre class="highlight go"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
 
@@ -4529,7 +4551,7 @@ For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the nex
 <p>message = id|institute_attempt_id|key|time
 hmac.new(secret, message, hashlib.sha256).hexdigest()</p>
 
-<p><code class="prettyprint">GET /attempts/?id=&lt;id&gt;&amp;hmac=&lt;hmac&gt;&amp;time=&lt;time&gt;</code></p>
+<p><code class="prettyprint">GET /exam/attempts/?id=&lt;id&gt;&amp;hmac=&lt;hmac&gt;&amp;time=&lt;time&gt;</code></p>
 
 <table><thead>
 <tr>
