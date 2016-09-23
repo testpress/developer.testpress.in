@@ -105,7 +105,7 @@ The HMAC is calculated using the following algorithm:
 message = id|institute_attempt_id|key|time
 hmac.new(secret, message, hashlib.sha256).hexdigest()
 
-`GET /exam/attempts/?id=<id>&hmac=<hmac>&time=<time>`
+`GET /exams/attempts/?id=<id>&hmac=<hmac>&time=<time>`
 
 
 Name | Type | Description
