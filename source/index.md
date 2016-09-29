@@ -21,6 +21,7 @@ includes:
   - posts
   - admin_apis
   - admin_users
+  - admin_mentors
   - admin_attempts
   - admin_batches
   - admin_posts
