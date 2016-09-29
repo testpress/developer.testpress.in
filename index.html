@@ -4338,6 +4338,1470 @@ puts response.read_body
 </tr>
 </tbody></table>
 
+          <h1 id="mentors">Mentors</h1>
+
+<p>Admin Mentors API gives you access to create/view mentors and add/remove students to mentors.</p>
+
+<h2 id="create-mentor">Create mentor</h2>
+<pre class="highlight shell"><code>curl --request POST <span class="se">\</span>
+  --url http://demo.testpress.in/api/v2.2/admin/mentors/ <span class="se">\</span>
+  --header <span class="s1">'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span> <span class="se">\</span>
+  --header <span class="s1">'cache-control: no-cache'</span> <span class="se">\</span>
+  --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  --header <span class="s1">'postman-token: 9624f4b4-d495-aaaa-df27-b99f0cef13b4'</span> <span class="se">\</span>
+  --data <span class="s1">'{\n    "username": "Georgebobby", \n    "password":"password",\n    "first_name": "George", \n    "last_name": "Bobby", \n    "email": "george@hotmail.com", \n    "birth_date": "03/07/1990", \n    "gender_code": "1", \n    "address1": "21 New Street", \n    "address2": "Chrompet", \n    "city": "Chennai", \n    "zip": "641003", \n    "state_code": "IN-TN", \n    "phone": "9876543210"\n}'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"content-type"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"postman-token"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'02729f65-07a8-b865-41cd-09fd9281a489'</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">body</span> <span class="o">=</span> <span class="s2">"{</span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">username</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Georgebobby</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">password</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">password</span><span class="se">\"</span><span class="s2">,</span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">first_name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">George</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">last_name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Bobby</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">email</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">george@hotmail.com</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">birth_date</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">03/07/1990</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">gender_code</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">1</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">address1</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">21 New Street</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">address2</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Chrompet</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">city</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Chennai</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">zip</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">641003</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">state_code</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">IN-TN</span><span class="se">\"</span><span class="s2">, </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">phone</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">9876543210</span><span class="se">\"\n</span><span class="s2">}"</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">username</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Georgebobby</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">password</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">password</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">first_name</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">George</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">last_name</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Bobby</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">email</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">george@hotmail.com</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">birth_date</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">03/07/1990</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">gender_code</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">1</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">address1</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">21 New Street</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">address2</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Chrompet</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">city</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Chennai</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">zip</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">641003</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">state_code</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">IN-TN</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">phone</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">9876543210</span><span class="se">\"\n</span><span class="s">}"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">,</span>
+    <span class="s">'content-type'</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="s">'postman-token'</span><span class="p">:</span> <span class="s">"59e716f0-4dd8-c677-fbfe-89e8672a1b27"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight csharp"><code><span class="n">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestClient</span><span class="p">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestRequest</span><span class="p">(</span><span class="n">Method</span><span class="p">.</span><span class="n">POST</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span> <span class="s">"60b37cc0-352b-c122-a41f-31a27db2f08d"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span> <span class="s">"no-cache"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddParameter</span><span class="p">(</span><span class="s">"application/json"</span><span class="p">,</span> <span class="s">"{\n    \"username\": \"Georgebobby\", \n    \"password\":\"password\",\n    \"first_name\": \"George\", \n    \"last_name\": \"Bobby\", \n    \"email\": \"george@hotmail.com\", \n    \"birth_date\": \"03/07/1990\", \n    \"gender_code\": \"1\", \n    \"address1\": \"21 New Street\", \n    \"address2\": \"Chrompet\", \n    \"city\": \"Chennai\", \n    \"zip\": \"641003\", \n    \"state_code\": \"IN-TN\", \n    \"phone\": \"9876543210\"\n}"</span><span class="p">,</span> <span class="n">ParameterType</span><span class="p">.</span><span class="n">RequestBody</span><span class="p">);</span>
+<span class="n">IRestResponse</span> <span class="n">response</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">Execute</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</code></pre>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpRequest</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setUrl</span><span class="p">(</span><span class="s1">'http://demo.testpress.in/api/v2.2/admin/mentors/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setMethod</span><span class="p">(</span><span class="nx">HTTP_METH_POST</span><span class="p">);</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'postman-token'</span> <span class="o">=&gt;</span> <span class="s1">'0e6a81e9-0291-ad9a-5e25-a7ab77e950e4'</span><span class="p">,</span>
+  <span class="s1">'cache-control'</span> <span class="o">=&gt;</span> <span class="s1">'no-cache'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span><span class="p">,</span>
+  <span class="s1">'authorization'</span> <span class="o">=&gt;</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="p">));</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setBody</span><span class="p">(</span><span class="s1">'{
+    "username": "Georgebobby", 
+    "password":"password",
+    "first_name": "George", 
+    "last_name": "Bobby", 
+    "email": "george@hotmail.com", 
+    "birth_date": "03/07/1990", 
+    "gender_code": "1", 
+    "address1": "21 New Street", 
+    "address2": "Chrompet", 
+    "city": "Chennai", 
+    "zip": "641003", 
+    "state_code": "IN-TN", 
+    "phone": "9876543210"
+}'</span><span class="p">);</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+
+  <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getBody</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">HttpException</span> <span class="nv">$ex</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$ex</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">OkHttpClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OkHttpClient</span><span class="o">();</span>
+
+<span class="n">MediaType</span> <span class="n">mediaType</span> <span class="o">=</span> <span class="n">MediaType</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">"application/json"</span><span class="o">);</span>
+<span class="n">RequestBody</span> <span class="n">body</span> <span class="o">=</span> <span class="n">RequestBody</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">mediaType</span><span class="o">,</span> <span class="s">"{\n    \"username\": \"Georgebobby\", \n    \"password\":\"password\",\n    \"first_name\": \"George\", \n    \"last_name\": \"Bobby\", \n    \"email\": \"george@hotmail.com\", \n    \"birth_date\": \"03/07/1990\", \n    \"gender_code\": \"1\", \n    \"address1\": \"21 New Street\", \n    \"address2\": \"Chrompet\", \n    \"city\": \"Chennai\", \n    \"zip\": \"641003\", \n    \"state_code\": \"IN-TN\", \n    \"phone\": \"9876543210\"\n}"</span><span class="o">);</span>
+<span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">url</span><span class="o">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">body</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"authorization"</span><span class="o">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"content-type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"cache-control"</span><span class="o">,</span> <span class="s">"no-cache"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"postman-token"</span><span class="o">,</span> <span class="s">"cf247a42-9440-685e-dbd6-7ddbf2abc1ea"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newCall</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'POST'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://demo.testpress.in/api/v2.2/admin/mentors/'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> 
+   <span class="p">{</span> <span class="s1">'postman-token'</span><span class="p">:</span> <span class="s1">'0c99111c-c13f-eddf-a0bb-0e2eef469765'</span><span class="p">,</span>
+     <span class="s1">'cache-control'</span><span class="p">:</span> <span class="s1">'no-cache'</span><span class="p">,</span>
+     <span class="s1">'content-type'</span><span class="p">:</span> <span class="s1">'application/json'</span><span class="p">,</span>
+     <span class="na">authorization</span><span class="p">:</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span> <span class="p">},</span>
+  <span class="na">body</span><span class="p">:</span> 
+   <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="s1">'Georgebobby'</span><span class="p">,</span>
+     <span class="na">password</span><span class="p">:</span> <span class="s1">'password'</span><span class="p">,</span>
+     <span class="na">first_name</span><span class="p">:</span> <span class="s1">'George'</span><span class="p">,</span>
+     <span class="na">last_name</span><span class="p">:</span> <span class="s1">'Bobby'</span><span class="p">,</span>
+     <span class="na">email</span><span class="p">:</span> <span class="s1">'george@hotmail.com'</span><span class="p">,</span>
+     <span class="na">birth_date</span><span class="p">:</span> <span class="s1">'03/07/1990'</span><span class="p">,</span>
+     <span class="na">gender_code</span><span class="p">:</span> <span class="s1">'1'</span><span class="p">,</span>
+     <span class="na">address1</span><span class="p">:</span> <span class="s1">'21 New Street'</span><span class="p">,</span>
+     <span class="na">address2</span><span class="p">:</span> <span class="s1">'Chrompet'</span><span class="p">,</span>
+     <span class="na">city</span><span class="p">:</span> <span class="s1">'Chennai'</span><span class="p">,</span>
+     <span class="na">zip</span><span class="p">:</span> <span class="s1">'641003'</span><span class="p">,</span>
+     <span class="na">state_code</span><span class="p">:</span> <span class="s1">'IN-TN'</span><span class="p">,</span>
+     <span class="na">phone</span><span class="p">:</span> <span class="s1">'9876543210'</span> <span class="p">},</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span> <span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+
+</code></pre>
+<pre class="highlight go"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"strings"</span><span class="x">
+    </span><span class="s">"net/http"</span><span class="x">
+    </span><span class="s">"io/ioutil"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+
+    </span><span class="n">url</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span><span class="x">
+
+    </span><span class="n">payload</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">strings</span><span class="o">.</span><span class="n">NewReader</span><span class="p">(</span><span class="s">"{</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">username</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Georgebobby</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">password</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">password</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">first_name</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">George</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">last_name</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Bobby</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">email</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">george@hotmail.com</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">birth_date</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">03/07/1990</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">gender_code</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">1</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">address1</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">21 New Street</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">address2</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Chrompet</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">city</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">Chennai</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">zip</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">641003</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">state_code</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">IN-TN</span><span class="se">\"</span><span class="s">, </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">phone</span><span class="se">\"</span><span class="s">: </span><span class="se">\"</span><span class="s">9876543210</span><span class="se">\"\n</span><span class="s">}"</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span><span class="x"> </span><span class="n">url</span><span class="p">,</span><span class="x"> </span><span class="n">payload</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span><span class="x"> </span><span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span><span class="x"> </span><span class="s">"application/json"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span><span class="x"> </span><span class="s">"no-cache"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span><span class="x"> </span><span class="s">"bc7f391f-c86e-08ed-49f0-0f6dcf281628"</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">DefaultClient</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="x">
+
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+    </span><span class="n">body</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">body</span><span class="p">))</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Georgebobby"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"george@hotmail.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"George"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bobby"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"George Bobby"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Male"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tamil Nadu"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-28T19:06:18.177Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"students"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/mentors/45/students/"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"students_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint creates a mentor.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST /api/v2.2/admin/mentors/</code></p>
+
+<h3 id="fields">Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Username of the mentor</td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>password of the mentor</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>First name of the mentor</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>Last name of the mentor</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Email of the mentor</td>
+</tr>
+<tr>
+<td>birth_date</td>
+<td>datestring</td>
+<td>Birth date of mentor. Should be in DD/MM/YYYY format</td>
+</tr>
+<tr>
+<td>gender_code</td>
+<td>string</td>
+<td>Gender of mentor. Can be &ldquo;male&rdquo;, &ldquo;female&rdquo; or &ldquo;trans&rdquo;</td>
+</tr>
+<tr>
+<td>address1</td>
+<td>string</td>
+<td>Address of mentor</td>
+</tr>
+<tr>
+<td>address2</td>
+<td>string</td>
+<td>Address of mentor</td>
+</tr>
+<tr>
+<td>city</td>
+<td>string</td>
+<td>City of mentor</td>
+</tr>
+<tr>
+<td>zip</td>
+<td>string</td>
+<td>Pincode of mentor</td>
+</tr>
+<tr>
+<td>state_code</td>
+<td>string</td>
+<td>State of mentor in ISO 3166-2:IN format (https://en.wikipedia.org/wiki/ISO_3166-2:IN)</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>Phone of mentor</td>
+</tr>
+</tbody></table>
+
+<h2 id="view-mentors">View mentors</h2>
+<pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
+  --url http://demo.testpress.in/api/v2.2/admin/mentors/ <span class="se">\</span>
+  --header <span class="s1">'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span> <span class="se">\</span>
+  --header <span class="s1">'cache-control: no-cache'</span> <span class="se">\</span>
+  --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  --header <span class="s1">'postman-token: 7b270310-b1fe-2434-5f1d-d6a5d4c5db73'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"content-type"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"postman-token"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'67539d2b-a84b-0fc5-93b0-edd440c52eac'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s">""</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">,</span>
+    <span class="s">'content-type'</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="s">'postman-token'</span><span class="p">:</span> <span class="s">"8c7a6a33-7a97-bc62-e0bf-bc20d70d5ca1"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight csharp"><code><span class="n">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestClient</span><span class="p">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestRequest</span><span class="p">(</span><span class="n">Method</span><span class="p">.</span><span class="n">GET</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span> <span class="s">"b47a7b07-ea80-4e8d-103c-144d2dcf8224"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span> <span class="s">"no-cache"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">);</span>
+<span class="n">IRestResponse</span> <span class="n">response</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">Execute</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</code></pre>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpRequest</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setUrl</span><span class="p">(</span><span class="s1">'http://demo.testpress.in/api/v2.2/admin/mentors/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setMethod</span><span class="p">(</span><span class="nx">HTTP_METH_GET</span><span class="p">);</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'postman-token'</span> <span class="o">=&gt;</span> <span class="s1">'4158e1f7-9216-65d7-618f-8c1e1becd02e'</span><span class="p">,</span>
+  <span class="s1">'cache-control'</span> <span class="o">=&gt;</span> <span class="s1">'no-cache'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span><span class="p">,</span>
+  <span class="s1">'authorization'</span> <span class="o">=&gt;</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="p">));</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+
+  <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getBody</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">HttpException</span> <span class="nv">$ex</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$ex</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">OkHttpClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OkHttpClient</span><span class="o">();</span>
+
+<span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">url</span><span class="o">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">get</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"authorization"</span><span class="o">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"content-type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"cache-control"</span><span class="o">,</span> <span class="s">"no-cache"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"postman-token"</span><span class="o">,</span> <span class="s">"c28bed97-ec00-8378-ce56-8534eba3daa7"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newCall</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"request"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://demo.testpress.in/api/v2.2/admin/mentors/'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> 
+   <span class="p">{</span> <span class="s1">'postman-token'</span><span class="p">:</span> <span class="s1">'b236d859-b023-f064-0207-491f9ec1be11'</span><span class="p">,</span>
+     <span class="s1">'cache-control'</span><span class="p">:</span> <span class="s1">'no-cache'</span><span class="p">,</span>
+     <span class="s1">'content-type'</span><span class="p">:</span> <span class="s1">'application/json'</span><span class="p">,</span>
+     <span class="na">authorization</span><span class="p">:</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span> <span class="p">}</span> <span class="p">};</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+
+</code></pre>
+<pre class="highlight go"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"net/http"</span><span class="x">
+    </span><span class="s">"io/ioutil"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+
+    </span><span class="n">url</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/"</span><span class="x">
+
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="n">url</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span><span class="x"> </span><span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span><span class="x"> </span><span class="s">"application/json"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span><span class="x"> </span><span class="s">"no-cache"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span><span class="x"> </span><span class="s">"1b0c4aeb-92af-f89a-a3d3-21dcedc3d55b"</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">DefaultClient</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="x">
+
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+    </span><span class="n">body</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">body</span><span class="p">))</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">44</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Steevwilliam"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"steev@yahoomail.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Steev"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"William"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Steev William"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Male"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tamil Nadu"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-28T18:44:54.081Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"students"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/mentors/44/students/"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"students_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Georgebobby"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"george@hotmail.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"George"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bobby"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"George Bobby"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Male"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tamil Nadu"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-09-28T19:06:18.177Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"students"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/mentors/45/students/"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"students_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint allows you to view all the mentors.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v2.2/admin/mentors/</code></p>
+
+<h3 id="response-fields">Response Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>int</td>
+<td>The mentor unique ID</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Username of the mentor</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>First name of the mentor</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>Last name of the mentor</td>
+</tr>
+<tr>
+<td>display_name</td>
+<td>string</td>
+<td>Display name of the mentor</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>string</td>
+<td>Gender of the mentor</td>
+</tr>
+<tr>
+<td>state</td>
+<td>string</td>
+<td>State of the mentor</td>
+</tr>
+<tr>
+<td>created</td>
+<td>datetimefield</td>
+<td>Date and time when mentor created</td>
+</tr>
+<tr>
+<td>students</td>
+<td>array</td>
+<td>Student details.</td>
+</tr>
+</tbody></table>
+
+<h2 id="view-students">View students</h2>
+<pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
+  --url http://demo.testpress.in/api/v2.2/admin/mentors/1/students <span class="se">\</span>
+  --header <span class="s1">'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span> <span class="se">\</span>
+  --header <span class="s1">'cache-control: no-cache'</span> <span class="se">\</span>
+  --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  --header <span class="s1">'postman-token: 14b92c4f-a0ad-fafb-67f4-5dc5d47ae832'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"content-type"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"postman-token"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'c7e923f3-3290-928a-29d3-d9f4ae589475'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s">""</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">,</span>
+    <span class="s">'content-type'</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="s">'postman-token'</span><span class="p">:</span> <span class="s">"21520f53-8880-2ab4-90b9-c4534e11be8e"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight csharp"><code><span class="n">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestClient</span><span class="p">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students"</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestRequest</span><span class="p">(</span><span class="n">Method</span><span class="p">.</span><span class="n">GET</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span> <span class="s">"578c57d3-b414-1c0c-5ecc-27ec3809871c"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span> <span class="s">"no-cache"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">);</span>
+<span class="n">IRestResponse</span> <span class="n">response</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">Execute</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</code></pre>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpRequest</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setUrl</span><span class="p">(</span><span class="s1">'http://demo.testpress.in/api/v2.2/admin/mentors/1/students'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setMethod</span><span class="p">(</span><span class="nx">HTTP_METH_GET</span><span class="p">);</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'postman-token'</span> <span class="o">=&gt;</span> <span class="s1">'4ddf538f-c113-cf40-348e-ae627abc6137'</span><span class="p">,</span>
+  <span class="s1">'cache-control'</span> <span class="o">=&gt;</span> <span class="s1">'no-cache'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span><span class="p">,</span>
+  <span class="s1">'authorization'</span> <span class="o">=&gt;</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="p">));</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+
+  <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getBody</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">HttpException</span> <span class="nv">$ex</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$ex</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">OkHttpClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OkHttpClient</span><span class="o">();</span>
+
+<span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">url</span><span class="o">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">get</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"authorization"</span><span class="o">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"content-type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"cache-control"</span><span class="o">,</span> <span class="s">"no-cache"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"postman-token"</span><span class="o">,</span> <span class="s">"62de973a-a5ce-8753-ac75-274ac3e3976c"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newCall</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"http"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"GET"</span><span class="p">,</span>
+  <span class="s2">"hostname"</span><span class="p">:</span> <span class="s2">"demo.testpress.in"</span><span class="p">,</span>
+  <span class="s2">"port"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"path"</span><span class="p">:</span> <span class="s2">"/api/v2.2/admin/mentors/1/students"</span><span class="p">,</span>
+  <span class="s2">"headers"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"authorization"</span><span class="p">:</span> <span class="s2">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">,</span>
+    <span class="s2">"content-type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+    <span class="s2">"cache-control"</span><span class="p">:</span> <span class="s2">"no-cache"</span><span class="p">,</span>
+    <span class="s2">"postman-token"</span><span class="p">:</span> <span class="s2">"d6e1e7fc-e06a-e141-5cc2-918fe49c6a71"</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">req</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">chunks</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="nx">res</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"data"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">chunks</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">chunk</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">res</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"end"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">body</span> <span class="o">=</span> <span class="nx">Buffer</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">chunks</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="nx">req</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</code></pre>
+<pre class="highlight go"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"net/http"</span><span class="x">
+    </span><span class="s">"io/ioutil"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+
+    </span><span class="n">url</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students"</span><span class="x">
+
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span><span class="x"> </span><span class="n">url</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span><span class="x"> </span><span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span><span class="x"> </span><span class="s">"application/json"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span><span class="x"> </span><span class="s">"no-cache"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span><span class="x"> </span><span class="s">"baabfe98-3c44-47df-4675-89b353f3b3e4"</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">DefaultClient</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="x">
+
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+    </span><span class="n">body</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">body</span><span class="p">))</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/users/2/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testpress"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Appleseed"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Appleseed"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"selvasteephandfasdfasdf@gmail.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"photo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/d1b9192ef434443a963eced9b8747862.jpeg"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"large_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/2e6f0eb3bc9d467ab4254c094b47611e.jpeg"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"medium_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/7552ce50dff6479ba172f1102c56e72d.jpeg"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/05764a619f09474d93caf0d49a43a4c0.jpeg"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"x_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/5ae9976cc2224e08ab81510404dd8c93.jpeg"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mini_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/34d189e496f140b3aa772ee19df46e1b.jpeg"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"27/08/1994"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gender_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"male"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Male"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Chennai"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Chennai"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Chennai"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"600069"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9043570576"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"batches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Testing Batch 1"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/30/"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new sample batch"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/29/"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"batches_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/users/2/batches/"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">345</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/users/345/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hellouser"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hellouser"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hellouser"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testingsocialauth@gmail.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"photo"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"large_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"medium_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"x_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"mini_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gender_code"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9898989898"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"batches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Payubatch"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/40/"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new sample batch"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/29/"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EEE"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/16/"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"batches_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/users/345/batches/"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint allows you to view students of a particular mentor.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v2.2/admin/mentors/&lt;:id&gt;/students/</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Unique Id of the mentor to retrieve</td>
+</tr>
+</tbody></table>
+
+<h3 id="response-fields">Response Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>int</td>
+<td>Unique Id of the student</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Username of the student</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>First name of the student</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>Last name of the student</td>
+</tr>
+<tr>
+<td>display_name</td>
+<td>string</td>
+<td>Name of the student to be displayed</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Email of the student</td>
+</tr>
+<tr>
+<td>photo</td>
+<td>string</td>
+<td>Original image of the student as uploaded</td>
+</tr>
+<tr>
+<td>large_image</td>
+<td>string</td>
+<td>Profile image with size 256x256</td>
+</tr>
+<tr>
+<td>medium_image</td>
+<td>string</td>
+<td>Profile image with size 128x128</td>
+</tr>
+<tr>
+<td>small_image</td>
+<td>string</td>
+<td>Profile image with size 48x48</td>
+</tr>
+<tr>
+<td>xsmall_image</td>
+<td>string</td>
+<td>Profile image with size 32x32</td>
+</tr>
+<tr>
+<td>mini_image</td>
+<td>string</td>
+<td>Profile image with size 24x24</td>
+</tr>
+<tr>
+<td>birth_date</td>
+<td>datestring</td>
+<td>Birth date of student. Should be in DD/MM/YYYY format</td>
+</tr>
+<tr>
+<td>gender_code</td>
+<td>string</td>
+<td>Gender of student. Can be &ldquo;male&rdquo;, &ldquo;female&rdquo; or &ldquo;trans&rdquo;</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>string</td>
+<td>(Read only) Human readable gender of student. Can be &ldquo;Male&rdquo;, &ldquo;Female&rdquo; or &ldquo;Transgender&rdquo;</td>
+</tr>
+<tr>
+<td>address1</td>
+<td>string</td>
+<td>Address of student</td>
+</tr>
+<tr>
+<td>address2</td>
+<td>string</td>
+<td>Address of student</td>
+</tr>
+<tr>
+<td>city</td>
+<td>string</td>
+<td>City of student</td>
+</tr>
+<tr>
+<td>zip</td>
+<td>string</td>
+<td>Pincode of student</td>
+</tr>
+<tr>
+<td>state_code</td>
+<td>string</td>
+<td>State of student in ISO 3166-2:IN format (https://en.wikipedia.org/wiki/ISO_3166-2:IN)</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>Phone of student</td>
+</tr>
+<tr>
+<td>batches</td>
+<td>array</td>
+<td>Batches to which student has access</td>
+</tr>
+</tbody></table>
+
+<h2 id="add-students">Add students</h2>
+<pre class="highlight shell"><code>curl --request POST <span class="se">\</span>
+  --url http://demo.testpress.in/api/v2.2/admin/mentors/1/students/ <span class="se">\</span>
+  --header <span class="s1">'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span> <span class="se">\</span>
+  --header <span class="s1">'cache-control: no-cache'</span> <span class="se">\</span>
+  --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  --header <span class="s1">'postman-token: 30305f4a-5150-4ff7-5781-30f4ab972452'</span> <span class="se">\</span>
+  --data <span class="s1">'{ \n    "students_username": [ "john", "ragav"]\n}'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"content-type"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"postman-token"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'1cca976b-d71f-613b-42f1-d7bf703edb35'</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">body</span> <span class="o">=</span> <span class="s2">"{ </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">students_username</span><span class="se">\"</span><span class="s2">: [ </span><span class="se">\"</span><span class="s2">john</span><span class="se">\"</span><span class="s2">, </span><span class="se">\"</span><span class="s2">ragav</span><span class="se">\"</span><span class="s2">]</span><span class="se">\n</span><span class="s2">}"</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s">"{ </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">students_username</span><span class="se">\"</span><span class="s">: [ </span><span class="se">\"</span><span class="s">john</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">ragav</span><span class="se">\"</span><span class="s">]</span><span class="se">\n</span><span class="s">}"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">,</span>
+    <span class="s">'content-type'</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="s">'postman-token'</span><span class="p">:</span> <span class="s">"9c4eee2e-3472-3a2e-adc7-70bc448f4c04"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight csharp"><code><span class="n">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestClient</span><span class="p">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestRequest</span><span class="p">(</span><span class="n">Method</span><span class="p">.</span><span class="n">POST</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span> <span class="s">"6c43c51e-a280-50cd-78ba-5685f9db8730"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span> <span class="s">"no-cache"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddParameter</span><span class="p">(</span><span class="s">"application/json"</span><span class="p">,</span> <span class="s">"{ \n    \"students_username\": [ \"john\", \"ragav\"]\n}"</span><span class="p">,</span> <span class="n">ParameterType</span><span class="p">.</span><span class="n">RequestBody</span><span class="p">);</span>
+<span class="n">IRestResponse</span> <span class="n">response</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">Execute</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</code></pre>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpRequest</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setUrl</span><span class="p">(</span><span class="s1">'http://demo.testpress.in/api/v2.2/admin/mentors/1/students/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setMethod</span><span class="p">(</span><span class="nx">HTTP_METH_POST</span><span class="p">);</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'postman-token'</span> <span class="o">=&gt;</span> <span class="s1">'0ff6afca-b158-a349-172b-f9b4c3f02cec'</span><span class="p">,</span>
+  <span class="s1">'cache-control'</span> <span class="o">=&gt;</span> <span class="s1">'no-cache'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span><span class="p">,</span>
+  <span class="s1">'authorization'</span> <span class="o">=&gt;</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="p">));</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setBody</span><span class="p">(</span><span class="s1">'{ 
+    "students_username": [ "john", "ragav"]
+}'</span><span class="p">);</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+
+  <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getBody</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">HttpException</span> <span class="nv">$ex</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$ex</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">OkHttpClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OkHttpClient</span><span class="o">();</span>
+
+<span class="n">MediaType</span> <span class="n">mediaType</span> <span class="o">=</span> <span class="n">MediaType</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">"application/json"</span><span class="o">);</span>
+<span class="n">RequestBody</span> <span class="n">body</span> <span class="o">=</span> <span class="n">RequestBody</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">mediaType</span><span class="o">,</span> <span class="s">"{ \n    \"students_username\": [ \"john\", \"ragav\"]\n}"</span><span class="o">);</span>
+<span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">url</span><span class="o">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="n">body</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"authorization"</span><span class="o">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"content-type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"cache-control"</span><span class="o">,</span> <span class="s">"no-cache"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"postman-token"</span><span class="o">,</span> <span class="s">"38897bdf-4b68-bd5c-47a0-688b558d3012"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newCall</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"http"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"POST"</span><span class="p">,</span>
+  <span class="s2">"hostname"</span><span class="p">:</span> <span class="s2">"demo.testpress.in"</span><span class="p">,</span>
+  <span class="s2">"port"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"path"</span><span class="p">:</span> <span class="s2">"/api/v2.2/admin/mentors/1/students/"</span><span class="p">,</span>
+  <span class="s2">"headers"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"authorization"</span><span class="p">:</span> <span class="s2">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">,</span>
+    <span class="s2">"content-type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+    <span class="s2">"cache-control"</span><span class="p">:</span> <span class="s2">"no-cache"</span><span class="p">,</span>
+    <span class="s2">"postman-token"</span><span class="p">:</span> <span class="s2">"d8350bb5-db23-fbe7-bd3a-6e5daa8d9ed6"</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">req</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">chunks</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="nx">res</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"data"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">chunks</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">chunk</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">res</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"end"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">body</span> <span class="o">=</span> <span class="nx">Buffer</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">chunks</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="nx">req</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="na">students_username</span><span class="p">:</span> <span class="p">[</span> <span class="s1">'john'</span><span class="p">,</span> <span class="s1">'ragav'</span> <span class="p">]</span> <span class="p">}));</span>
+<span class="nx">req</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</code></pre>
+<pre class="highlight go"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"strings"</span><span class="x">
+    </span><span class="s">"net/http"</span><span class="x">
+    </span><span class="s">"io/ioutil"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+
+    </span><span class="n">url</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span><span class="x">
+
+    </span><span class="n">payload</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">strings</span><span class="o">.</span><span class="n">NewReader</span><span class="p">(</span><span class="s">"{ </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">students_username</span><span class="se">\"</span><span class="s">: [ </span><span class="se">\"</span><span class="s">john</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">ragav</span><span class="se">\"</span><span class="s">]</span><span class="se">\n</span><span class="s">}"</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span><span class="x"> </span><span class="n">url</span><span class="p">,</span><span class="x"> </span><span class="n">payload</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span><span class="x"> </span><span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span><span class="x"> </span><span class="s">"application/json"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span><span class="x"> </span><span class="s">"no-cache"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span><span class="x"> </span><span class="s">"39860c6a-72fc-ce61-ab91-aa7746a041ff"</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">DefaultClient</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="x">
+
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+    </span><span class="n">body</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">body</span><span class="p">))</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/users/2/"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"john"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Appleseed"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Appleseed"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"selvasteephandfasdfasdf@gmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"photo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/d1b9192ef434443a963eced9b8747862.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"large_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/2e6f0eb3bc9d467ab4254c094b47611e.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"medium_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/7552ce50dff6479ba172f1102c56e72d.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/05764a619f09474d93caf0d49a43a4c0.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"x_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/5ae9976cc2224e08ab81510404dd8c93.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"mini_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/34d189e496f140b3aa772ee19df46e1b.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"27/08/1994"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"male"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Male"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Chennai"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Chennai"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Chennai"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"600069"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"state_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9043570576"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"batches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Testing Batch 1"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/30/"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new sample batch"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/29/"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"batches_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/users/2/batches/"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">345</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/users/345/"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ragav"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ragav"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ragav"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ragav@gmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"photo"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"large_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"medium_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"x_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"mini_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"birth_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender_code"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"address1"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"address2"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"city"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"state_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9898989898"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"batches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Payubatch"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/40/"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new sample batch"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/29/"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EEE"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/batches/16/"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"batches_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/users/345/batches/"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint allows you to add a students to a mentor.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST /api/v2.2/admin/mentors/&lt;:id&gt;/students</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Unique Id of the mentor to retrieve</td>
+</tr>
+</tbody></table>
+
+<h3 id="post-data">POST data</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>students_username</td>
+<td>Array of students username</td>
+</tr>
+</tbody></table>
+
+<h3 id="response-fields">Response Fields</h3>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>int</td>
+<td>Unique Id of the student</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Username of the student</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>First name of the student</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>Last name of the student</td>
+</tr>
+<tr>
+<td>display_name</td>
+<td>string</td>
+<td>Name of the student to be displayed</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Email of the student</td>
+</tr>
+<tr>
+<td>photo</td>
+<td>string</td>
+<td>Original image of the student as uploaded</td>
+</tr>
+<tr>
+<td>large_image</td>
+<td>string</td>
+<td>Profile image with size 256x256</td>
+</tr>
+<tr>
+<td>medium_image</td>
+<td>string</td>
+<td>Profile image with size 128x128</td>
+</tr>
+<tr>
+<td>small_image</td>
+<td>string</td>
+<td>Profile image with size 48x48</td>
+</tr>
+<tr>
+<td>xsmall_image</td>
+<td>string</td>
+<td>Profile image with size 32x32</td>
+</tr>
+<tr>
+<td>mini_image</td>
+<td>string</td>
+<td>Profile image with size 24x24</td>
+</tr>
+<tr>
+<td>birth_date</td>
+<td>datestring</td>
+<td>Birth date of student. Should be in DD/MM/YYYY format</td>
+</tr>
+<tr>
+<td>gender_code</td>
+<td>string</td>
+<td>Gender of student. Can be &ldquo;male&rdquo;, &ldquo;female&rdquo; or &ldquo;trans&rdquo;</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>string</td>
+<td>(Read only) Human readable gender of student. Can be &ldquo;Male&rdquo;, &ldquo;Female&rdquo; or &ldquo;Transgender&rdquo;</td>
+</tr>
+<tr>
+<td>address1</td>
+<td>string</td>
+<td>Address of student</td>
+</tr>
+<tr>
+<td>address2</td>
+<td>string</td>
+<td>Address of student</td>
+</tr>
+<tr>
+<td>city</td>
+<td>string</td>
+<td>City of student</td>
+</tr>
+<tr>
+<td>zip</td>
+<td>string</td>
+<td>Pincode of student</td>
+</tr>
+<tr>
+<td>state_code</td>
+<td>string</td>
+<td>State of student in ISO 3166-2:IN format (https://en.wikipedia.org/wiki/ISO_3166-2:IN)</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>Phone of student</td>
+</tr>
+<tr>
+<td>batches</td>
+<td>array</td>
+<td>Batches to which student has access</td>
+</tr>
+</tbody></table>
+
+<h2 id="remove-students">Remove students</h2>
+<pre class="highlight shell"><code>curl --request DELETE <span class="se">\</span>
+  --url http://demo.testpress.in/api/v2.2/admin/mentors/1/students/ <span class="se">\</span>
+  --header <span class="s1">'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span> <span class="se">\</span>
+  --header <span class="s1">'cache-control: no-cache'</span> <span class="se">\</span>
+  --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  --header <span class="s1">'postman-token: 7cd40e60-ac91-ddc3-e493-b103a6b0c2e7'</span> <span class="se">\</span>
+  --data <span class="s1">'{ \n    "students_username": [ "john", "ragav"]\n}'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Delete</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"content-type"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/json'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"postman-token"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'0228eca4-a3af-ed7f-4637-65d4392548c9'</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">body</span> <span class="o">=</span> <span class="s2">"{ </span><span class="se">\n</span><span class="s2">    </span><span class="se">\"</span><span class="s2">students_username</span><span class="se">\"</span><span class="s2">: [ </span><span class="se">\"</span><span class="s2">john</span><span class="se">\"</span><span class="s2">, </span><span class="se">\"</span><span class="s2">ragav</span><span class="se">\"</span><span class="s2">]</span><span class="se">\n</span><span class="s2">}"</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s">"{ </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">students_username</span><span class="se">\"</span><span class="s">: [ </span><span class="se">\"</span><span class="s">john</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">ragav</span><span class="se">\"</span><span class="s">]</span><span class="se">\n</span><span class="s">}"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">,</span>
+    <span class="s">'content-type'</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span><span class="p">,</span>
+    <span class="s">'postman-token'</span><span class="p">:</span> <span class="s">"a6cc65e9-35bd-d2ab-74c7-82a83bbc50e0"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"DELETE"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight csharp"><code><span class="n">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestClient</span><span class="p">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestRequest</span><span class="p">(</span><span class="n">Method</span><span class="p">.</span><span class="n">DELETE</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span> <span class="s">"ceeb1432-1778-4e7c-92f2-7ca1dde9b6a2"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span> <span class="s">"no-cache"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">);</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">AddParameter</span><span class="p">(</span><span class="s">"application/json"</span><span class="p">,</span> <span class="s">"{ \n    \"students_username\": [ \"john\", \"ragav\"]\n}"</span><span class="p">,</span> <span class="n">ParameterType</span><span class="p">.</span><span class="n">RequestBody</span><span class="p">);</span>
+<span class="n">IRestResponse</span> <span class="n">response</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">Execute</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</code></pre>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpRequest</span><span class="p">();</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setUrl</span><span class="p">(</span><span class="s1">'http://demo.testpress.in/api/v2.2/admin/mentors/1/students/'</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setMethod</span><span class="p">(</span><span class="nx">HTTP_METH_DELETE</span><span class="p">);</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+  <span class="s1">'postman-token'</span> <span class="o">=&gt;</span> <span class="s1">'fcd88f65-8d4a-5a0b-20ee-36ffa49a753f'</span><span class="p">,</span>
+  <span class="s1">'cache-control'</span> <span class="o">=&gt;</span> <span class="s1">'no-cache'</span><span class="p">,</span>
+  <span class="s1">'content-type'</span> <span class="o">=&gt;</span> <span class="s1">'application/json'</span><span class="p">,</span>
+  <span class="s1">'authorization'</span> <span class="o">=&gt;</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k'</span>
+<span class="p">));</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">setBody</span><span class="p">(</span><span class="s1">'{ 
+    "students_username": [ "john", "ragav"]
+}'</span><span class="p">);</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+
+  <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getBody</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">HttpException</span> <span class="nv">$ex</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$ex</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<pre class="highlight java"><code><span class="n">OkHttpClient</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OkHttpClient</span><span class="o">();</span>
+
+<span class="n">MediaType</span> <span class="n">mediaType</span> <span class="o">=</span> <span class="n">MediaType</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">"application/json"</span><span class="o">);</span>
+<span class="n">RequestBody</span> <span class="n">body</span> <span class="o">=</span> <span class="n">RequestBody</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">mediaType</span><span class="o">,</span> <span class="s">"{ \n    \"students_username\": [ \"john\", \"ragav\"]\n}"</span><span class="o">);</span>
+<span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">url</span><span class="o">(</span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">body</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"authorization"</span><span class="o">,</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"content-type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"cache-control"</span><span class="o">,</span> <span class="s">"no-cache"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">"postman-token"</span><span class="o">,</span> <span class="s">"5c4514c1-b20f-867d-4daa-bf10708dc01e"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newCall</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"http"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"method"</span><span class="p">:</span> <span class="s2">"DELETE"</span><span class="p">,</span>
+  <span class="s2">"hostname"</span><span class="p">:</span> <span class="s2">"demo.testpress.in"</span><span class="p">,</span>
+  <span class="s2">"port"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"path"</span><span class="p">:</span> <span class="s2">"/api/v2.2/admin/mentors/1/students/"</span><span class="p">,</span>
+  <span class="s2">"headers"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"authorization"</span><span class="p">:</span> <span class="s2">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">,</span>
+    <span class="s2">"content-type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+    <span class="s2">"cache-control"</span><span class="p">:</span> <span class="s2">"no-cache"</span><span class="p">,</span>
+    <span class="s2">"postman-token"</span><span class="p">:</span> <span class="s2">"55152e63-d460-2456-ed63-bf5c716365a8"</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">req</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">chunks</span> <span class="o">=</span> <span class="p">[];</span>
+
+  <span class="nx">res</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"data"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">chunks</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">chunk</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">res</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"end"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">body</span> <span class="o">=</span> <span class="nx">Buffer</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">chunks</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="nx">req</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="na">students_username</span><span class="p">:</span> <span class="p">[</span> <span class="s1">'john'</span><span class="p">,</span> <span class="s1">'ragav'</span> <span class="p">]</span> <span class="p">}));</span>
+<span class="nx">req</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</code></pre>
+<pre class="highlight go"><code><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"strings"</span><span class="x">
+    </span><span class="s">"net/http"</span><span class="x">
+    </span><span class="s">"io/ioutil"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+
+    </span><span class="n">url</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"http://demo.testpress.in/api/v2.2/admin/mentors/1/students/"</span><span class="x">
+
+    </span><span class="n">payload</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">strings</span><span class="o">.</span><span class="n">NewReader</span><span class="p">(</span><span class="s">"{ </span><span class="se">\n</span><span class="s">    </span><span class="se">\"</span><span class="s">students_username</span><span class="se">\"</span><span class="s">: [ </span><span class="se">\"</span><span class="s">john</span><span class="se">\"</span><span class="s">, </span><span class="se">\"</span><span class="s">ragav</span><span class="se">\"</span><span class="s">]</span><span class="se">\n</span><span class="s">}"</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"DELETE"</span><span class="p">,</span><span class="x"> </span><span class="n">url</span><span class="p">,</span><span class="x"> </span><span class="n">payload</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"authorization"</span><span class="p">,</span><span class="x"> </span><span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6InN0ZWVwaGFuc2VsdmFyYWpAdGVzdHByZXNzLmluIiwiZXhwIjoxNDc1MDYyMTkwfQ.iwVg_UM4HBB6qs21fe2b6FlNz_JjRfqcs2VTML4Te3k"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"content-type"</span><span class="p">,</span><span class="x"> </span><span class="s">"application/json"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"cache-control"</span><span class="p">,</span><span class="x"> </span><span class="s">"no-cache"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"postman-token"</span><span class="p">,</span><span class="x"> </span><span class="s">"056ddd52-a1bb-2934-09df-82c5f03a1c96"</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">DefaultClient</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="x">
+
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+    </span><span class="n">body</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">body</span><span class="p">))</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
+
+<blockquote>
+<p>The above command on success will return 204 NO CONTENT</p>
+</blockquote>
+
+<p>This endpoint allows you to remove students from mentor.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">DELETE /api/v2.2/admin/mentors/&lt;:id&gt;/students</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Unique Id of the mentor to retrieve</td>
+</tr>
+</tbody></table>
+
+<h3 id="post-data">POST data</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>students_username</td>
+<td>Array of students username</td>
+</tr>
+</tbody></table>
+
           <h1 id="attempts">Attempts</h1>
 
 <p>All operations related to user attempt can be done using the following end points.</p>
