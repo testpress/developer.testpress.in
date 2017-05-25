@@ -19,6 +19,7 @@ includes:
   - attempts
   - products
   - posts
+  - basic_example
   - admin_apis
   - admin_users
   - admin_mentors
@@ -35,4 +36,3 @@ search: true
 Welcome to Testpress API. You can use our API to access Testpress API endpoints, which can get information on various resources in our database.
 
 You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
