@@ -17,7 +17,7 @@ You're going to need:
  1. Clone this repository to your hard drive with `git clone https://github.com/YOURUSERNAME/slate.git`
  2. `cd developer.testpress.in`
  3. Install all dependencies: `bundle install`
- 4. Start the test server: `bundle exec middleman server`
+ 4. Start the test server: `bundle exec middleman server`, For OS X `EXECJS_RUNTIME=Node bundle exec middleman server`
 
 You can now see the docs at <http://localhost:4567>.
 
