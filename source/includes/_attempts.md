@@ -301,7 +301,7 @@ curl --request GET \
 }
 ```
 
-This endpoint retrieves attempts of a particular exam for the authenticated user.
+This endpoint retrieves the attempts of a user for a particular exam.
 
 ### HTTP Request
 
@@ -311,7 +311,7 @@ This endpoint retrieves attempts of a particular exam for the authenticated user
 
 Parameter | Description
 --------- | -----------
-slug | The unique slug of the exam which attempts need to retrieve
+slug | The unique slug of the exam for which the attempts should be retrieved
 
 ## Get a single attempt
 
@@ -544,7 +544,7 @@ curl --request POST \
 }
 ```
 
-This endpoint create new attempt of a exam.
+This endpoint will create a new attempt for the exam.
 
 ### HTTP Request
 
@@ -554,7 +554,7 @@ This endpoint create new attempt of a exam.
 
 Parameter | Description
 --------- | -----------
-exam_slug | The unique slug of the exam to which the attempt need to create
+exam_slug | The unique slug of the exam for which the attempt should be created
 
 ## Resume an attempt
 
@@ -788,7 +788,8 @@ curl --request PUT \
 
 ```
 
-For every 1 minute this API have to be called when the user attempting an exam to update the remaining time in server.
+For every minute, this API should be called during the attempt window.
+This is done to update the remaining time for that attempt in the server.
 
 ### HTTP Request
 
@@ -798,7 +799,7 @@ For every 1 minute this API have to be called when the user attempting an exam t
 
 Parameter | Description
 --------- | -----------
-id | The unique id of the attempt to be update
+id | The unique id of the attempt to update
 
 ## End an attempt
 
@@ -905,7 +906,7 @@ This endpoint ends an attempt. The <code>state</code> of the attempt will return
 
 Parameter | Description
 --------- | -----------
-id | The unique id of the attempt to be end
+id | The unique id of the attempt to end
 
 ## Get attempt questions
 
@@ -1313,7 +1314,7 @@ This endpoint returns all questions for an attempt with correct answer & explana
 
 Parameter | Description
 --------- | -----------
-id | The unique id of the attempt which questions need to retrieve
+id | The unique id of the attempt for which the questions should be retrieved
 
 ## Attempt subject wise analytics
 
@@ -1403,4 +1404,4 @@ This endpoint returns subject wise analytics of the attempt.
 
 Parameter | Description
 --------- | -----------
-id | The unique id of the attempt which analytics need to retrieve
+id | The unique id of the attempt for which analytics should be retrieved
