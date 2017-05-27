@@ -1462,6 +1462,154 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 </tr>
 </tbody></table>
 
+<h2 id="get-all-attempts-of-an-exam">Get all attempts of an exam</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/exams/mathjax-sample-exam/attempts/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/exams/mathjax-sample-exam/attempts/"</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
+  --url http://demo.testpress.in/api/v2.2/exams/mathjax-sample-exam/attempts/ <span class="se">\</span>
+  --header <span class="s1">'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span> <span class="se">\</span>
+  --header <span class="s1">'cache-control: no-cache'</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"per_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/369/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">369</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/users/5/"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demouser"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DemoUser is my name eeeeee123456789012345678901234"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DemoUser is my name eeeeee123456789012345678901234"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"photo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://media.testpress.in/i/bc194c3b0f3241ad9473edf949de3cec.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"large_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/459b2af2355549dc8d7f411553128903.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"medium_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/05c3efc7e4e3454ebad1c32c0c69297c.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"medium_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/ca7ae15e26cc4586ae5f98750c2acc62.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/33936fd431e14a9ab54d7e24e70bf301.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"x_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/673ceb6e18b343318fba39279ef07594.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"mini_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/3214f5359ad247d1b2e38609376af72b.jpeg"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-04-25T14:34:26.848Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"total_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"review_pdf_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"review_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/369/review/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"questions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/369/questions/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"percentile"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"correct_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"incorrect_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"last_started_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-05-11T12:26:08.889Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1:09:31"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"time_taken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1:50:29"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Running"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"max_rank"</span><span class="p">:</span><span class="w"> </span><span class="mi">165</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"percentage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unanswered_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"sections"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="nt">"speed"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"accuracy"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/12/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/users/5/"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demouser"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DemoUser is my name eeeeee123456789012345678901234"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DemoUser is my name eeeeee123456789012345678901234"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"photo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://media.testpress.in/i/bc194c3b0f3241ad9473edf949de3cec.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"large_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/459b2af2355549dc8d7f411553128903.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"medium_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/05c3efc7e4e3454ebad1c32c0c69297c.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"medium_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/ca7ae15e26cc4586ae5f98750c2acc62.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/33936fd431e14a9ab54d7e24e70bf301.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"x_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/673ceb6e18b343318fba39279ef07594.jpeg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"mini_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/3214f5359ad247d1b2e38609376af72b.jpeg"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-01-24T06:33:09.230Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"total_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.00"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"review_pdf_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"review_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/12/review/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"questions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/12/questions/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"percentile"</span><span class="p">:</span><span class="w"> </span><span class="mf">83.64</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"correct_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"incorrect_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"last_started_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-01-24T06:33:51.754Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2:59:17"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"time_taken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:00:43"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Completed"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"max_rank"</span><span class="p">:</span><span class="w"> </span><span class="mi">165</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"percentage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unanswered_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"rank_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"sections"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="nt">"speed"</span><span class="p">:</span><span class="w"> </span><span class="mi">847</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"accuracy"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint retrieves the attempts of a user for a particular exam.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v2.2/exams/&lt;slug&gt;/attempts/</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>slug</td>
+<td>The unique slug of the exam for which the attempts should be retrieved</td>
+</tr>
+</tbody></table>
+
 <h2 id="get-a-single-attempt">Get a single attempt</h2>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
 <span class="nb">require</span> <span class="s1">'net/http'</span>
@@ -1571,7 +1719,145 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 </tr>
 </tbody></table>
 
-<h2 id="start-an-attempt">Start an attempt</h2>
+<h2 id="create-an-attempt">Create an attempt</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/exams/dummy-test-7-8/attempts/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/exams/dummy-test-7-8/attempts/"</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl --request POST <span class="se">\</span>
+  --url http://demo.testpress.in/api/v2.2/exams/dummy-test-7-8/attempts/ <span class="se">\</span>
+  --header <span class="s1">'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span> <span class="se">\</span>
+  --header <span class="s1">'cache-control: no-cache'</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/400/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"exam_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/exams/dummy-test-7-8/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/users/5/"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demouser"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DemoUser is my name eeeeee123456789012345678901234"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DemoUser is my name eeeeee123456789012345678901234"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"photo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://media.testpress.in/i/bc194c3b0f3241ad9473edf949de3cec.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"large_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/459b2af2355549dc8d7f411553128903.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"medium_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/05c3efc7e4e3454ebad1c32c0c69297c.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"medium_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/ca7ae15e26cc4586ae5f98750c2acc62.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/33936fd431e14a9ab54d7e24e70bf301.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"x_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/673ceb6e18b343318fba39279ef07594.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"mini_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/3214f5359ad247d1b2e38609376af72b.jpeg"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-05-24T07:32:09.891Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"total_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"review_pdf_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"review_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/400/review/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"questions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/400/questions/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"percentile"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"correct_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"incorrect_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_started_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-05-24T07:32:09.921Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1:59:59"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"time_taken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:00:01"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Running"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"rank"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NA"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"max_rank"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NA"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"percentage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"unanswered_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"commented_questions_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"total_bonus"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"rank_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"exam"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/exams/dummy-test-7-8/"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dummy Test 7"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-30T18:58:53+07:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_question_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-30T13:29:05.007Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dummy-test-7-8"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_preemptive_section_ending"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"order"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2:00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cut_off"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"immediate_feedback"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"categories"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"sections"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="nt">"speed"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"accuracy"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"institute_attempt_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint will create a new attempt for the exam.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST /api/v2.2/exams/&lt;exam_slug&gt;/attempts/</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>exam_slug</td>
+<td>The unique slug of the exam for which the attempt should be created</td>
+</tr>
+</tbody></table>
+
+<h2 id="resume-an-attempt">Resume an attempt</h2>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
 <span class="nb">require</span> <span class="s1">'net/http'</span>
 
@@ -1680,6 +1966,146 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 </tr>
 </tbody></table>
 
+<h2 id="send-heart-beat">Send heart beat</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/400/heartbeat/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Put</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/attempts/400/heartbeat/"</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"PUT"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl --request PUT <span class="se">\</span>
+  --url http://demo.testpress.in/api/v2.2/attempts/400/heartbeat/ <span class="se">\</span>
+  --header <span class="s1">'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span> <span class="se">\</span>
+  --header <span class="s1">'cache-control: no-cache'</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/400/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"exam_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/exams/dummy-test-7-8/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/users/5/"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demouser"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DemoUser is my name eeeeee123456789012345678901234"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DemoUser is my name eeeeee123456789012345678901234"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"photo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://media.testpress.in/i/bc194c3b0f3241ad9473edf949de3cec.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"large_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/459b2af2355549dc8d7f411553128903.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"medium_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/05c3efc7e4e3454ebad1c32c0c69297c.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"medium_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/ca7ae15e26cc4586ae5f98750c2acc62.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/33936fd431e14a9ab54d7e24e70bf301.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"x_small_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/673ceb6e18b343318fba39279ef07594.jpeg"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"mini_image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/3214f5359ad247d1b2e38609376af72b.jpeg"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-05-24T07:32:09.891Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"total_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"review_pdf_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"review_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/400/review/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"questions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/400/questions/"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"percentile"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"correct_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"incorrect_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_started_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-05-24T07:37:10.655Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1:54:59"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"time_taken"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:05:01"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Running"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"rank"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NA"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"max_rank"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NA"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"percentage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"unanswered_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"commented_questions_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"total_bonus"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"rank_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"exam"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/exams/dummy-test-7-8/"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dummy Test 7"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-30T18:58:53+07:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number_of_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"template_type"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_retake"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"max_retakes"</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"enable_ranks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"rank_publishing_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_question_pdf"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-30T13:29:05.007Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dummy-test-7-8"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"variable_mark_per_question"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"show_answers"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_preemptive_section_ending"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"order"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2:00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cut_off"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"immediate_feedback"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"categories"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"sections"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="nt">"speed"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"accuracy"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"institute_attempt_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+
+<p>For every minute, this API should be called during the attempt window.
+This is done to update the remaining time for that attempt in the server.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">PUT /api/v2.2/attempts/&lt;id&gt;/heartbeat/</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>The unique id of the attempt to update</td>
+</tr>
+</tbody></table>
+
 <h2 id="end-an-attempt">End an attempt</h2>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
 <span class="nb">require</span> <span class="s1">'net/http'</span>
@@ -1785,7 +2211,7 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>The unique id of the attempt to retrieve</td>
+<td>The unique id of the attempt to end</td>
 </tr>
 </tbody></table>
 
@@ -1927,7 +2353,7 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 </tr>
 </tbody></table>
 
-<h2 id="modify-attempt-questions">Modify attempt questions</h2>
+<h2 id="update-attempt-questions">Update attempt questions</h2>
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
 <span class="nb">require</span> <span class="s1">'net/http'</span>
 
@@ -2074,91 +2500,123 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/122046/questions/?page=2"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nt">"per_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
   </span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12705318</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/122046/questions/12705318/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">52</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/12/review/52/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"order"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
       </span><span class="nt">"question"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"question_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Which of the following is/are the principal feature (s) of the Government of India Act, 1919? &lt;br&gt;\n1. Introduction of dyarchy in the executive government of the provinces&lt;br&gt;\n2. Introduction of separate communal electorates for Muslims&lt;br&gt;\n3. Devolution of legislative authority by the centre to the provinces&lt;/p&gt;&lt;p&gt;Select the correct answer using the codes given below:&lt;/p&gt;&lt;p&gt;&lt;img src=\"https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/i/ebd87eb5c09b445d879610586fca072e.png\"&gt;&lt;/p&gt;"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/questions/2/"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"question_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Pick similar things&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"direction"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
         </span><span class="nt">"answers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
           </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;1 only&lt;/p&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">129</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;ComputerComputer&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_correct"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
           </span><span class="p">},</span><span class="w">
           </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;2 and 3 only&lt;/p&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">130</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Mouse Mouse Mouse&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_correct"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
           </span><span class="p">},</span><span class="w">
           </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;1 and 3 only&lt;/p&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">131</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Table&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_correct"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
           </span><span class="p">},</span><span class="w">
           </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;1, 2 and 3&lt;/p&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">132</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;CPU&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_correct"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
           </span><span class="p">}</span><span class="w">
         </span><span class="p">],</span><span class="w">
         </span><span class="nt">"essay_topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-        </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"khecha subject"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"C"</span><span class="w">
+        </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"General Knowledge"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"explanation_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"C"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"comments_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/questions/2/comments/"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NA"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"best_duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.61</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"average_duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">17.31</span><span class="p">,</span><span class="w">
       </span><span class="nt">"selected_answers"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
       </span><span class="nt">"essay_text"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
       </span><span class="nt">"essay_topic"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"review"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+      </span><span class="nt">"review"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"correct_percentage"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12705296</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/122046/questions/12705296/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">53</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/12/review/53/"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"order"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
       </span><span class="nt">"question"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"question_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;With reference to National Rural Health Mission, which of the following are the jobs of ASHA, a trained community health worker?&lt;/p&gt;\n&lt;p&gt;1.Accompanying women to the health facility for antenatal care checkup&lt;/p&gt;\n&lt;p&gt;2.Using pregnancy test kits for early detection of pregnancy &lt;/p&gt;\n&lt;p&gt;3.Providing information on nutrition and immunization&lt;/p&gt;\n&lt;p&gt;4.Conducting the delivery of baby&lt;/p&gt;\n&lt;p&gt;Select the correct answer using the codes given below:&lt;/p&gt;"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/questions/3/"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"question_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Odd one out&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"direction"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
         </span><span class="nt">"answers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
           </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;1, 2 and 3 Only&lt;/p&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">413</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Table Table Table&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_correct"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
           </span><span class="p">},</span><span class="w">
           </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;2 and 4 Only&lt;/p&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">414</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;TreeTreeTree&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_correct"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
           </span><span class="p">},</span><span class="w">
           </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;1 and 3 Only&lt;/p&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">415</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Book&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_correct"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
           </span><span class="p">},</span><span class="w">
           </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;1, 2, 3 and 4&lt;/p&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">416</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"text_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Water Bottle&lt;/p&gt;\n"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"is_correct"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
           </span><span class="p">}</span><span class="w">
         </span><span class="p">],</span><span class="w">
         </span><span class="nt">"essay_topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-        </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sin Questions"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"R"</span><span class="w">
+        </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"General Knowledge"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"explanation_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"R"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"comments_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://demo.testpress.in/api/v2.2/questions/3/comments/"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"negative_marks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.00"</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"selected_answers"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"best_duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.67</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"average_duration"</span><span class="p">:</span><span class="w"> </span><span class="mf">11.3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"selected_answers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="mi">8</span><span class="w">
+      </span><span class="p">],</span><span class="w">
       </span><span class="nt">"essay_text"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
       </span><span class="nt">"essay_topic"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"review"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+      </span><span class="nt">"review"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"comments_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"correct_percentage"</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
 
-<p>This endpoint returns all questions for an attempt.</p>
+<p>This endpoint returns all questions for an attempt with correct answer &amp; explanation.</p>
 
-<aside class="danger">This will fail if the attempt is in <code>Completed</code> state.</aside>
+<aside class="danger">This API will work only if the attempt is in <code>Completed</code> state.</aside>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET /api/v2.2/attempts/&lt;id&gt;/questions/</code></p>
+<p><code class="prettyprint">GET /api/v2.2/attempts/&lt;id&gt;/review/</code></p>
 
 <h3 id="url-parameters">URL Parameters</h3>
 
@@ -2170,7 +2628,99 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>The unique id of the attempt to retrieve</td>
+<td>The unique id of the attempt for which the questions should be retrieved</td>
+</tr>
+</tbody></table>
+
+<h2 id="attempt-subject-wise-analytics">Attempt subject wise analytics</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'uri'</span>
+<span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s2">"http://demo.testpress.in/api/v2.2/attempts/377/review/subjects/"</span><span class="p">)</span>
+
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Get</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span>
+<span class="n">request</span><span class="p">[</span><span class="s2">"cache-control"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'no-cache'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">read_body</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://demo.testpress.in/api/v2.2/attempts/377/review/subjects/"</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'authorization'</span><span class="p">:</span> <span class="s">"JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw"</span><span class="p">,</span>
+    <span class="s">'cache-control'</span><span class="p">:</span> <span class="s">"no-cache"</span>
+    <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">"GET"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl --request GET <span class="se">\</span>
+  --url http://demo.testpress.in/api/v2.2/attempts/377/review/subjects/ <span class="se">\</span>
+  --header <span class="s1">'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RwcmVzcyIsInVzZXJfaWQiOjE3LCJlbWFpbCI6InRlc3RwcmVzcy5pbkBnbWFpbC5jb20iLCJleHAiOjE0NDc4MzMyMjl9.Ik_yi4lHbNbrRGhqmRpsW82Nls_O9lgXakk_syV-vSw'</span> <span class="se">\</span>
+  --header <span class="s1">'cache-control: no-cache'</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"per_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PSM"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"correct"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unanswered"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"incorrect"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"parent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"leaf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-2.00"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Microbiology"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"correct"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unanswered"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"incorrect"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"parent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"leaf"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4.00"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+
+<p>This endpoint returns subject wise analytics of the attempt.</p>
+
+<aside class="danger">This API will work only if the attempt is in <code>Completed</code> state.</aside>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /api/v2.2/attempts/&lt;id&gt;/review/subjects/</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>The unique id of the attempt for which analytics should be retrieved</td>
 </tr>
 </tbody></table>
 
@@ -2739,6 +3289,32 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 <td>The unique slug of the post to retrieve</td>
 </tr>
 </tbody></table>
+
+          <h1 id="basic-example">Basic Example</h1>
+
+<p>Following is a basic example of test taking flow</p>
+
+<ol>
+<li>Get the Auth token to authenticate the user using the <a href="#authentication">Get Auth Token</a> API.</li>
+<li>Use the token as Authorization header in the following requests.</li>
+<li>Now try to get list of exams using the <a href="#get-available-exams">Get Available Exams</a> API.</li>
+<li>Get exam details of an exam in the list of exams using the <a href="#get-a-single-exam">Get Exam Details</a> API.</li>
+<li>Start a new attempt for the exam using the <a href="#create-an-attempt">Create an attempt</a> API.</li>
+<li>Using the response of the new attempt, get the questions for that attempt using the <a href="#get-attempt-questions">Get attempt questions</a> API.</li>
+<li>Attend the questions by updating the selected answers or review later flag using <a href="#update-attempt-questions">Update attempt questions</a> API.</li>
+<li>Send heart beat every 1 minute using <a href="#send-heart-beat">Send Heart Beat</a> API.</li>
+<li><a href="#end-an-attempt">End the attempt</a> once all the required questions have been attempted.</li>
+<li>Review the solutions of the completed attempt using <a href="#review-attempt-questions">Get Review Questions</a> API.</li>
+<li>Review the subject wise analytics of the completed attempt using <a href="#attempt-subject-wise-analytics">Get Attempt Subject Wise Analytics</a> API.</li>
+</ol>
+
+<h2 id="to-retake-the-attempt">To retake the attempt</h2>
+
+<ol>
+<li>Get list of attempted exams using the <a href="#get-history-exams">Get History Exams</a> API.</li>
+<li>Get the attempts of an exam in the history exams list using <a href="#get-all-attempts-of-an-exam">Get Attempts of an Exam</a> API.</li>
+<li>Perform the above steps 4 to 11</li>
+</ol>
 
           <h1 id="admin-apis">Admin APIs</h1>
 
