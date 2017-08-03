@@ -494,6 +494,255 @@ zip | string | Pincode of user
 state_code | string | State of user in ISO 3166-2:IN format (https://en.wikipedia.org/wiki/ISO_3166-2:IN)
 phone | string | Phone of user
 
+## Update User
+
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+	"net/http"
+	"io/ioutil"
+)
+
+func main() {
+
+	url := "http://demo.testpress.in/api/v2.3/admin/users/2120/"
+
+	payload := strings.NewReader("{\n\t\"password\": \"welcome\"\n}")
+
+	req, _ := http.NewRequest("PUT", url, payload)
+
+	req.Header.Add("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzNDI4NTB9.Dsc2NZ_q0e3GRaBTArgwkPs81RbQEt-FnH0u_TBs2hc")
+	req.Header.Add("content-type", "application/json")
+	req.Header.Add("cache-control", "no-cache")
+	req.Header.Add("postman-token", "9c29d96f-7ea6-35c9-1d30-8ccb20389d39")
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	fmt.Println(res)
+	fmt.Println(string(body))
+
+}
+```
+
+```ruby
+require 'uri'
+require 'net/http'
+
+url = URI("http://demo.testpress.in/api/v2.3/admin/users/2120/")
+
+http = Net::HTTP.new(url.host, url.port)
+
+request = Net::HTTP::Put.new(url)
+request["authorization"] = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzNDI4NTB9.Dsc2NZ_q0e3GRaBTArgwkPs81RbQEt-FnH0u_TBs2hc'
+request["content-type"] = 'application/json'
+request["cache-control"] = 'no-cache'
+request["postman-token"] = 'e395af73-374f-75e4-4ca2-3751f84b0598'
+request.body = "{\n\t\"password\": \"welcome\"\n}"
+
+response = http.request(request)
+puts response.read_body
+```
+
+```python
+import requests
+
+url = "http://demo.testpress.in/api/v2.3/admin/users/2120/"
+
+payload = "{\n\t\"password\": \"welcome\"\n}"
+headers = {
+    'authorization': "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzNDI4NTB9.Dsc2NZ_q0e3GRaBTArgwkPs81RbQEt-FnH0u_TBs2hc",
+    'content-type': "application/json",
+    'cache-control': "no-cache",
+    'postman-token': "25ef8298-0a61-7404-3a97-db9d0250ef78"
+    }
+
+response = requests.request("PUT", url, data=payload, headers=headers)
+
+print(response.text)
+```
+
+```shell
+curl --request PUT \
+  --url http://demo.testpress.in/api/v2.3/admin/users/2120/ \
+  --header 'authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzNDI4NTB9.Dsc2NZ_q0e3GRaBTArgwkPs81RbQEt-FnH0u_TBs2hc' \
+  --header 'cache-control: no-cache' \
+  --header 'content-type: application/json' \
+  --header 'postman-token: 5bdb17f6-db4d-c72e-a30f-c1776f0d8384' \
+  --data '{\n	"password": "welcome"\n}'
+```
+
+```php
+<?php
+
+$request = new HttpRequest();
+$request->setUrl('http://demo.testpress.in/api/v2.3/admin/users/2120/');
+$request->setMethod(HTTP_METH_PUT);
+
+$request->setHeaders(array(
+  'postman-token' => '652f45cc-e181-b3e2-706c-47459bb5363e',
+  'cache-control' => 'no-cache',
+  'content-type' => 'application/json',
+  'authorization' => 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzNDI4NTB9.Dsc2NZ_q0e3GRaBTArgwkPs81RbQEt-FnH0u_TBs2hc'
+));
+
+$request->setBody('{
+	"password": "welcome"
+}');
+
+try {
+  $response = $request->send();
+
+  echo $response->getBody();
+} catch (HttpException $ex) {
+  echo $ex;
+}
+```
+
+```csharp
+var client = new RestClient("http://demo.testpress.in/api/v2.3/admin/users/2120/");
+var request = new RestRequest(Method.PUT);
+request.AddHeader("postman-token", "0ce5b8e5-0793-457c-32e7-f5c96be55aa9");
+request.AddHeader("cache-control", "no-cache");
+request.AddHeader("content-type", "application/json");
+request.AddHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzNDI4NTB9.Dsc2NZ_q0e3GRaBTArgwkPs81RbQEt-FnH0u_TBs2hc");
+request.AddParameter("application/json", "{\n\t\"password\": \"welcome\"\n}", ParameterType.RequestBody);
+IRestResponse response = client.Execute(request);
+```
+
+```javascript
+var http = require("http");
+
+var options = {
+  "method": "PUT",
+  "hostname": "demo.testpress.in",
+  "port": null,
+  "path": "/api/v2.3/admin/users/2120/",
+  "headers": {
+    "authorization": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzNDI4NTB9.Dsc2NZ_q0e3GRaBTArgwkPs81RbQEt-FnH0u_TBs2hc",
+    "content-type": "application/json",
+    "cache-control": "no-cache",
+    "postman-token": "a4f44159-0b97-e199-ecca-7c5646324c84"
+  }
+};
+
+var req = http.request(options, function (res) {
+  var chunks = [];
+
+  res.on("data", function (chunk) {
+    chunks.push(chunk);
+  });
+
+  res.on("end", function () {
+    var body = Buffer.concat(chunks);
+    console.log(body.toString());
+  });
+});
+
+req.write(JSON.stringify({ password: 'welcome' }));
+req.end();
+```
+
+```java
+OkHttpClient client = new OkHttpClient();
+
+MediaType mediaType = MediaType.parse("application/json");
+RequestBody body = RequestBody.create(mediaType, "{\n\t\"password\": \"welcome\"\n}");
+Request request = new Request.Builder()
+  .url("http://demo.testpress.in/api/v2.3/admin/users/2120/")
+  .put(body)
+  .addHeader("authorization", "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6MzgsInVzZXJfaWQiOjM4LCJlbWFpbCI6ImRpbmVzaEB0ZXN0cHJlc3MuaW4iLCJleHAiOjE0NzAzNDI4NTB9.Dsc2NZ_q0e3GRaBTArgwkPs81RbQEt-FnH0u_TBs2hc")
+  .addHeader("content-type", "application/json")
+  .addHeader("cache-control", "no-cache")
+  .addHeader("postman-token", "2d5c843c-b6ee-d38e-7a3b-7a71c0353bc8")
+  .build();
+
+Response response = client.newCall(request).execute();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "id": 2120,
+    "username": "goodboy",
+    "password_hash": "pbkdf2_sha256$12000$zaz1v370q51a$ipNrjQCWNOAmdFsHWPHHZ1i1+5hxF5LxHZ+VfFZ9mrM=",
+    "email": "",
+    "first_name": "",
+    "last_name": "",
+    "display_name": "goodboy",
+    "photo": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/png/3a6be029faea4c41915291da8778c36d.png",
+    "large_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/png/3a6be029faea4c41915291da8778c36d.png",
+    "medium_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/png/82b59e4b2d29426ab74b25457384961b.png",
+    "medium_small_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/png/b8d2e490f8414d8485a1261fcba80d11.png",
+    "small_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/png/2aa6f66820dd4fe9acdd2b63da148f8c.png",
+    "x_small_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/png/64818b7216f340b3be636e32effc57fd.png",
+    "mini_image": "https://s3-ap-southeast-1.amazonaws.com/media.testpress.in/png/9746d9747c184aa98273fbb9c5222adc.png",
+    "birth_date": null,
+    "gender_code": null,
+    "gender": null,
+    "address1": "",
+    "address2": "",
+    "city": "",
+    "zip": "",
+    "state": "",
+    "state_code": "",
+    "phone": "",
+    "batches": [],
+    "created": "2017-08-03T18:25:45.949568Z",
+    "modified": "2017-08-03T18:29:24.712464Z"
+}
+```
+This endpoint allows you to update details of a particular user.
+
+### HTTP Request
+
+`PUT /api/v2.2/admin/users/<:id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | ------- | -----------
+id | Unique Id of the user to update
+
+### Fields
+
+Name | Type | Description
+-----|------|-------------
+username | string | Username of the user
+password | string | Password to update the user
+first_name | string | First name of the user
+last_name | string | Last name of the user
+display_name | string | Name of the user to be displayed
+email | string | Email of the user
+photo | string | Original image of the user as uploaded
+large_image | string | Profile image with size 256x256
+medium_image | string | Profile image with size 128x128
+small_image | string | Profile image with size 48x48
+xsmall_image | string | Profile image with size 32x32
+mini_image | string | Profile image with size 24x24
+birth_date | datestring | Birth date of user. Should be in DD/MM/YYYY format
+gender_code | string | Gender of user. Can be "male", "female" or "trans"
+gender | string | (Read only) Human readable gender of user. Can be "Male", "Female" or "Transgender"
+address1 | string | Address of user
+address2 | string | Address of user
+city | string | City of user
+zip | string | Pincode of user
+state_code | string | State of user in ISO 3166-2:IN format (https://en.wikipedia.org/wiki/ISO_3166-2:IN)
+state | string | State (Read Only)
+phone | string | Phone of user
+
+### Read Only Fields
+password_hash, gender, state, large_image, medium_image, medium_small_image, small_image, xsmall_image, mini_image, created, modified
+
+### Write Only Fields
+password
+
 ## Delete User 
 
 This endpoint allows you to delete particular user. Please be aware this will delete all the data related to the user. The operation is ir reversible
