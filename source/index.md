@@ -21,6 +21,7 @@ includes:
   - posts
   - basic_example
   - admin_apis
+  - exam_webhook
   - admin_users
   - admin_mentors
   - admin_attempts
