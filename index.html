@@ -22,11 +22,11 @@
     <a href="#" id="nav-button">
       <span>
         NAV
-        <img src="images/navbar.png" />
+        <img src="images/navbar.png" alt="Navbar" />
       </span>
     </a>
     <div class="tocify-wrapper">
-      <img src="images/logo.png" />
+      <img src="images/logo.png" alt="Logo" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">cURL</a>
               <a href="#" data-language-name="ruby">Ruby</a>
@@ -3319,6 +3319,102 @@ This is done to update the remaining time for that attempt in the server.</p>
           <h1 id="admin-apis">Admin APIs</h1>
 
 <p>Admin APIs provides access to all operations which can be done by a admin.</p>
+
+          <h1 id="exam-webhook">Exam webhook</h1>
+
+<h2 id="how-to-create-hash">How to create hash</h2>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">hmac</span>
+<span class="n">message</span> <span class="o">=</span> <span class="s">'|'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">institute</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="nb">id</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">correct_answers_count</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">institute</span><span class="o">.</span><span class="n">private_key</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">incorrect_answers_count</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">unanswered_count</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">percentage</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">score</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">user_id</span><span class="p">)]</span>
+<span class="p">)</span>
+<span class="k">return</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</code></pre>
+
+<p>HMAC (Hash-based message authentication code) is used to avoid tampering during the request flow.</p>
+
+<p>The hash is calculated using the following algorithm:</p>
+
+<ul>
+<li>Get the values of &lsquo;public_key&rsquo;, &#39;attempt_id&rsquo;, &#39;correct_answers_count&rsquo;, &#39;private_key&rsquo;, &#39;incorrct_answers_count&rsquo;, &#39;unanswered_count&rsquo;, &#39;percentage&rsquo;, &#39;score&rsquo;, &#39;user_id&rsquo;</li>
+<li>Create a string by appending the above percentage encoded values using <code class="prettyprint">|</code> pipe character. <em>Maintain the same order while appending</em></li>
+<li>Calculate the HMAC using HMAC-SHA512 with the private key</li>
+<li>Private key can be received from the admin dashboard</li>
+</ul>
+
+<p>hmac.new(secret, message, hashlib.sha512).hexdigest()</p>
+
+<h2 id="response-parameters-for-attempt-after-completion">Response Parameters for Attempt after completion</h2>
+
+<p>Below are the response parameters posted by Testpress to Institute when an attempt is completed.</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Email Address of the user</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>Username of the user</td>
+</tr>
+<tr>
+<td>attempt_id</td>
+<td>integer</td>
+<td>Unique Testpress Id for the Attempt. This id will be used to review the attempt</td>
+</tr>
+<tr>
+<td>total_count</td>
+<td>integer</td>
+<td>Total number of questions in the Exam</td>
+</tr>
+<tr>
+<td>correct_answers_count</td>
+<td>integer</td>
+<td>Total number of correct answers in the attempt</td>
+</tr>
+<tr>
+<td>incorrect_answers_count</td>
+<td>integer</td>
+<td>Total number of incorrect answers in the attempt</td>
+</tr>
+<tr>
+<td>unanswered_answers_count</td>
+<td>integer</td>
+<td>Total number of unattemptted questions in the attempt</td>
+</tr>
+<tr>
+<td>score</td>
+<td>integer</td>
+<td>Total score obtained by the user for the attempt</td>
+</tr>
+<tr>
+<td>percentage</td>
+<td>integer</td>
+<td>Score percentage</td>
+</tr>
+<tr>
+<td>key</td>
+<td>string</td>
+<td>Public institute key provided by Testpress to identify the Institute</td>
+</tr>
+<tr>
+<td>hash</td>
+<td>string</td>
+<td>Hash generated using above algorithm.</td>
+</tr>
+</tbody></table>
 
           <h1 id="users">Users</h1>
 
