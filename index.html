@@ -197,6 +197,78 @@ Replace <code>demo</code> with your institute subdomain hereafter everywhere.
 You must replace <code>auth-token-string</code> with the token you got from the response.
 </aside>
 
+          <h1 id="single-sign-on-sso">Single Sign On (SSO)</h1>
+
+<p>This endpoint is used to authenticate the user to get access to private resources in Testpress.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /sso/?sig=&lt;hmac-signature&gt;&amp;sso=&lt;payload&gt;</code></p>
+
+<h3 id="payload">Payload</h3>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">base64</span><span class="o">,</span> <span class="nn">time</span>
+<span class="n">epoch_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<span class="n">query_string</span> <span class="o">=</span> <span class="s">'email=demo@testpress.in&amp;time='</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">epoch_time</span><span class="p">)</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodestring</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">payload</span> 
+</code></pre>
+
+<p>Payload is basically the query string encoded in base64.</p>
+
+<p>Below are the accepted query strings </p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>Email Address of the user</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>username of the user</td>
+</tr>
+<tr>
+<td>time</td>
+<td>string</td>
+<td>Time since epoch used during the HMAC creation</td>
+</tr>
+</tbody></table>
+
+<h3 id="hmac-signature">HMAC signature</h3>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">hmac</span><span class="o">,</span> <span class="nn">time</span>
+<span class="n">epoch_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<span class="n">query_string</span> <span class="o">=</span> <span class="s">'username=student1&amp;time='</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">epoch_time</span><span class="p">)</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodestring</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</code></pre>
+
+<p>HMAC (Hash-based message authentication code) is used to avoid tampering during the request flow. We use a time based HMAC algorithm to limit the lifetime of the HMAC.</p>
+
+<p>The HMAC is calculated using the following algorithm:</p>
+
+<ul>
+<li>Get the values of &lsquo;secret&rsquo;, &#39;payload&rsquo;  encode the values.</li>
+<li>Calculate the HMAC using HMAC-SHA256 with the secret</li>
+<li>Secret can be received from the admin dashboard</li>
+</ul>
+
+<p>hmac.new(secret, payload, hashlib.sha256).hexdigest()</p>
+
+<aside class="info">
+<strong> Usage of time </strong><br>
+
+The epoch time limits the validity of the HMAC. We have a *30 minute* delta to ensure the validity of the HMAC. 
+For ex: if the HMAC was generated at 10.30 AM, it will be valid only for the next 30 minutes and can be used to start an attempt only till 11.00 AM.
+
+</aside>
+
           <h1 id="student-apis">Student APIs</h1>
 
 <p>Student APIs provides access to all operations which can be done by a student.</p>
