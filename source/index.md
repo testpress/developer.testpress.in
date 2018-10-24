@@ -13,6 +13,7 @@ language_tabs:
 
 includes:
   - auth
+  - sso
   - student_apis
   - users
   - exams
