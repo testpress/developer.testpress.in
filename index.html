@@ -206,11 +206,28 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 <p><code class="prettyprint">GET /sso/?sig=&lt;hmac-signature&gt;&amp;sso=&lt;payload&gt;</code></p>
 
 <h3 id="payload">Payload</h3>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">java.util.Base64</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.time.Instant</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Payload</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Get the encoder</span>
+        <span class="n">Base64</span><span class="o">.</span><span class="na">Encoder</span> <span class="n">encoder</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">();</span>
+        <span class="n">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="n">Instant</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+        <span class="c1">// Epoch time the number of milliseconds since January 1, 1970, 00:00:00 GMT.</span>
+        <span class="kt">int</span> <span class="n">epoch_time</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">instant</span><span class="o">.</span><span class="na">getEpochSecond</span><span class="o">();</span>
+        <span class="c1">// Query string that needs to be encoded</span>
+        <span class="n">String</span> <span class="n">query_string</span> <span class="o">=</span> <span class="s">"email=support@testpress.in&amp;time="</span> <span class="o">+</span> <span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">epoch_time</span><span class="o">);</span>
+        <span class="c1">// Constructing the payload by encoding the query string using Base64</span>
+        <span class="n">String</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="na">encodeToString</span><span class="o">(</span><span class="n">query_string</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Your payload is: "</span> <span class="o">+</span> <span class="n">payload</span><span class="o">);</span>
+<span class="o">}</span>  
+</code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">base64</span><span class="o">,</span> <span class="nn">time</span>
 <span class="n">epoch_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
 <span class="n">query_string</span> <span class="o">=</span> <span class="s">'email=demo@testpress.in&amp;time='</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">epoch_time</span><span class="p">)</span>
-<span class="n">payload</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodestring</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
-<span class="k">return</span> <span class="n">payload</span> 
+<span class="n">payload</span> <span class="o">=</span> <span class="n">base64</span><span class="o">..</span><span class="n">b64encode</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
 </code></pre>
 
 <p>Payload is basically the query string encoded in base64.</p>
@@ -242,11 +259,50 @@ You must replace <code>auth-token-string</code> with the token you got from the 
 </tbody></table>
 
 <h3 id="hmac-signature">HMAC signature</h3>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">java.util.Base64</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.time.Instant</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.crypto.Mac</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.crypto.spec.SecretKeySpec</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.security.NoSuchAlgorithmException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.security.InvalidKeyException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.xml.bind.DatatypeConverter</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HmacSignature</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Get the encoder</span>
+        <span class="n">Base64</span><span class="o">.</span><span class="na">Encoder</span> <span class="n">encoder</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">();</span>
+        <span class="n">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="n">Instant</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+        <span class="c1">// Epoch time the number of milliseconds since January 1, 1970, 00:00:00 GMT.</span>
+        <span class="kt">int</span> <span class="n">epoch_time</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">instant</span><span class="o">.</span><span class="na">getEpochSecond</span><span class="o">();</span>
+        <span class="c1">// Query string that needs to be encoded</span>
+        <span class="n">String</span> <span class="n">query_string</span> <span class="o">=</span> <span class="s">"email=support@testpress.in&amp;time="</span> <span class="o">+</span> <span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">epoch_time</span><span class="o">);</span>
+        <span class="c1">// Constructing the payload by encoding the query string using Base64</span>
+        <span class="n">String</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="na">encodeToString</span><span class="o">(</span><span class="n">query_string</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Your payload is: "</span> <span class="o">+</span> <span class="n">payload</span><span class="o">);</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">// Constructing HMAC Signature</span>
+            <span class="n">String</span> <span class="n">secret_key</span> <span class="o">=</span> <span class="s">"the given scret key"</span><span class="o">;</span>
+
+            <span class="n">Mac</span> <span class="n">hasher</span> <span class="o">=</span> <span class="n">Mac</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">"HmacSHA256"</span><span class="o">);</span>
+            <span class="n">hasher</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="k">new</span> <span class="n">SecretKeySpec</span><span class="o">(</span><span class="n">secret_key</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(),</span> <span class="s">"HmacSHA256"</span><span class="o">));</span>
+
+            <span class="kt">byte</span><span class="o">[]</span> <span class="n">hmac</span> <span class="o">=</span> <span class="n">hasher</span><span class="o">.</span><span class="na">doFinal</span><span class="o">(</span><span class="n">payload</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+            <span class="n">String</span> <span class="n">signature</span> <span class="o">=</span> <span class="n">DatatypeConverter</span><span class="o">.</span><span class="na">printHexBinary</span><span class="o">(</span><span class="n">hmac</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">hmac_signature</span> <span class="o">=</span> <span class="n">signature</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">();</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Your HMAC Signature is: "</span> <span class="o">+</span> <span class="n">hmac_signature</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="n">NoSuchAlgorithmException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="n">InvalidKeyException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
+
+    <span class="o">}</span>  
+<span class="o">}</span>  
+</code></pre>
 <pre class="highlight python"><code><span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">hmac</span><span class="o">,</span> <span class="nn">time</span>
 <span class="n">epoch_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
 <span class="n">query_string</span> <span class="o">=</span> <span class="s">'username=student1&amp;time='</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">epoch_time</span><span class="p">)</span>
-<span class="n">payload</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodestring</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
-<span class="k">return</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
+<span class="n">hmac_signature</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">hmac_signature</span><span class="p">)</span>
 </code></pre>
 
 <p>HMAC (Hash-based message authentication code) is used to avoid tampering during the request flow. We use a time based HMAC algorithm to limit the lifetime of the HMAC.</p>
