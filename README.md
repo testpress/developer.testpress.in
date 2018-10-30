@@ -14,7 +14,7 @@ You're going to need:
 
 ### Set Up
 
- 1. Clone this repository to your hard drive with `git clone https://github.com/YOURUSERNAME/slate.git`
+ 1. Clone this repository to your hard drive with `git clone https://github.com/testpress/developer.testpress.in.git`
  2. `cd developer.testpress.in`
  3. Install all dependencies: `bundle install`
  4. Start the test server: `bundle exec middleman server`, For OS X `EXECJS_RUNTIME=Node bundle exec middleman server`
