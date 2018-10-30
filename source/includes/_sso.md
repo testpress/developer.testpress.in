@@ -4,7 +4,7 @@ This endpoint is used to authenticate the user to get access to private resource
 
 ### HTTP Request
 
-`GET /sso/?sig=<hmac-signature>&sso=<payload>`
+`GET /sso_login/?sig=<hmac-signature>&sso=<payload>`
 
 ### Payload
 ```java
