@@ -3450,33 +3450,35 @@ This is done to update the remaining time for that attempt in the server.</p>
 
           <h1 id="exam-webhook">Exam webhook</h1>
 
-<h2 id="how-to-create-hash">How to create hash</h2>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">hmac</span>
-<span class="n">message</span> <span class="o">=</span> <span class="s">'|'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-    <span class="p">[</span><span class="n">institute</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="nb">id</span><span class="p">),</span>
-     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">correct_answers_count</span><span class="p">),</span>
-     <span class="nb">str</span><span class="p">(</span><span class="n">institute</span><span class="o">.</span><span class="n">private_key</span><span class="p">),</span>
-     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">incorrect_answers_count</span><span class="p">),</span>
-     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">unanswered_count</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">percentage</span><span class="p">),</span>
-     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">score</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">user_id</span><span class="p">)]</span>
-<span class="p">)</span>
-<span class="k">return</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
-</code></pre>
+<h2 id="data-posted-to-the-exam-webhook-url">Data posted to the exam webhook URL</h2>
 
-<p>HMAC (Hash-based message authentication code) is used to avoid tampering during the request flow.</p>
-
-<p>The hash is calculated using the following algorithm:</p>
-
-<ul>
-<li>Get the values of &lsquo;public_key&rsquo;, &#39;attempt_id&rsquo;, &#39;correct_answers_count&rsquo;, &#39;private_key&rsquo;, &#39;incorrct_answers_count&rsquo;, &#39;unanswered_count&rsquo;, &#39;percentage&rsquo;, &#39;score&rsquo;, &#39;user_id&rsquo;</li>
-<li>Create a string by appending the above percentage encoded values using <code class="prettyprint">|</code> pipe character. <em>Maintain the same order while appending</em></li>
-<li>Calculate the HMAC using HMAC-SHA512 with the private key</li>
-<li>Private key can be received from the admin dashboard</li>
-</ul>
-
-<p>hmac.new(secret, message, hashlib.sha512).hexdigest()</p>
-
-<h2 id="response-parameters-for-attempt-after-completion">Response Parameters for Attempt after completion</h2>
+<blockquote>
+<p>Below is the sample json data posted to the exam webhook URL:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+ </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test_user"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"815aad5656f99ac131ab1ab57f1044c6c1c656b2a7f13b41feca74fd48a603f94a7024d6835204e463fbd79f6a4"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"exam"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:30:00"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"start_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-21T12:52:41.075Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"end_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-03-21T12:52:41.075Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test_exam"</span><span class="w">
+ </span><span class="p">},</span><span class="w">
+ </span><span class="nt">"partial_correct_answers_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"attempt_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"93"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sxe7uKykEUT7WSnh"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"speed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"960"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"percentage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"correct_answers_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="s2">"50"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"unanswered_answers_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"incorrect_answers_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test_user@gmail.com"</span><span class="p">,</span><span class="w">
+ </span><span class="nt">"accuracy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>Below are the response parameters posted by Testpress to Institute when an attempt is completed.</p>
 
@@ -3501,6 +3503,11 @@ This is done to update the remaining time for that attempt in the server.</p>
 <td>attempt_id</td>
 <td>integer</td>
 <td>Unique Testpress Id for the Attempt. This id will be used to review the attempt</td>
+</tr>
+<tr>
+<td>exam</td>
+<td>key/value pair</td>
+<td>This key/value pair will contain exam details like &ldquo;id&rdquo;, &ldquo;title&rdquo;, &ldquo;start_date&rdquo;, &ldquo;end_date&rdquo;, &ldquo;duration&rdquo;.</td>
 </tr>
 <tr>
 <td>total_count</td>
@@ -3543,6 +3550,34 @@ This is done to update the remaining time for that attempt in the server.</p>
 <td>Hash generated using above algorithm.</td>
 </tr>
 </tbody></table>
+
+<p>In the above data <code class="prettyprint">hash</code> value is used to identify that the data is indeed posted from testpress.</p>
+
+<h2 id="how-to-generate-the-hash-and-verify-the-authenticity-of-the-data">How to generate the hash and verify the authenticity of the data</h2>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">hmac</span>
+<span class="n">message</span> <span class="o">=</span> <span class="s">'|'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">institute</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="nb">id</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">correct_answers_count</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">institute</span><span class="o">.</span><span class="n">private_key</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">incorrect_answers_count</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">unanswered_count</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">percentage</span><span class="p">),</span>
+     <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">score</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">user_exam</span><span class="o">.</span><span class="n">user_id</span><span class="p">)]</span>
+<span class="p">)</span>
+<span class="k">return</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</code></pre>
+
+<p>HMAC (Hash-based message authentication code) is used to avoid tampering during the request flow.</p>
+
+<p>The hash is calculated using the following algorithm:</p>
+
+<ul>
+<li>Get the values of &lsquo;public_key&rsquo;, &#39;attempt_id&rsquo;, &#39;correct_answers_count&rsquo;, &#39;private_key&rsquo;, &#39;incorrct_answers_count&rsquo;, &#39;unanswered_count&rsquo;, &#39;percentage&rsquo;, &#39;score&rsquo;, &#39;user_id&rsquo;</li>
+<li>Create a string by appending the above percentage encoded values using <code class="prettyprint">|</code> pipe character. <em>Maintain the same order while appending</em></li>
+<li>Calculate the HMAC using HMAC-SHA512 with the private key.</li>
+<li>Private key can be taken from the admin dashboard.</li>
+</ul>
+
+<p>hmac.new(secret, message, hashlib.sha512).hexdigest()</p>
 
           <h1 id="users">Users</h1>
 
