@@ -25,11 +25,11 @@ You can now see the docs at <http://localhost:4567>.
 
  1. Commit your changes to the markdown source: `git commit -a -m "Update index.md"`
  2. Push the *markdown source* changes to Github: `git push`
- 3. Compile to HTML, and push the HTML to Github pages: `rake publish`
+ 3. Compile to HTML, and push the HTML to Github pages: `./deploy.sh`
 
 ### Publishing Your Docs to Your Own Server
 
-Instead of using `rake publish`, use `rake build`. Middleman will build your website to the build directory of your project, and you can copy those static HTML files to the server of your choice.
+Instead of using `./deploy.sh`, use `./deploy.sh --source-only`. Middleman will build your website to the build directory of your project, and you can copy those static HTML files to the server of your choice.
 
 ## Contributors
 
