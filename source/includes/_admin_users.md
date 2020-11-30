@@ -1,4 +1,4 @@
-# Users
+<h1 id="admin_users">Users</h1>
 Admin Users API gives you access to create/edit users in the institute.
 
 ## Create User
